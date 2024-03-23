@@ -73,7 +73,7 @@ FedEraser-Code
 
 There are several parts of the code:
 
-- datasets folder: This folder contains the training and testing data for the target model.  In order to reduce the memory space, we just list the  links to theset dataset here. 
+- datasets folder: This folder contains the training and testing data for the target model.  In order to reduce the memory space, we just list the  links to these dataset here. 
   -- Adult: https://archive.ics.uci.edu/ml/datasets/Adult
   -- Bank: https://archive.ics.uci.edu/ml/datasets/Bank+Marketing
   -- Purchase: https://github.com/privacytrustlab/datasets/blob/master/dataset_purchase.tgz
@@ -107,7 +107,7 @@ The attack settings of FedEraser are determined in the parameter **FL_params** i
 - ***Federated Unlearning Settings***
   -- FL_params.unlearn_interval: Used to control how many rounds the model parameters are saved. $1$ represents the parameter saved once per round. (corresponding to N_itv in our paper)
   -- FL_params.forget_local_epoch_ratio: When a user is selected to be forgotten, other users need to train several rounds of on-line training in their respective data sets to obtain the general direction of model convergence in order to provide the general direction of model convergence. 
-- forget_local_epoch_ratio \times local_epoch is the number of rounds of local training when we need to get the convergence direction of each local model
+  -- forget_local_epoch_ratio \times local_epoch is the number of rounds of local training when we need to get the convergence direction of each local model
   -- FL_params.forget_client_idx = 2 #If want to forget, change None to the client index                 
   -- FL_params.if_retrain: If set to True, the global model is retrained using the FL-Retrain function, and data corresponding to the user for the forget_client_IDx number is discarded. If this parameter is set to False, only the global model after the final training is completed is output
   -- FL_params.if_unlearning: If set to False, the global_train_once function will not skip users that need to be forgotten;If set to True, global_train_once skips the forgotten user during training
