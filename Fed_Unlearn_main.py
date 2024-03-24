@@ -86,6 +86,7 @@ def Federated_Unlearning():
     for idx in selected_clients:
         client_loaders.append(client_all_loaders[idx])
 
+
     """
     This section of the code gets the initialization model init Global Model
     User data loader for FL training Client_loaders and test data loader Test_loader
