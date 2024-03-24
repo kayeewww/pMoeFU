@@ -339,13 +339,14 @@ class ResNet(nn.Module):
 
 def Net_cifar10(model_name):
     if model_name == 'resnet56':
-        return ResNet(depth=56, num_classes=10, in_channels=3)
+        model=ResNet(depth=56, num_classes=10, in_channels=3)
     elif model_name == 'resnet20':
-        return ResNet(depth=20, num_classes=10, in_channels=3)
+        model=ResNet(depth=20, num_classes=10, in_channels=3)
     elif model_name == 'resnet32':
-        return ResNet(depth=32, num_classes=10, in_channels=3)
+        model = ResNet(depth=32, num_classes=10, in_channels=3)
     elif model_name == 'resnet44':
-        return ResNet(depth=44, num_classes=10, in_channels=3)
+        model=ResNet(depth=44, num_classes=10, in_channels=3)
+    return model
 
 
 def Net_cifar100(model_name):

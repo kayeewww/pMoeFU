@@ -7,6 +7,7 @@ import time
 import sys
 import matplotlib.pyplot as plt
 
+import data_preprocess
 # ourself libs
 from model_initiation import model_init
 from data_preprocess import data_init
@@ -46,7 +47,7 @@ class Arguments():
         self.sparsity = 0.05
         self.class_flag=False
         self.rest_data_loader=torchvision.datasets.CIFAR10(root='../data', train=True, download=True)
-
+        self.rest_testdata = None
         self.if_retrain = True
         # 如果设置为 False，表示在遗忘操作后执行重新训练。在重新训练期间，与遗忘的客户端相关的数据将被丢弃
         # 如果设置为 "True"，全局模型将使用 FL-Retrain 函数重新训练，并丢弃 forget_client_IDx 编号对应的用户数据。
@@ -88,9 +89,23 @@ def Federated_Unlearning():
     client_loaders = list()
     client_class_loaders = list()
     # data_loader = DataLoader(dataset, batch_size=..., collate_fn=collate_fn)
+    # for idx in selected_clients:
+    #     client_loaders.append(client_all_loaders[idx])
+    #     client_all_loaders= client_all_loaders
+    #     client_class_loaders.append(client_all_class_loaders[idx])
     for idx in selected_clients:
+        # 创建数据加载器，并指定批量大小和 collate_fn 函数
+        # loader = DataLoader(client_all_loaders[idx], collate_fn=data_preprocess.collate_fn)
+        # 将加载器添加到 client_loaders 列表中
         client_loaders.append(client_all_loaders[idx])
-        client_class_loaders.append(client_all_class_loaders[idx])
+        client_loaders=list(client_loaders)
+        # 创建数据加载器，并指定批量大小和 collate_fn 函数
+        # class_loader = DataLoader(client_all_class_loaders[idx], collate_fn=data_preprocess.collate_fn)
+        # 将加载器添加到 client_loaders 列表中
+        #TODO
+        # client_class_loaders.append(client_all_class_loaders[idx])
+        # client_class_loaders=list(client_class_loaders)
+
 
 
     """
@@ -104,7 +119,7 @@ def Federated_Unlearning():
     print("Step3. Fedearated Learning and Unlearning Training...")
 
     # FedAvg, FedEraser, FedAccum,
-    old_GMs, unlearn_GMs,uncali_unlearn_GMs, _ = federated_learning_unlearning(init_global_model, client_loaders, test_loader,client_class_loaders,FL_params)
+    old_GMs, unlearn_GMs,uncali_unlearn_GMs, _ = federated_learning_unlearning(init_global_model, client_loaders, test_loader, FL_params)#client_class_loaders,
     # print(old_GMs, unlearn_GMs) #都是torch.size
     if (FL_params.if_retrain == True):
         t1 = time.time()

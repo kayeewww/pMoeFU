@@ -158,11 +158,11 @@ def Class_pruner(FL_params):
     unlearn_listclass = [FL_params.unlearn_class]
     list_allclasses.remove(FL_params.unlearn_class)  # rest classes
     unlearn_testdata = generate(testset, unlearn_listclass)
-    rest_testdata = generate(testset, list_allclasses)
-    print(len(unlearn_testdata), len(rest_testdata))
+    FL_params.rest_testdata = generate(testset, list_allclasses)
+    print('????',len(unlearn_testdata), len(FL_params.rest_testdata))
     unlearn_testloader = torch.utils.data.DataLoader(unlearn_testdata, batch_size=FL_params.test_batch_size,
                                                      shuffle=False)
-    rest_testloader = torch.utils.data.DataLoader(rest_testdata, batch_size=FL_params.test_batch_size,
+    FL_params.rest_data_loader = torch.utils.data.DataLoader(FL_params.rest_testdata, batch_size=FL_params.test_batch_size,
                                                   shuffle=False)
     print('*' * 5 + 'testing in unlearn_data' + '*' * 12)
 
@@ -171,7 +171,7 @@ def Class_pruner(FL_params):
     test(net, unlearn_testloader)
     print('*' * 40)
     print('*' * 5 + 'testing in rest_data' + '*' * 15)
-    test(net, rest_testloader)
+    test(net, FL_params.rest_data_loader)
     print('*' * 40)
 
     '''pruning'''
@@ -201,7 +201,7 @@ def Class_pruner(FL_params):
     test(pruned_net, unlearn_testloader)
     print('*' * 40)
     print('*' * 5 + 'testing in rest_data' + '*' * 15)
-    test(pruned_net, rest_testloader)
+    test(pruned_net, FL_params.rest_data_loader)
     print('*' * 40)
 
     # return #for test

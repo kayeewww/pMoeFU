@@ -72,7 +72,7 @@ def generate(dataset, list_classes: list):
             sub_dataset.append((data, label_index))
 
     return sub_dataset
-def federated_learning_unlearning(init_global_model, client_loaders, test_loader, client_class_loaders, FL_params):
+def federated_learning_unlearning(init_global_model, client_loaders, test_loader, FL_params):#, client_class_loaders
     """FL_train"""
     print(5 * "#" + " Federated Learning Start " + 5 * "#")
     std_time = time.time()
@@ -94,8 +94,8 @@ def federated_learning_unlearning(init_global_model, client_loaders, test_loader
     #def unlearning(old_GMs, old_CMs, client_data_loaders, test_loader, FL_params):
     # print('rest_data_loader : ', FL_params.rest_data_loader)
     # print(client_class_loaders)
-    unlearn_GMs = unlearning(old_GMs, old_CMs, client_class_loaders,  FL_params.rest_data_loader, FL_params)
-    # unlearn_GMs = unlearning(old_GMs, old_CMs, client_loaders, test_loader, FL_params)
+    # unlearn_GMs = unlearning(old_GMs, old_CMs, client_class_loaders,  client_class_loaders, FL_params)
+    unlearn_GMs = unlearning(old_GMs, old_CMs, client_loaders, test_loader, FL_params)
     end_time = time.time()
     time_unlearn = end_time - std_time
     print("Time for CP and UL: ", time_unlearn, 's')
@@ -314,8 +314,8 @@ def unlearning(old_GMs, old_CMs, client_data_loaders, test_loader, FL_params):
     print('test ogm ocm', len(old_global_models), len(old_client_models))
 
     selected_CMs = [old_client_models[jj:1] for jj in CM_intv]
-    # print('selected_CMs', selected_CMs)
-    # print(selected_CMs[0])
+    print('selected_CMs', selected_CMs)
+    print(selected_CMs[0])
     print('typr of selected CMs0', type(selected_CMs[0]))
     print('len of slected CMs: ', len(selected_CMs)) #19
     print('typr of selected GMs0', type(selected_GMs[0]))
@@ -426,7 +426,11 @@ def unlearning_step_once(old_client_models, new_client_models, global_model_befo
     new_client_models=new_client_models[:len(old_client_models)]#[0]
     assert len(old_client_models) == len(new_client_models)
 
-    for layer in global_model_before_forget.state_dict().keys():
+    print('Let me seeeeeeeeeeeeeeeeee',type(global_model_before_forget[0]))
+    global_model_before_forget=global_model_before_forget[0]
+    print('Let me seeeeeeeeeeeeeeeeee', type(global_model_after_forget))
+
+    for layer in global_model_before_forget.state_dict.keys():
         old_param_update[layer] = 0 * global_model_before_forget.state_dict()[layer]
         new_param_update[layer] = 0 * global_model_before_forget.state_dict()[layer]
 

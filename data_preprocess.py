@@ -24,13 +24,13 @@ from sklearn.model_selection import train_test_split
 from sklearn.cluster import KMeans
 from scipy.sparse import load_npz
 
-"""Function: load data"""
 def collate_fn(batch):
     # 如果 batch 中的元素是 PIL 图像对象，则将它们转换为张量
     if isinstance(batch[0], PIL.Image.Image):
         batch = [torch.tensor(np.array(img)) for img in batch]
     return torch.utils.data.dataloader.default_collate(batch)
 
+"""Function: load data"""
 def data_init(FL_params):
     kwargs = {'num_workers': 0, 'pin_memory': True} if FL_params.cuda_state else {}
     trainset, testset = data_set(FL_params.data_name)
