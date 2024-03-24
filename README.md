@@ -8,7 +8,7 @@ FedEraser allows a federated client to quit the Federated Learning system and el
 
 This code provides three Federated Unlearning methods:
 
-- **Method1: FedEraser (Federated Unlearning, which is named FedEraser in our paper)**.The parameters of the client model saved by the not forgotten user in the standard FL training process were taken as the step size of the global model iteration, and then the new global model was taken as the starting point for the training, and a small amount of training was carried out, and the parameters of the new Client model were taken as the direction of the iteration of the new global model.Iterate over the new global model using the step \times direction.
+- **Method1: FedEraser (Federated Unlearning, which is named FedEraser in our paper)**. The parameters of the client model saved by the not forgotten user in the standard FL training process were taken as the step size of the global model iteration, and then the new global model was taken as the starting point for the training, and a small amount of training was carried out, and the parameters of the new Client model were taken as the direction of the iteration of the new global model. Iterate over the new global model using the step \times direction.
 
 - **Method2: Unlearning without Cali (Directly Accumulating)**.The local model of each round saved by the standard federated learning when not forgotten is directly used, the client model of the forgotten user is removed, and the client Models of other users are directly aggregated to obtain the new global model.
 
@@ -34,6 +34,7 @@ The main function is contained in Fed_Unlearn_main.py.
 - torchvision
 - pandas
 - xgboost
+- nni
 
 
 ### File Structure 
@@ -41,34 +42,40 @@ The main function is contained in Fed_Unlearn_main.py.
 ```
 FedPrunedEraser-Code
 ├── datasets
+│   ├── CIFAR10
+│   ├── CIFAR100
 │   ├── Adult
-│   ├──  Bank
-│   ├──  Purchase
+│   ├── Bank
+│   ├── Purchase
 │   └── MNIST
+├── ckpt
+├── excel
 ├── Fed_Unlearn_main.py
-│   └── Fed_Unlearn_base.py
-│       └── FL_base.py
-│   ├── model_initiation.py
-│       └── get_data_iter.py
-│   ├── data_preprocessing.py
-│   ├── class_pruner.py
-│   ├── Fed_pruner.py
-│   ├── Fed_Retrain.py
-│   └── membership_inference.py
+├── Fed_Unlearn_base.py
+├── FL_base.py
+├── data_preprocessing.py
+├── model_initiation.py
+├── get_data_iter.py
+├── Fed_pruner.py
+├── class_pruner.py
+├── membership_inference.py
 └── fixed.py
 ```
 
 ### Script Structure 
 
 ```
-FedEraser-Code
+FedPruneEraser-Code
 ├── Fed_Unlearn_main.py
 │   └── Fed_Unlearn_base.py
 │       └── FL_base.py
-│   ├── model_initiation.py
 │   ├── data_preprocessing.py
+│   		└── model_initiation.py
+│       		└── get_data_iter.py
+│   ├── Fed_pruner.py
+│   		└── class_pruner.py
 │   └── membership_inference.py
-└── 
+└── fixed.py
 ```
 
 There are several parts of the code:
@@ -78,20 +85,27 @@ There are several parts of the code:
   -- Bank: https://archive.ics.uci.edu/ml/datasets/Bank+Marketing
   -- Purchase: https://github.com/privacytrustlab/datasets/blob/master/dataset_purchase.tgz
 - data_preprocessing.py: This file contains the preprocessing of the raw data in datasets folder.
+- model_initiation.py: initialize model for different datasets and ResNet network.
+- get_data_iter.py: data enhancement to enhance model robustness and generalization capabilities.
 - Fed_Unlearn_base.py: This file contains the base function of FedEraser, which corresponds to **Section III** in our paper.
 - ***Fed_Unlearn_main.py: The main function of FedEraser.***
 - FL_base.py: This file contains the function of Federated Learning, such as FedAvg, Local-Training. 
 - membership_inference.py: This file contains the training process of the membership feature extraction model and the attack model. 
 - model_initiation.py: This file contains the structure of the global model corresponding to each dataset that we used in our experiment.  
+- Fed_pruner.py: define Class_pruner class
+- Class_pruner.py: calculate TF-IDF, and get the mask
 
-## Parameter Setting of FedEraser
+## Parameter Setting of FedPruneEraser
 
 The attack settings of FedEraser are determined in the parameter **FL_params** in **Fed_Unlearn_main.py**. 
 
 - ***Federated Learning Model Training Settings***
   -- FL_params.N_total_client: the number of federated clients 
-  -- FL_params.N_client: 
+  -- FL_params.N_client: 从整体的client中随机抽取进行实验
   -- FL_params.data_name: select the dataset 
+  
+  -- FL_params.model_name: 4 types f ResNet choices, resnet20, resnet32, resnet44, resnet56
+  
   -- FL_params.global_epoch: the number of global training  epoch in federated learning 
   -- FL_params.local_epoch: the number of client local training   epoch in federated learning 
   -- FL_params.local_batch_size: the local batch size of the client's local training 
@@ -102,6 +116,8 @@ The attack settings of FedEraser are determined in the parameter **FL_params** i
   -- FL_params.cuda_state: check whether gpu is available (torch.cuda.is_available())
   -- FL_params.use_gpu: controlling whether to use gpu 
   -- FL_params.train_with_test: controlling whether testings are performed at the end of each global round of training
+  
+  -- FL_params.model_file: Model to be saved
 
 
 - ***Federated Unlearning Settings***
@@ -111,6 +127,15 @@ The attack settings of FedEraser are determined in the parameter **FL_params** i
   -- FL_params.unlearn_class = 1 #If want to forget, change None to the client index                 
   -- FL_params.if_retrain: If set to True, the global model is retrained using the FL-Retrain function, and data corresponding to the user for the forget_client_IDx number is discarded. If this parameter is set to False, only the global model after the final training is completed is output
   -- FL_params.if_unlearning: If set to False, the global_train_once function will not skip users that need to be forgotten;If set to True, global_train_once skips the forgotten user during training
+- ***Federated Pruning Settings***
+
+​	-- FL_params.save_acc: lowest accuracy to be saved
+
+​	-- FL_params.save_re_acc: lowest retrained accuracy to be saved
+
+​	-- FL_params.sparsity: to calculate threshold
+
+
 
 
 ## Execute FedPruneEraser

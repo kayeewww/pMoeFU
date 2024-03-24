@@ -8,12 +8,8 @@ import matplotlib.pyplot as plt
 from model_initiation import model_init
 from data_preprocess import data_init
 from FL_base import test, FL_Retrain
-import Fed_Retrain
-from membership_inference import train_attack_model, attack
-
 from Fed_Unlearn_base import federated_learning_unlearning
-
-# from membership_inference import train_attack_model, attack
+from membership_inference import train_attack_model, attack
 
 """Step 0. Initialize Federated Unlearning parameters"""
 
@@ -24,12 +20,10 @@ class Arguments():
         self.N_total_client = 100
         self.N_client = 25
         self.data_name = 'cifar10'  # cifar10, cifar100
-        self.model_name = 'resnet44'  # 44 resnet20, resnet32, resnet44, resnet56, vgg11, vgg13, vgg16, vgg19
+        self.model_name = 'resnet20'  # 44 resnet20, resnet32, resnet44, resnet56, vgg11, vgg13, vgg16, vgg19
         self.global_epoch = 20  # 20
         self.local_epoch = 10  # 10
 
-        self.save_acc = 80  ###
-        self.save_re_acc = 75  ###
 
         # Model Training Settings
         self.local_batch_size = 64
@@ -42,6 +36,8 @@ class Arguments():
         self.train_with_test = True
         self.model_file = 'seed_acc80.06_epoch125_2024-03-02 15-08-23.pth'
 
+        self.save_acc = 80  ###
+        self.save_re_acc = 75  ###
         # 要剪枝的类别。
         self.unlearn_class = 2  # unlearn class index
         self.sparsity = 0.05
