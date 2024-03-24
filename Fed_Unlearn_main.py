@@ -22,8 +22,8 @@ class Arguments():
         self.N_client = 25
         self.data_name = 'cifar10'  # cifar10, cifar100
         self.model_name = 'resnet56'  # 44 resnet20, resnet32, resnet44, resnet56, vgg11, vgg13, vgg16, vgg19
-        self.global_epoch = 20  # 20
-        self.local_epoch = 10  # 10
+        self.global_epoch = 2  # 20
+        self.local_epoch = 1  # 10
 
 
         # Model Training Settings
@@ -53,6 +53,7 @@ class Arguments():
         # 如果设置为 False，global_train_once 函数不会跳过需要遗忘的用户；如果设置为 True，global_train_once 会在训练过程中跳过被遗忘的用户。
 
         self.forget_local_epoch_ratio = 0.5
+        self.forget_client_idx = 1
         self.unlearn_interval = self.forget_local_epoch_ratio*self.local_epoch#5 #1
         # =self.forget_local_epoch_ratio*self.local_epoch
         # self.mia_oldGM = False

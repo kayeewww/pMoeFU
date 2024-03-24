@@ -245,18 +245,19 @@ def unlearning(old_GMs, old_CMs, client_data_loaders, test_loader, FL_params):
     #     raise ValueError('FL_params.forget_client_idx is note assined correctly, forget_client_idx should in {}'.format(
     #         range(FL_params.N_client)))
     if (FL_params.unlearn_interval == 0 or FL_params.unlearn_interval > FL_params.global_epoch):
-        print(FL_params.unlearn_interval)
-        print(FL_params.global_epoch)
+        print('unlearn interval',FL_params.unlearn_interval)
+        print('global epoch',FL_params.global_epoch)
         raise ValueError(
             'FL_params.unlearn_interval should not be 0, or larger than the number of FL_params.global_epoch')
 
     old_global_models = copy.deepcopy(old_GMs)
     old_client_models = copy.deepcopy(old_CMs)
 
-    # print('*'*8, '尝试忘记某一个client，使用unlearn data和rest data', '*'*8)
-
-    unlearn_class_pruned = FL_params.unlearn_class
-    print('unlearn_class_pruned ', unlearn_class_pruned)
+    print('*'*8, 'Trying to forget a client, using unlearn data and rest data.', '*'*8)
+    forget_client_idx=FL_params.forget_client_idx
+    print('forget client idx',forget_client_idx)
+    # unlearn_class_pruned = FL_params.unlearn_class
+    # print('unlearn_class_pruned ', unlearn_class_pruned)
 
     # 计算每个全局周期的起始和结束索引
     start_indices = range(0, len(old_client_models), FL_params.N_client)
@@ -265,8 +266,8 @@ def unlearning(old_GMs, old_CMs, client_data_loaders, test_loader, FL_params):
     # 遍历全局周期
     for start_idx, end_idx in zip(start_indices, end_indices):
         temp = old_client_models[start_idx:end_idx]  # 获取当前全局周期的模型列表
-        if unlearn_class_pruned < len(temp):
-            temp.pop(unlearn_class_pruned)  # 删除 forget_client 对应的模型
+        if old_client_models.extend(temp) < len(temp):
+            temp.pop(old_client_models.extend(temp))  # 删除 forget_client 对应的模型
             old_client_models.extend(temp)  # 添加剩余的模型到列表
         # else:
         #     print("Error: forget_client index out of range")
@@ -279,11 +280,10 @@ def unlearning(old_GMs, old_CMs, client_data_loaders, test_loader, FL_params):
 
     # for ii in range(FL_params.global_epoch):
     #     temp = list(old_client_models[ii * FL_params.N_client: ii * FL_params.N_client + FL_params.N_client])
-    #     # print('temp lens here', len(temp))
-    #     if temp and unlearn_class_pruned < len(temp):
-    #         for i in range(unlearn_class_pruned + 1, len(temp)):
+    #     if temp and forget_client_idx < len(temp):
+    #         for i in range(forget_client_idx + 1, len(temp)):
     #             temp[i - 1] = temp[i]
-    #         temp.pop(unlearn_class_pruned)
+    #         temp.pop(forget_client_idx)
     #         # print('temp lens', len(temp))
     #     # else:
     #     #     print("Error: forget_client index out of range or temp list is empty")
@@ -303,12 +303,13 @@ def unlearning(old_GMs, old_CMs, client_data_loaders, test_loader, FL_params):
     for ii in GM_intv:
         if ii < len(old_global_models):
             selected_GMs.append(old_global_models[ii:ii+1])
-            print('你能有一次吗', len(selected_GMs)) #21
+            # print('Selected GMs lens', len(selected_GMs)) #21
         # else:
         #     print(f"Index {ii} out of range for old_global_models.")
     print('test', len(old_global_models))
 
     selected_CMs = [old_client_models[jj:1] for jj in CM_intv]
+    print(selected_CMs[0])
     print('typr of selected CMs0',type(selected_CMs[0]))
     print('len of slected CMs: ', len(selected_CMs)) #19
     print('typr of selected GMs0', type(selected_GMs[0]))
@@ -646,10 +647,6 @@ def unlearning_without_cali(old_global_models, old_client_models, FL_params):
 
     if not FL_params.if_unlearning:
         raise ValueError("FL_params.if_unlearning should be set to True if you want to unlearn with a certain user")
-
-    # if FL_params.unlearn_class not in range(FL_params.N_client):
-    #     raise ValueError("FL_params.forget_client_idx is not assigned correctly. "
-    #                      "forget_client_idx should be in {}".format(range(FL_params.N_client)))
 
     unlearn_class_pruned = FL_params.unlearn_class
 

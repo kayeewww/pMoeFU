@@ -100,9 +100,8 @@ def FL_Train(init_global_model, client_data_loaders, test_loader, FL_params):
         net, (val_acc, test_loss) = test(global_model, test_loader)
         save_flag = save_net(net, val_acc, FL_params.save_acc, save_info, epoch)
         all_global_models+=[global_model]
-        all_global_models.append(copy.deepcopy(global_model))
-        #TODO 要做这个
-        # all_global_models.state_dict()
+        # all_global_models.append(copy.deepcopy(global_model))
+
         if save_flag:
             break
 
@@ -396,6 +395,8 @@ def fedavg(local_models):
     # print(len(local_models))
 
     # 将第一个模型深拷贝
+    print('是没有吗',type(local_models[0]))
+    print(len(local_models))
     global_model = copy.deepcopy(local_models[0])
 
     # 用于存储参数的平均值

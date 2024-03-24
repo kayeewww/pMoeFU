@@ -127,7 +127,6 @@ The attack settings of FedEraser are determined in the parameter **FL_params** i
   -- FL_params.if_retrain: If set to True, the global model is retrained using the FL-Retrain function, and data corresponding to the user for the forget_client_IDx number is discarded. If this parameter is set to False, only the global model after the final training is completed is output
   -- FL_params.if_unlearning: If set to False, the global_train_once function will not skip users that need to be forgotten;If set to True, global_train_once skips the forgotten user during training
 - ***Federated Pruning Settings***
-
   -- FL_params.save_acc: lowest accuracy to be saved 
   -- FL_params.save_re_acc: lowest retrained accuracy to be saved
   -- FL_params.sparsity: to calculate threshold
