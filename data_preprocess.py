@@ -6,9 +6,10 @@ Created on Thu Aug 27 09:39:07 2020
 """
 from torch.utils.data import DataLoader, Dataset
 import torchvision
-import torchvision.transforms as transforms
+import torch.utils.data
 import torch.nn as nn
 import torch.nn.functional as F
+import PIL.Image
 import os
 import torch
 from torch.utils.data import DataLoader, Dataset
@@ -24,7 +25,11 @@ from sklearn.cluster import KMeans
 from scipy.sparse import load_npz
 
 """Function: load data"""
-
+def collate_fn(batch):
+    # 如果 batch 中的元素是 PIL 图像对象，则将它们转换为张量
+    if isinstance(batch[0], PIL.Image.Image):
+        batch = [torch.tensor(np.array(img)) for img in batch]
+    return torch.utils.data.dataloader.default_collate(batch)
 
 def data_init(FL_params):
     kwargs = {'num_workers': 0, 'pin_memory': True} if FL_params.cuda_state else {}
@@ -62,8 +67,8 @@ def data_init(FL_params):
     # shadow_client_sloaders = []
     # 对于每个客户端，使用 DataLoader 类构建了一个数据加载器对象，并将其添加到 client_loaders 列表中
     for ii in range(FL_params.N_total_client):
-        client_loaders.append(DataLoader(client_dataset[ii], FL_params.local_batch_size, shuffle=True, **kwargs))
-        client_class_loaders.append(DataLoader(client_class_dataset[ii], FL_params.local_batch_size, shuffle=True, **kwargs))
+        client_loaders.append(DataLoader(client_dataset[ii], FL_params.local_batch_size, shuffle=True, **kwargs, collate_fn=collate_fn))
+        client_class_loaders.append(DataLoader(client_class_dataset[ii], FL_params.local_batch_size, shuffle=True, **kwargs, collate_fn=collate_fn))
 
         # shadow_client_loaders.append(DataLoader(shadow_client_dataset[ii], FL_params.local_batch_size, shuffle=False, **kwargs))
         '''

@@ -1,4 +1,6 @@
 import torch
+import torch.utils.data
+from torch.utils.data import DataLoader
 import torchvision
 import numpy as np
 import time
@@ -22,8 +24,8 @@ class Arguments():
         self.N_client = 25
         self.data_name = 'cifar10'  # cifar10, cifar100
         self.model_name = 'resnet56'  # 44 resnet20, resnet32, resnet44, resnet56, vgg11, vgg13, vgg16, vgg19
-        self.global_epoch = 2  # 20
-        self.local_epoch = 1  # 10
+        self.global_epoch = 4  # 20
+        self.local_epoch = 2  # 10
 
 
         # Model Training Settings
@@ -54,7 +56,7 @@ class Arguments():
 
         self.forget_local_epoch_ratio = 0.5
         self.forget_client_idx = 1
-        self.unlearn_interval = self.forget_local_epoch_ratio*self.local_epoch#5 #1
+        self.unlearn_interval = 1#self.forget_local_epoch_ratio*self.local_epoch#5 #1
         # =self.forget_local_epoch_ratio*self.local_epoch
         # self.mia_oldGM = False
         # 当一个用户被选中遗忘时，其他用户需要在各自的数据集中进行多轮在线训练，以获得模型收敛的大方向，从而提供模型收敛的大方向。
@@ -85,6 +87,7 @@ def Federated_Unlearning():
     selected_clients = np.random.choice(range(FL_params.N_total_client), size=FL_params.N_client, replace=False)
     client_loaders = list()
     client_class_loaders = list()
+    # data_loader = DataLoader(dataset, batch_size=..., collate_fn=collate_fn)
     for idx in selected_clients:
         client_loaders.append(client_all_loaders[idx])
         client_class_loaders.append(client_all_class_loaders[idx])
@@ -101,7 +104,7 @@ def Federated_Unlearning():
     print("Step3. Fedearated Learning and Unlearning Training...")
 
     # FedAvg, FedEraser, FedAccum,
-    old_GMs, unlearn_GMs,uncali_unlearn_GMs, _ = federated_learning_unlearning(init_global_model, client_loaders, test_loader, FL_params,client_class_loaders)
+    old_GMs, unlearn_GMs,uncali_unlearn_GMs, _ = federated_learning_unlearning(init_global_model, client_loaders, test_loader,client_class_loaders,FL_params)
     # print(old_GMs, unlearn_GMs) #都是torch.size
     if (FL_params.if_retrain == True):
         t1 = time.time()

@@ -31,7 +31,6 @@ from FL_base import fedavg, global_train_once, FL_Train, test
 from torch.utils.data import Dataset, DataLoader
 # from Fed_Unlearn_main import Arguments
 
-
 class CustomDataset(Dataset):
     def __init__(self, data, num_samples):
         self.data = data
@@ -73,7 +72,7 @@ def generate(dataset, list_classes: list):
             sub_dataset.append((data, label_index))
 
     return sub_dataset
-def federated_learning_unlearning(init_global_model, client_loaders, test_loader, FL_params,client_class_loaders):
+def federated_learning_unlearning(init_global_model, client_loaders, test_loader, client_class_loaders, FL_params):
     """FL_train"""
     print(5 * "#" + " Federated Learning Start " + 5 * "#")
     std_time = time.time()
@@ -92,6 +91,9 @@ def federated_learning_unlearning(init_global_model, client_loaders, test_loader
     FL_params.if_unlearning = True
 
     FL_params.unlearn_class= Class_pruner(train_model, FL_params)
+    #def unlearning(old_GMs, old_CMs, client_data_loaders, test_loader, FL_params):
+    # print('rest_data_loader : ', FL_params.rest_data_loader)
+    # print(client_class_loaders)
     unlearn_GMs = unlearning(old_GMs, old_CMs, client_class_loaders,  FL_params.rest_data_loader, FL_params)
     # unlearn_GMs = unlearning(old_GMs, old_CMs, client_loaders, test_loader, FL_params)
     end_time = time.time()
@@ -186,7 +188,9 @@ def Class_pruner(net, FL_params):
     # 创建数据加载器
     # generate: def generate(dataset, list_classes: list):
     unlearn_testset=generate(testset, redundant_classes)
+    print(type(unlearn_testset),'ooo')
     rest_trainset=generate(testset, all_classes)
+    print(type(rest_trainset), 'ooo')
 
 
     # 创建自定义数据集对象
@@ -310,12 +314,12 @@ def unlearning(old_GMs, old_CMs, client_data_loaders, test_loader, FL_params):
     print('test ogm ocm', len(old_global_models), len(old_client_models))
 
     selected_CMs = [old_client_models[jj:1] for jj in CM_intv]
-    print('selected_CMs', selected_CMs)
-    print(selected_CMs[0])
+    # print('selected_CMs', selected_CMs)
+    # print(selected_CMs[0])
     print('typr of selected CMs0', type(selected_CMs[0]))
     print('len of slected CMs: ', len(selected_CMs)) #19
     print('typr of selected GMs0', type(selected_GMs[0]))
-    print('len of slected FMs: ', len(selected_GMs))  # 19
+    print('len of slected GMs: ', len(selected_GMs))  # 19
 
     """1. First, complete the model overlay from the initial model to the first round of global train"""
     """
@@ -377,7 +381,7 @@ def unlearning(old_GMs, old_CMs, client_data_loaders, test_loader, FL_params):
         # print('global model : {}'.format(global_model))
         # print('ORRRR',client_data_loaders,'RRR',test_loader)
         # 25,1个torch.utils.data.dataloader.DataLoader object at **
-
+        # data_loader = DataLoader(dataset, batch_size=..., collate_fn=collate_fn)
         new_client_models = global_train_once(global_model, client_data_loaders, test_loader, FL_params)
 
         # core part of FedEraser
