@@ -214,4 +214,3 @@ class TFIDFMasker(L1NormPruner):
         # print(name)
         w_tf_idf_structured = self.tf_idf_map[name]
         return w_tf_idf_structured
-
