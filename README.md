@@ -10,9 +10,9 @@ This code provides three Federated Unlearning methods:
 
 - **Method1: FedEraser (Federated Unlearning, which is named FedEraser in our paper)**. The parameters of the client model saved by the not forgotten user in the standard FL training process were taken as the step size of the global model iteration, and then the new global model was taken as the starting point for the training, and a small amount of training was carried out, and the parameters of the new Client model were taken as the direction of the iteration of the new global model. Iterate over the new global model using the step \times direction.
 
-- **Method2: Unlearning without Cali (Directly Accumulating)**.The local model of each round saved by the standard federated learning when not forgotten is directly used, the client model of the forgotten user is removed, and the client Models of other users are directly aggregated to obtain the new global model.
+- **Method2: Unlearning without Cali (Directly Accumulating)**. The local model of each round saved by the standard federated learning when not forgotten is directly used, the client model of the forgotten user is removed, and the client Models of other users are directly aggregated to obtain the new global model.
 
-- **Method3: Retrain (Federated Retraining).**Retraining without user data that needs to be forgotten.
+- **Method3: Retrain (Federated Retraining)**. Retraining without user data that needs to be forgotten.
 
 Besides, this code also provides the function of membership inference attacks, to evaluate whether the unlearned client's data has been unlearned by the model. 
 
