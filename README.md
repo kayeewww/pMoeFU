@@ -12,7 +12,7 @@ This code provides three Federated Unlearning methods:
 
 - **Method2: Unlearning without Cali (Directly Accumulating)**.The local model of each round saved by the standard federated learning when not forgotten is directly used, the client model of the forgotten user is removed, and the client Models of other users are directly aggregated to obtain the new global model.
 
-- **Method3**: **Retrain (Federated Retraining).**Retraining without user data that needs to be forgotten.
+- **Method3: Retrain (Federated Retraining).**Retraining without user data that needs to be forgotten.
 
 Besides, this code also provides the function of membership inference attacks, to evaluate whether the unlearned client's data has been unlearned by the model. 
 
