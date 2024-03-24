@@ -87,21 +87,19 @@ def federated_learning_unlearning(init_global_model, client_loaders, test_loader
 
     print('\n')
     """class pruner"""
-    print(5 * "#" + "  Class Pruning Start  " + 5 * "#")
+    print(5 * "#" + "  Class Pruning and Unlearning Start  " + 5 * "#")
     std_time = time.time()
     FL_params.if_unlearning = True
 
-    # TODO 具体的剪枝过程
-    mode='client'
-    FL_params.unlearn_class = Class_pruner(train_model, FL_params)
-
-    print(5 * "#" + " Class Pruning End  " + 5 * "#")
-
-    unlearn_GMs = unlearning(mode, old_GMs, old_CMs, client_loaders, test_loader, FL_params)
+    FL_params.unlearn_class= Class_pruner(train_model, FL_params)
+    unlearn_GMs = unlearning(old_GMs, old_CMs, client_loaders,  FL_params.rest_data_loader, FL_params)
+    # unlearn_GMs = unlearning(old_GMs, old_CMs, client_loaders, test_loader, FL_params)
     end_time = time.time()
     time_unlearn = end_time - std_time
-    print("Time for UL: ", time_unlearn, 's')
+    print("Time for CP and UL: ", time_unlearn, 's')
     print('\n')
+    print(5 * "#" + " Class Pruning and Unlearning End  " + 5 * "#")
+
 
     """4.3 unlearning a client，Federated Unlearning without calibration"""
     print(5 * "#" + "  Federated Unlearning without Calibration Start  " + 5 * "#")
@@ -198,7 +196,7 @@ def Class_pruner(net, FL_params):
 
     # 创建 DataLoader 对象
     unlearn_data_loader = DataLoader(custom_unlearn_dataset, batch_size=64, shuffle=True)
-    rest_data_loader = DataLoader(custom_rest_dataset, batch_size=64, shuffle=True)
+    FL_params.rest_data_loader = DataLoader(custom_rest_dataset, batch_size=64, shuffle=True)
 
     # unlearn_testloader = torch.utils.data.DataLoader(unlearn_testset, batch_size=64, shuffle=True)
     # rest_testloader = torch.utils.data.DataLoader(rest_trainset, batch_size=64, shuffle=False)
@@ -214,12 +212,12 @@ def Class_pruner(net, FL_params):
     test(net, unlearn_data_loader) #unlearn_testloader
     print('*' * 40)
     print('*' * 5 + 'testing in rest_data' + '*' * 15)
-    test(net, rest_data_loader)
+    test(net, FL_params.rest_data_loader)
     print('*' * 40)
-    return max_index
+    return max_index#, unlearn_data_loader, rest_data_loader, unlearn_testset, rest_trainset
 
 
-def unlearning(mode, old_GMs, old_CMs, client_data_loaders, test_loader, FL_params):
+def unlearning(old_GMs, old_CMs, client_data_loaders, test_loader, FL_params):
     """
     Parameters
     ----------
@@ -257,8 +255,7 @@ def unlearning(mode, old_GMs, old_CMs, client_data_loaders, test_loader, FL_para
     old_client_models = copy.deepcopy(old_CMs)
 
     # print('*'*8, '尝试忘记某一个client，使用unlearn data和rest data', '*'*8)
-    #TODO 其实是应该忘记某个client中的一个类
-    # if (mode=='client'):
+
     unlearn_class_pruned = FL_params.unlearn_class
     print('unlearn_class_pruned ', unlearn_class_pruned)
 
@@ -312,9 +309,11 @@ def unlearning(mode, old_GMs, old_CMs, client_data_loaders, test_loader, FL_para
         #     print(f"Index {ii} out of range for old_global_models.")
     print('test', len(old_global_models))
 
-    selected_CMs = [old_client_models[jj] for jj in CM_intv]
+    selected_CMs = [old_client_models[jj:1] for jj in CM_intv]
     print('typr of selected CMs0',type(selected_CMs[0]))
     print('len of slected CMs: ', len(selected_CMs)) #19
+    print('typr of selected GMs0', type(selected_GMs[0]))
+    print('len of slected FMs: ', len(selected_GMs))  # 19
 
     """1. First, complete the model overlay from the initial model to the first round of global train"""
     """

@@ -26,7 +26,7 @@ from scipy.sparse import load_npz
 """Function: load data"""
 
 
-def data_init(FL_params):
+def data_init(FL_params,classflag):
     kwargs = {'num_workers': 0, 'pin_memory': True} if FL_params.cuda_state else {}
     trainset, testset = data_set(FL_params.data_name)
     # 构建测试数据加载器
@@ -54,6 +54,8 @@ def data_init(FL_params):
     # split_index：将上述计算得到的客户端数据集的样本数量组成的列表
     # 用random_split将训练集划分为给定数量的数据集
     client_dataset = torch.utils.data.random_split(trainset, split_index)
+    if classflag:
+        client_dataset = torch.utils.data.random_split(FL_params.rest_data_loader, split_index)
 
     # 将全局模型复制N-client次，然后构建每一个client模型的优化器，参数记录
     client_loaders = []

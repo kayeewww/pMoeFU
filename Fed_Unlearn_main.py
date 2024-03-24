@@ -41,6 +41,7 @@ class Arguments():
         # 要剪枝的类别。
         self.unlearn_class = 2  # unlearn class index
         self.sparsity = 0.05
+        self.rest_data_loader=None
 
         self.if_retrain = True
         # 如果设置为 False，表示在遗忘操作后执行重新训练。在重新训练期间，与遗忘的客户端相关的数据将被丢弃
@@ -71,7 +72,7 @@ def Federated_Unlearning():
     print("Step2. Client data loaded, testing data loaded!!!\n       Initial Model loaded!!!")
     # 加载数据
     init_global_model = model_init(FL_params.data_name, FL_params.model_name)
-    client_all_loaders, test_loader = data_init(FL_params)
+    client_all_loaders, test_loader = data_init(FL_params,True)
 
     # print(init_global_model)
     # print(client_all_loaders)
@@ -80,6 +81,7 @@ def Federated_Unlearning():
     selected_clients = np.random.choice(range(FL_params.N_total_client), size=FL_params.N_client, replace=False)
     client_loaders = list()
     for idx in selected_clients:
+
         client_loaders.append(client_all_loaders[idx])
 
 
