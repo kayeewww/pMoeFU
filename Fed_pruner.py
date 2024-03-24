@@ -147,14 +147,16 @@ def Class_pruner(FL_params):
 
     '''pre-processing'''
     feature_iit, classes = acculumate_feature(net, train_all_loader, 1)
-    tf_idf_map = calculate_cp(feature_iit, classes, FL_params.data_name, 0, forget_client_idx=FL_params.forget_client_idx)
+    tf_idf_map = {}
+    tf_idf_map = calculate_cp(feature_iit, classes, FL_params.data_name, 0, unlearn_class=FL_params.unlearn_class,tf_idf_map=tf_idf_map)
+    #features: dict, classes: list, dataset: str, coe: int, unlearn_class: int, tf_idf_map: dict
     threshold = get_threshold_by_sparsity(tf_idf_map, FL_params.sparsity)
     print('threshold', threshold)
 
     '''test before pruning'''
     list_allclasses = list(range(total_classes))
-    unlearn_listclass = [FL_params.forget_client_idx]
-    list_allclasses.remove(FL_params.forget_client_idx)  # rest classes
+    unlearn_listclass = [FL_params.unlearn_class]
+    list_allclasses.remove(FL_params.unlearn_class)  # rest classes
     unlearn_testdata = generate(testset, unlearn_listclass)
     rest_testdata = generate(testset, list_allclasses)
     print(len(unlearn_testdata), len(rest_testdata))

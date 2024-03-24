@@ -25,8 +25,8 @@ class Arguments():
         self.N_client = 25
         self.data_name = 'cifar10'  # cifar10, cifar100
         self.model_name = 'resnet44'  # 44 resnet20, resnet32, resnet44, resnet56, vgg11, vgg13, vgg16, vgg19
-        self.global_epoch = 2  # 20
-        self.local_epoch = 1  # 10
+        self.global_epoch = 20  # 20
+        self.local_epoch = 10  # 10
 
         self.save_acc = 80  ###
         self.save_re_acc = 75  ###
@@ -43,10 +43,8 @@ class Arguments():
         self.model_file = 'seed_acc80.06_epoch125_2024-03-02 15-08-23.pth'
 
         # 要剪枝的类别。
-        # TODO tfidf mask来替换unlearn_class
-        self.unlearn_class = 2  # If you want to forget, change None to the client index
+        self.unlearn_class = 2  # unlearn class index
         self.sparsity = 0.05
-        # self.forget_client_idx
 
         self.if_retrain = True
         # 如果设置为 False，表示在遗忘操作后执行重新训练。在重新训练期间，与遗忘的客户端相关的数据将被丢弃
@@ -56,13 +54,11 @@ class Arguments():
         # 如果设置为 False，global_train_once 函数不会跳过需要遗忘的用户；如果设置为 True，global_train_once 会在训练过程中跳过被遗忘的用户。
 
         self.forget_local_epoch_ratio = 0.5
-        self.unlearn_interval = 1  # 2
-        self.forget_client_idx = 1
+        self.unlearn_interval = self.forget_local_epoch_ratio*self.local_epoch#5 #1
         # =self.forget_local_epoch_ratio*self.local_epoch
         # self.mia_oldGM = False
         # 当一个用户被选中遗忘时，其他用户需要在各自的数据集中进行多轮在线训练，以获得模型收敛的大方向，从而提供模型收敛的大方向。
         # forget_local_epoch_ratio*local_epoch 是我们需要获得各局部模型收敛方向时的局部训练轮数
-        # self.unlearn_class = None
 
 
 def Federated_Unlearning():
@@ -71,9 +67,6 @@ def Federated_Unlearning():
     torch.manual_seed(FL_params.seed)
     # kwargs for data loader
     print(60 * '=')
-    # print(FL_params.unlearn_interval)
-    # print('$$$$$$$$$$$$$$$$$')
-    # print(FL_params.global_epoch)
     print("Step1. Federated Learning Settings \n We use dataset: " + FL_params.data_name + (
         " for our Federated Unlearning experiment.\n"))
 
@@ -104,108 +97,42 @@ def Federated_Unlearning():
     print("Step3. Fedearated Learning and Unlearning Training...")
     # FedAvg, FedEraser, FedAccum,
     old_GMs, unlearn_GMs,uncali_unlearn_GMs, _ = federated_learning_unlearning(init_global_model, client_loaders, test_loader, FL_params)
-    # print(old_GMs, unlearn_GMs) #都是torch.size 上一行也有,uncali_unlearn_GMs,
+    # print(old_GMs, unlearn_GMs) #都是torch.size
     if (FL_params.if_retrain == True):
         t1 = time.time()
         retrain_GMs = FL_Retrain(init_global_model, client_loaders, test_loader, FL_params)
         t2 = time.time()
         print("Time using = {} seconds".format(t2 - t1))
 
-    # if (FL_params.if_retrain == True):
-    #
-    #     t1 = time.time()
-    #     # FedRetrain
-    #     retrain_GMs = Fed_Retrain.Retraining(FL_params)
-    #     retrain_GMs = FL_Retrain(init_global_model, client_loaders, test_loader, FL_params)
-    #
-    #
-    #     # print('retrain gms', retrain_GMs)
-    #     # 检查 Retraining 函数返回的是否是正确的模型对象
-    #     if isinstance(retrain_GMs[-1], torch.nn.Module):
-    #         # 提取模型的参数
-    #         retrain_model_params = list(retrain_GMs[-1].parameters())
-    #
-    #         # # 将参数转换为 NumPy 数组
-    #         # retrain_model_params_np = [param.detach().numpy() for param in retrain_model_params]
-    #
-    #         # 将所有参数调整为相同的形状
-    #         max_shape = max(param.shape for param in retrain_model_params)
-    #         retrain_model_params_resized = [
-    #             param.detach().numpy() if param.shape == max_shape else np.broadcast_to(param.detach().numpy(),max_shape) for param inretrain_model_params]
-    #
-    #         # 计算参数的绝对值
-    #         # retrain_model_params_abs = [np.abs(param) for param in retrain_model_params_np]
-    #         retrain_model_params_abs = [np.abs(param) for param in retrain_model_params_resized]
-    #         # 将参数数组调整为相同的形状
-    #         max_shape = max([param.shape for param in retrain_model_params_abs])  # 找到最大的形状
-    #
-    #         # 将所有参数数组调整为相同的形状
-    #         retrain_model_params_abs_adjusted = [
-    #             np.pad(param, [(0, max_shape[i] - param.shape[i]) for i in range(len(max_shape))], mode='constant') for
-    #             param in retrain_model_params_abs]
-    #
-    #         # 计算参数的绝对值差异
-    #         params_diff = np.array(retrain_model_params_abs_adjusted) - np.array(retrain_model_params_abs)
-    #
-    #         # 执行数学运算（例如计算绝对值差）
-    #         # params_diff = np.array(retrain_model_params_abs)  # 这里只需要对重新训练的模型参数进行处理
-    #         histogram, bins = np.histogram(params_diff, bins=10)
-    #         plt.bar(bins[:-1], histogram, width=np.diff(bins), align='edge')
-    #         plt.xlabel('Deviation')
-    #         plt.ylabel('Frequency')
-    #         t2 = time.time()
-    #         print("Time using = {} seconds".format(round(t2 - t1), 3))
-    #     else:
-    #         print("Error: Retraining function did not return a valid model object.")
-        # TODO#############
-        # # 提取模型的参数
-        # unlearn_model_params = list(unlearn_GMs[-1].parameters())
-        # retrain_model_params = list(retrain_GMs[-1].parameters())
-        #
-        # # 将参数转换为 NumPy 数组
-        # unlearn_model_params_np = [param.detach().numpy() for param in unlearn_model_params]
-        # retrain_model_params_np = [param.detach().numpy() for param in retrain_model_params]
-        #
-        # # 计算参数的绝对值
-        # unlearn_model_params_abs = [np.abs(param) for param in unlearn_model_params_np]
-        # retrain_model_params_abs = [np.abs(param) for param in retrain_model_params_np]
-        #
-        # # 执行数学运算（例如计算绝对值差）
-        # params_diff = np.array(unlearn_model_params_abs) - np.array(retrain_model_params_abs)
-        # ##############
-        # # params_diff = np.abs(np.array(unlearn_GMs[-1])) - np.abs(np.array(retrain_GMs[-1]))
-        # histogram, bins = np.histogram(params_diff, bins=10)
-        # plt.bar(bins[:-1], histogram, width=np.diff(bins), align='edge')
-        # plt.xlabel('Deviation')
-        # plt.ylabel('Frequency')
-        # t2 = time.time()
-        # print("Time using = {} seconds".format(round(t2 - t1), 3))
+
 
         # Evaluation
-    fedavg_test_loss, fedavg_test_acc = test(old_GMs[-1], test_loader)
-    federaser_test_loss, federaser_test_acc = test(unlearn_GMs[-1], test_loader)
-    # fedaccum_test_loss, fedaccum_test_acc = test(uncali_unlearn_GMs[-1], test_loader)
-    fedretrain_test_loss, fedretrain_test_acc = test(retrain_GMs[-1], test_loader)
+    _,(fedavg_test_loss, fedavg_test_acc) = test(old_GMs[-1], test_loader)
+    _,(federaser_test_loss, federaser_test_acc) = test(unlearn_GMs[-1], test_loader)
+    _,(fedaccum_test_loss, fedaccum_test_acc) = test(uncali_unlearn_GMs[-1], test_loader)
+    _,(fedretrain_test_loss, fedretrain_test_acc) = test(retrain_GMs[-1], test_loader)
 
     target_loader = client_loaders[FL_params.unlearn_class]
-    fedavg_target_loss, fedavg_target_acc = test(old_GMs[-1], target_loader)
-    federaser_target_loss, federaser_target_acc = test(unlearn_GMs[-1], target_loader)
-    # fedaccum_target_loss, fedaccum_target_acc = test(uncali_unlearn_GMs[-1], target_loader)
-    fedretrain_target_loss, fedretrain_target_acc = test(retrain_GMs[-1], target_loader)
+    _,(fedavg_target_loss, fedavg_target_acc) = test(old_GMs[-1], target_loader)
+    _,(federaser_target_loss, federaser_target_acc) = test(unlearn_GMs[-1], target_loader)
+    _,(fedaccum_target_loss, fedaccum_target_acc) = test(uncali_unlearn_GMs[-1], target_loader)
+    _,(fedretrain_target_loss, fedretrain_target_acc) = test(retrain_GMs[-1], target_loader)
 
     print(5 * "*" + "  Result Summary  " + 5 * "*")
+
     print("[FedEraser] Test set: Average loss = {:.8f}, Average acc = {:.4f}".format(federaser_test_loss,
                                                                                      federaser_test_acc))
-    # print("[FedAccum] Test set: Average loss = {:.8f}, Average acc = {:.4f}".format(fedaccum_test_loss,
-    #                                                                                 fedaccum_test_acc))
+
+    print("[FedAccum] Test set: Average loss = {:.8f}, Average acc = {:.4f}".format(fedaccum_test_loss,
+                                                                                    fedaccum_test_acc))
     print("[FedRetrain] Test set: Average loss = {:.8f}, Average acc = {:.4f}".format(fedretrain_test_loss,
                                                                                       fedretrain_test_acc))
     print("[FedAvg] Test set: Average loss = {:.8f}, Average acc = {:.4f}".format(fedavg_test_loss, fedavg_test_acc))
     print("\n")
     print("[FedEraser] Target set: Average loss = {:.8f}, Average acc = {:.4f}".format(federaser_target_loss,
                                                                                        federaser_target_acc))
-    # print("[FedAccum] Target set: Average loss = {:.8f}, Average acc = {:.4f}".format(fedaccum_target_loss,
-    #                                                                                   fedaccum_target_acc))
+    print("[FedAccum] Target set: Average loss = {:.8f}, Average acc = {:.4f}".format(fedaccum_target_loss,
+                                                                                      fedaccum_target_acc))
     print("[FedRetrain] Target set: Average loss = {:.8f}, Average acc = {:.4f}".format(fedretrain_target_loss,
                                                                                         fedretrain_target_acc))
     print("[FedAvg] Target set: Average loss = {:.8f}, Average acc = {:.4f}".format(fedavg_target_loss,

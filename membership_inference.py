@@ -182,7 +182,7 @@ def attack(target_model, attack_model, client_loaders, test_loader, FL_params):
     unlearn_X = torch.zeros([1,N_class])
     unlearn_X = unlearn_X.to(device)
     with torch.no_grad():
-        for batch_idx, (data, target) in enumerate(client_loaders[FL_params.forget_client_idx]):
+        for batch_idx, (data, target) in enumerate(client_loaders[FL_params.unlearn_class]):
             data = data.to(device)
             out = target_model(data)
             unlearn_X = torch.cat([unlearn_X, out])

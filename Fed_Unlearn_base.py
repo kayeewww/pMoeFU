@@ -79,8 +79,8 @@ def federated_learning_unlearning(init_global_model, client_loaders, test_loader
     std_time = time.time()
     train_model, val_acc, old_GMs, old_CMs = FL_Train(init_global_model, client_loaders, test_loader, FL_params)
     end_time = time.time()
-    time_learn = (end_time-std_time, 's')
-    print("Time for FL: ", time_learn)
+    time_learn = end_time-std_time
+    print("Time for FL: ", time_learn, 's')
     # print("Federated Learning train acc:%.4f" % val_acc)
     # print("Federated Learning train epoch:%d" % FL_params.global_epoch) #train_epoch)
     print(5 * "#" + "  Federated Learning End " + 5 * "#")
@@ -95,14 +95,11 @@ def federated_learning_unlearning(init_global_model, client_loaders, test_loader
     mode='client'
     FL_params.unlearn_class = Class_pruner(train_model, FL_params)
 
-    # TODO 加入遗忘整个client和遗忘某一个client的一类dataset
-
-    # TODO 遗忘某一个client的那个dataset
     print(5 * "#" + " Class Pruning End  " + 5 * "#")
 
     unlearn_GMs = unlearning(mode, old_GMs, old_CMs, client_loaders, test_loader, FL_params)
     end_time = time.time()
-    time_unlearn = (end_time - std_time)
+    time_unlearn = end_time - std_time
     print("Time for UL: ", time_unlearn, 's')
     print('\n')
 
@@ -111,12 +108,12 @@ def federated_learning_unlearning(init_global_model, client_loaders, test_loader
     std_time = time.time()
     uncali_unlearn_GMs = unlearning_without_cali(old_GMs, old_CMs, FL_params)
     end_time = time.time()
-    time_unlearn_no_cali = (std_time - end_time)
+    time_unlearn_no_cali = end_time-std_time
     print(5 * "#" + "  Federated Unlearning without Calibration End  " + 5 * "#")
 
-    print(" Learning time consuming = {} secods".format(round(-time_learn, 3)))
-    print(" Unlearning time consuming = {} secods".format(round(-time_unlearn, 3)))
-    print(" Unlearning no Cali time consuming = {} secods".format(round(-time_unlearn_no_cali, 3)))
+    print(" Learning time consuming = {} secods".format(round(time_learn, 3)))
+    print(" Unlearning time consuming = {} secods".format(round(time_unlearn, 3)))
+    print(" Unlearning no Cali time consuming = {} secods".format(round(time_unlearn_no_cali, 3)))
     # print(" Retraining time consuming = {} secods".format(-time_retrain))
 
     return old_GMs, unlearn_GMs, uncali_unlearn_GMs, old_CMs
@@ -167,7 +164,7 @@ def Class_pruner(net, FL_params):
     max_index = np.argmax(redundant_classes_indices)
     # print("最大值的索引：", max_index)
 
-    # tf_idf_map = calculate_cp(feature_iit, classes, FL_params.data_name, 0, forget_client_idx=FL_params.forget_client_idx)
+    # tf_idf_map = calculate_cp(feature_iit, classes, FL_params.data_name, 0, _idxforget_client_idx=FL_params.forget_client_idx)
     # print(tf_idf_map)
     threshold = get_threshold_by_sparsity(tf_idf_map, FL_params.sparsity)
     print('threshold', threshold)
@@ -176,7 +173,7 @@ def Class_pruner(net, FL_params):
     # 获取类别名称
     all_classes = np.array(trainset.classes).tolist()
     redundant_classes = [all_classes[max_index]]
-    FL_params.forget_client_idx=max_index
+    FL_params.unlearn_class=max_index
     print("Class to be removed: ", redundant_classes)
     # all_classes.remove(max_index)
     # 使用列表推导式去除重复类别
@@ -262,8 +259,8 @@ def unlearning(mode, old_GMs, old_CMs, client_data_loaders, test_loader, FL_para
     # print('*'*8, '尝试忘记某一个client，使用unlearn data和rest data', '*'*8)
     #TODO 其实是应该忘记某个client中的一个类
     # if (mode=='client'):
-    forget_client = FL_params.forget_client_idx
-    print('forget_client_idx ', forget_client)
+    unlearn_class_pruned = FL_params.unlearn_class
+    print('unlearn_class_pruned ', unlearn_class_pruned)
 
     # 计算每个全局周期的起始和结束索引
     start_indices = range(0, len(old_client_models), FL_params.N_client)
@@ -272,8 +269,8 @@ def unlearning(mode, old_GMs, old_CMs, client_data_loaders, test_loader, FL_para
     # 遍历全局周期
     for start_idx, end_idx in zip(start_indices, end_indices):
         temp = old_client_models[start_idx:end_idx]  # 获取当前全局周期的模型列表
-        if forget_client < len(temp):
-            temp.pop(forget_client)  # 删除 forget_client 对应的模型
+        if unlearn_class_pruned < len(temp):
+            temp.pop(unlearn_class_pruned)  # 删除 forget_client 对应的模型
             old_client_models.extend(temp)  # 添加剩余的模型到列表
         # else:
         #     print("Error: forget_client index out of range")
@@ -287,10 +284,10 @@ def unlearning(mode, old_GMs, old_CMs, client_data_loaders, test_loader, FL_para
     for ii in range(FL_params.global_epoch):
         temp = list(old_client_models[ii * FL_params.N_client: ii * FL_params.N_client + FL_params.N_client])
         # print('temp lens here', len(temp))
-        if temp and forget_client < len(temp):
-            for i in range(forget_client + 1, len(temp)):
+        if temp and unlearn_class_pruned < len(temp):
+            for i in range(unlearn_class_pruned + 1, len(temp)):
                 temp[i - 1] = temp[i]
-            temp.pop(forget_client)
+            temp.pop(unlearn_class_pruned)
             # print('temp lens', len(temp))
         # else:
         #     print("Error: forget_client index out of range or temp list is empty")
@@ -309,14 +306,14 @@ def unlearning(mode, old_GMs, old_CMs, client_data_loaders, test_loader, FL_para
     # print('len of selected GMs: ', len(selected_GMs)) #20
     for ii in GM_intv:
         if ii < len(old_global_models):
-            selected_GMs.append(old_global_models[ii:1])
-            # print('你能有一次吗', len(selected_GMs)) #21
+            selected_GMs.append(old_global_models[ii:ii+1])
+            print('你能有一次吗', len(selected_GMs)) #21
         # else:
         #     print(f"Index {ii} out of range for old_global_models.")
-    # print(len(old_global_models))
+    print('test', len(old_global_models))
 
     selected_CMs = [old_client_models[jj] for jj in CM_intv]
-    # print('len of slected CMs: ', len(selected_CMs)) #19
+    print('len of slected CMs: ', len(selected_CMs)) #19
 
     """1. First, complete the model overlay from the initial model to the first round of global train"""
     """
@@ -419,8 +416,8 @@ def unlearning_step_once(old_client_models, new_client_models, global_model_befo
     return_model_state = dict()  # newGM_t + ||oldCM - oldGM_t||*(newCM - newGM_t)/||newCM - newGM_t||
     print('old_client_models', len(old_client_models))
     print('new_client_models', len(new_client_models))
-    new_client_models=new_client_models[0]
-    # assert len(old_client_models) == len(new_client_models)
+    new_client_models=new_client_models[:len(old_client_models)]#[0]
+    assert len(old_client_models) == len(new_client_models)
 
     for layer in global_model_before_forget.state_dict().keys():
         old_param_update[layer] = 0 * global_model_before_forget.state_dict()[layer]
@@ -651,27 +648,28 @@ def unlearning_without_cali(old_global_models, old_client_models, FL_params):
     if not FL_params.if_unlearning:
         raise ValueError("FL_params.if_unlearning should be set to True if you want to unlearn with a certain user")
 
-    if FL_params.forget_client_idx not in range(FL_params.N_client):
-        raise ValueError("FL_params.forget_client_idx is not assigned correctly. "
-                         "forget_client_idx should be in {}".format(range(FL_params.N_client)))
+    # if FL_params.unlearn_class not in range(FL_params.N_client):
+    #     raise ValueError("FL_params.forget_client_idx is not assigned correctly. "
+    #                      "forget_client_idx should be in {}".format(range(FL_params.N_client)))
 
-    forget_client = FL_params.forget_client_idx
+    unlearn_class_pruned = FL_params.unlearn_class
 
-    uncali_global_models = []
+    # uncali_global_models = []
 
     # Remove forget_client's model from old_client_models
     for ii in range(FL_params.global_epoch):
         temp = old_client_models[ii * FL_params.N_client: (ii + 1) * FL_params.N_client]
-        if temp and forget_client < len(temp):
-            temp.pop(forget_client)
-        else:
-            print("Error: forget_client index out of range or temp list is empty")
+        if temp and unlearn_class_pruned < len(temp):
+            temp.pop(unlearn_class_pruned)
+        # else:
+        #     print("Error: forget_client index out of range or temp list is empty")
 
         old_client_models.append(temp)
 
     # old_client_models = old_client_models[-FL_params.global_epoch:]
+    uncali_global_models = old_global_models[0]
 
-    uncali_global_models.append(copy.deepcopy(old_global_models[0]))
+    # uncali_global_models.append(copy.deepcopy(old_global_models[0]))
 
     # Iterate over epochs for unlearning
     for epoch in range(FL_params.global_epoch):
@@ -680,7 +678,8 @@ def unlearning_without_cali(old_global_models, old_client_models, FL_params):
 
         print("Federated Unlearning without Calibration Global Epoch  = {}".format(epoch))
 
-        current_global_model = uncali_global_models[epoch]
+        current_global_model = uncali_global_models#[epoch]
+        # print('current_global_model TYpe lens', len(current_global_model))
         current_client_models = old_client_models[epoch]
         old_global_model = old_global_models[epoch]
 
@@ -692,9 +691,10 @@ def unlearning_without_cali(old_global_models, old_client_models, FL_params):
             return_model_state[layer] = torch.zeros_like(current_global_model.state_dict()[layer])
 
             # Calculate the parameter update (oldCM_t - oldGM_t)
-            for client_model in current_client_models:
-                old_param_update[layer] += client_model.state_dict()[layer]
-            old_param_update[layer] /= len(current_client_models)
+            old_param_update[layer] = current_client_models.state_dict()[layer]
+            # for client_model in current_client_models:
+            #     old_param_update[layer] += client_model.state_dict()[layer]
+            # old_param_update[layer] /= len(current_client_models)
 
             old_param_update[layer] -= old_global_model.state_dict()[layer]
 
@@ -704,6 +704,6 @@ def unlearning_without_cali(old_global_models, old_client_models, FL_params):
         return_global_model = copy.deepcopy(old_global_models[0])
         return_global_model.load_state_dict(return_model_state)
 
-        uncali_global_models.append(return_global_model)
+        uncali_global_models=return_global_model#.append(return_global_model)
 
     return uncali_global_models
