@@ -84,7 +84,7 @@ There are several parts of the code:
   -- Adult: https://archive.ics.uci.edu/ml/datasets/Adult
   -- Bank: https://archive.ics.uci.edu/ml/datasets/Bank+Marketing
   -- Purchase: https://github.com/privacytrustlab/datasets/blob/master/dataset_purchase.tgz
-- data_preprocessing.py: This file contains the preprocessing of the raw data in datasets folder.
+-data_preprocessing.py: This file contains the preprocessing of the raw data in datasets folder.
 - model_initiation.py: initialize model for different datasets and ResNet network.
 - get_data_iter.py: data enhancement to enhance model robustness and generalization capabilities.
 - Fed_Unlearn_base.py: This file contains the base function of FedEraser, which corresponds to **Section III** in our paper.
@@ -116,7 +116,6 @@ The attack settings of FedEraser are determined in the parameter **FL_params** i
   -- FL_params.cuda_state: check whether gpu is available (torch.cuda.is_available())
   -- FL_params.use_gpu: controlling whether to use gpu 
   -- FL_params.train_with_test: controlling whether testings are performed at the end of each global round of training
-  
   -- FL_params.model_file: Model to be saved
 
 
@@ -124,16 +123,14 @@ The attack settings of FedEraser are determined in the parameter **FL_params** i
   -- FL_params.unlearn_interval: Used to control how many rounds the model parameters are saved. $1$ represents the parameter saved once per round. (corresponding to N_itv in our paper)
   -- FL_params.forget_local_epoch_ratio: When a user is selected to be forgotten, other users need to train several rounds of on-line training in their respective data sets to obtain the general direction of model convergence in order to provide the general direction of model convergence. 
   -- forget_local_epoch_ratio \times local_epoch is the number of rounds of local training when we need to get the convergence direction of each local model
-  -- FL_params.unlearn_class = 1 #If want to forget, change None to the client index                 
+  -- FL_params.unlearn_class = 1 #If want to forget, change None to the client index
   -- FL_params.if_retrain: If set to True, the global model is retrained using the FL-Retrain function, and data corresponding to the user for the forget_client_IDx number is discarded. If this parameter is set to False, only the global model after the final training is completed is output
   -- FL_params.if_unlearning: If set to False, the global_train_once function will not skip users that need to be forgotten;If set to True, global_train_once skips the forgotten user during training
 - ***Federated Pruning Settings***
 
-​	-- FL_params.save_acc: lowest accuracy to be saved
-
-​	-- FL_params.save_re_acc: lowest retrained accuracy to be saved
-
-​	-- FL_params.sparsity: to calculate threshold
+  -- FL_params.save_acc: lowest accuracy to be saved 
+  -- FL_params.save_re_acc: lowest retrained accuracy to be saved
+  -- FL_params.sparsity: to calculate threshold
 
 
 
