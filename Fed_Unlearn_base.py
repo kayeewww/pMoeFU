@@ -266,11 +266,12 @@ def unlearning(old_GMs, old_CMs, client_data_loaders, test_loader, FL_params):
     # 遍历全局周期
     for start_idx, end_idx in zip(start_indices, end_indices):
         temp = old_client_models[start_idx:end_idx]  # 获取当前全局周期的模型列表
-        if old_client_models.extend(temp) < len(temp):
-            temp.pop(old_client_models.extend(temp))  # 删除 forget_client 对应的模型
+        if forget_client_idx < len(temp):
+            temp.pop(forget_client_idx)  # 删除 forget_client 对应的模型
             old_client_models.extend(temp)  # 添加剩余的模型到列表
         # else:
         #     print("Error: forget_client index out of range")
+    old_client_models = old_client_models[-FL_params.global_epoch:]
 
     # 保留最后 FL_params.global_epoch 个全局周期的模型
     # old_client_models = old_client_models[-FL_params.global_epoch:]
@@ -290,10 +291,10 @@ def unlearning(old_GMs, old_CMs, client_data_loaders, test_loader, FL_params):
     #     # print('temp', len(temp))
     #     # temp.pop(forget_client)  # During Unlearn, the model saved by the forgotten user pops up
     #     old_client_models.append(temp)
-    old_client_models = old_client_models[-FL_params.global_epoch:]
+    # old_client_models = old_client_models[-FL_params.global_epoch:]
     # print('len of old cm: ', len(old_client_models)) #20
 
-    GM_intv = np.arange(0, FL_params.global_epoch, FL_params.unlearn_interval, dtype=np.int16())
+    GM_intv = np.arange(0, FL_params.global_epoch, FL_params.unlearn_interval, dtype=np.int16)
     print('GM_intvhere', GM_intv) #[0-19]
     CM_intv = GM_intv - 1
     CM_intv = CM_intv[1:]
@@ -306,11 +307,12 @@ def unlearning(old_GMs, old_CMs, client_data_loaders, test_loader, FL_params):
             # print('Selected GMs lens', len(selected_GMs)) #21
         # else:
         #     print(f"Index {ii} out of range for old_global_models.")
-    print('test', len(old_global_models))
+    print('test ogm ocm', len(old_global_models), len(old_client_models))
 
     selected_CMs = [old_client_models[jj:1] for jj in CM_intv]
+    print('selected_CMs', selected_CMs)
     print(selected_CMs[0])
-    print('typr of selected CMs0',type(selected_CMs[0]))
+    print('typr of selected CMs0', type(selected_CMs[0]))
     print('len of slected CMs: ', len(selected_CMs)) #19
     print('typr of selected GMs0', type(selected_GMs[0]))
     print('len of slected FMs: ', len(selected_GMs))  # 19
@@ -325,6 +327,7 @@ def unlearning(old_GMs, old_CMs, client_data_loaders, test_loader, FL_params):
 
     # From the paper: "It should be noticed that FedEraser can directly update the global model without calibration of the remaining clients' parameters at the first reconstruction epoch."
     # Note by Karly: I think something wrong with line153-154
+    print('是没有吗', selected_CMs[0])
     new_global_model = fedavg(selected_CMs[epoch])
     unlearn_global_models.append(copy.deepcopy(new_global_model))
     # print("unlearning--Federated Unlearning Global Epoch  = {}".format(epoch))

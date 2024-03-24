@@ -395,7 +395,7 @@ def fedavg(local_models):
     # print(len(local_models))
 
     # 将第一个模型深拷贝
-    print('是没有吗',type(local_models[0]))
+    # print('是没有吗',type(local_models[0]))
     print(len(local_models))
     global_model = copy.deepcopy(local_models[0])
 
