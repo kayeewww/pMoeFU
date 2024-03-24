@@ -73,7 +73,7 @@ def generate(dataset, list_classes: list):
             sub_dataset.append((data, label_index))
 
     return sub_dataset
-def federated_learning_unlearning(init_global_model, client_loaders, test_loader, FL_params):
+def federated_learning_unlearning(init_global_model, client_loaders, test_loader, FL_params,client_class_loaders):
     """FL_train"""
     print(5 * "#" + " Federated Learning Start " + 5 * "#")
     std_time = time.time()
@@ -92,7 +92,7 @@ def federated_learning_unlearning(init_global_model, client_loaders, test_loader
     FL_params.if_unlearning = True
 
     FL_params.unlearn_class= Class_pruner(train_model, FL_params)
-    unlearn_GMs = unlearning(old_GMs, old_CMs, client_loaders,  FL_params.rest_data_loader, FL_params)
+    unlearn_GMs = unlearning(old_GMs, old_CMs, client_class_loaders,  FL_params.rest_data_loader, FL_params)
     # unlearn_GMs = unlearning(old_GMs, old_CMs, client_loaders, test_loader, FL_params)
     end_time = time.time()
     time_unlearn = end_time - std_time
@@ -112,7 +112,6 @@ def federated_learning_unlearning(init_global_model, client_loaders, test_loader
     print(" Learning time consuming = {} secods".format(round(time_learn, 3)))
     print(" Unlearning time consuming = {} secods".format(round(time_unlearn, 3)))
     print(" Unlearning no Cali time consuming = {} secods".format(round(time_unlearn_no_cali, 3)))
-    # print(" Retraining time consuming = {} secods".format(-time_retrain))
 
     return old_GMs, unlearn_GMs, uncali_unlearn_GMs, old_CMs
 

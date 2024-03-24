@@ -14,7 +14,7 @@ import torch
 from torch.utils.data import DataLoader, Dataset
 import numpy as np
 import pandas as pd
-from torch.utils.data import Dataset,TensorDataset
+from torch.utils.data import Dataset, TensorDataset
 from torchvision import datasets, transforms
 from sklearn.preprocessing import LabelEncoder,OneHotEncoder,MinMaxScaler
 from sklearn.compose import ColumnTransformer
@@ -26,7 +26,7 @@ from scipy.sparse import load_npz
 """Function: load data"""
 
 
-def data_init(FL_params,classflag):
+def data_init(FL_params):
     kwargs = {'num_workers': 0, 'pin_memory': True} if FL_params.cuda_state else {}
     trainset, testset = data_set(FL_params.data_name)
     # 构建测试数据加载器
@@ -54,21 +54,23 @@ def data_init(FL_params,classflag):
     # split_index：将上述计算得到的客户端数据集的样本数量组成的列表
     # 用random_split将训练集划分为给定数量的数据集
     client_dataset = torch.utils.data.random_split(trainset, split_index)
-    if classflag:
-        client_dataset = torch.utils.data.random_split(FL_params.rest_data_loader, split_index)
+    client_class_dataset = torch.utils.data.random_split(FL_params.rest_data_loader, split_index)
 
     # 将全局模型复制N-client次，然后构建每一个client模型的优化器，参数记录
     client_loaders = []
+    client_class_loaders = []
     # shadow_client_sloaders = []
     # 对于每个客户端，使用 DataLoader 类构建了一个数据加载器对象，并将其添加到 client_loaders 列表中
     for ii in range(FL_params.N_total_client):
         client_loaders.append(DataLoader(client_dataset[ii], FL_params.local_batch_size, shuffle=True, **kwargs))
+        client_class_loaders.append(DataLoader(client_class_dataset[ii], FL_params.local_batch_size, shuffle=True, **kwargs))
+
         # shadow_client_loaders.append(DataLoader(shadow_client_dataset[ii], FL_params.local_batch_size, shuffle=False, **kwargs))
         '''
         By now，我们已经将client用户的本地数据区分完成，存放在client_loaders中。每一个都对应的是某一个用户的私有数据
         '''
 
-    return client_loaders, test_loader
+    return client_loaders, test_loader, client_class_loaders
 
 
 """Function: load data"""
