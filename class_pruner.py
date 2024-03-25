@@ -66,7 +66,6 @@ def acculumate_feature(model, loader, stop: int):
     return features, classes
 
 
-# TODO Channel Pruning
 # 计算特征的TF-IDF（Term Frequency-Inverse Document Frequency），并将结果存储在tf_idf_map字典中
 def calculate_cp(features: dict, classes: list, dataset: str, coe: int, unlearn_class: int, tf_idf_map: dict):
     # print('lens+++',len(classes)) #64

@@ -23,10 +23,10 @@ class Arguments():
         # Federated Learning Settings
         self.N_total_client = 100
         self.N_client = 25
-        self.data_name = 'cifar10'  # cifar10, cifar100
-        self.model_name = 'resnet56'  # 44 resnet20, resnet32, resnet44, resnet56, vgg11, vgg13, vgg16, vgg19
-        self.global_epoch = 4  # 20
-        self.local_epoch = 2  # 10
+        self.data_name = 'mnist'  # cifar10, cifar100
+        self.model_name = 'resnet32'  # 44 resnet20, resnet32, resnet44, resnet56, vgg11, vgg13, vgg16, vgg19
+        self.global_epoch = 2  # 20
+        self.local_epoch = 1  # 10
 
 
         # Model Training Settings
@@ -46,7 +46,7 @@ class Arguments():
         self.unlearn_class = 2  # unlearn class index
         self.sparsity = 0.05
         self.class_flag=False
-        self.rest_data_loader=torchvision.datasets.CIFAR10(root='../data', train=True, download=True)
+        self.rest_data_loader=None#torchvision.datasets.CIFAR10(root='../data', train=True, download=True)
         self.rest_testdata = None
         self.if_retrain = True
         # 如果设置为 False，表示在遗忘操作后执行重新训练。在重新训练期间，与遗忘的客户端相关的数据将被丢弃
@@ -94,15 +94,8 @@ def Federated_Unlearning():
     #     client_all_loaders= client_all_loaders
     #     client_class_loaders.append(client_all_class_loaders[idx])
     for idx in selected_clients:
-        # 创建数据加载器，并指定批量大小和 collate_fn 函数
-        # loader = DataLoader(client_all_loaders[idx], collate_fn=data_preprocess.collate_fn)
-        # 将加载器添加到 client_loaders 列表中
         client_loaders.append(client_all_loaders[idx])
         client_loaders=list(client_loaders)
-        # 创建数据加载器，并指定批量大小和 collate_fn 函数
-        # class_loader = DataLoader(client_all_class_loaders[idx], collate_fn=data_preprocess.collate_fn)
-        # 将加载器添加到 client_loaders 列表中
-        #TODO
         # client_class_loaders.append(client_all_class_loaders[idx])
         # client_class_loaders=list(client_class_loaders)
 

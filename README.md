@@ -2,7 +2,7 @@
 
 ## About The Project
 
-FedEraser allows a federated client to quit the Federated Learning system and eliminate the influences of his or her data on the global model trained by the standard Federated Learning. 加入模型剪枝之后，可以实现去除dataset中某一类的影响，
+FedEraser allows a federated client to quit the Federated Learning system and eliminate the influences of his or her data on the global model trained by the standard Federated Learning. With the addition of model pruning, it is possible to achieve the removal of the effects of a particular class in the dataset，
 
 ## Presented Unlearning Methods
 

@@ -56,10 +56,8 @@ def data_init(FL_params):
     # 计算最后一个客户端数据集的样本数量,即为所有的样本数减去前面计算的所有样本数量
     split_index.append(
         int(trainset.__len__() - int(trainset.__len__() / FL_params.N_total_client) * (FL_params.N_total_client - 1)))
-    # split_index：将上述计算得到的客户端数据集的样本数量组成的列表
-    # 用random_split将训练集划分为给定数量的数据集
     client_dataset = torch.utils.data.random_split(trainset, split_index)
-    client_class_dataset = torch.utils.data.random_split(FL_params.rest_data_loader, split_index)
+    # client_class_dataset = torch.utils.data.random_split(FL_params.rest_data_loader, split_index)
 
     # 将全局模型复制N-client次，然后构建每一个client模型的优化器，参数记录
     client_loaders = []
@@ -68,7 +66,7 @@ def data_init(FL_params):
     # 对于每个客户端，使用 DataLoader 类构建了一个数据加载器对象，并将其添加到 client_loaders 列表中
     for ii in range(FL_params.N_total_client):
         client_loaders.append(DataLoader(client_dataset[ii], FL_params.local_batch_size, shuffle=True, **kwargs, collate_fn=collate_fn))
-        client_class_loaders.append(DataLoader(client_class_dataset[ii], FL_params.local_batch_size, shuffle=True, **kwargs, collate_fn=collate_fn))
+        # client_class_loaders.append(DataLoader(client_class_dataset[ii], FL_params.local_batch_size, shuffle=True, **kwargs, collate_fn=collate_fn))
 
         # shadow_client_loaders.append(DataLoader(shadow_client_dataset[ii], FL_params.local_batch_size, shuffle=False, **kwargs))
         '''

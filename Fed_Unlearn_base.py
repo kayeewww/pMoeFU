@@ -144,17 +144,19 @@ def Class_pruner(net, FL_params):
 
     '''pre-processing'''
     feature_iit, classes = acculumate_feature(net, train_all_loader, 1)
-    # print(feature_iit)
+    print(feature_iit)
     tf_idf_map = {}
     #calculate_cp(features: dict, classes: list, dataset: str, coe: int, unlearn_class: int, tf_idf_map: dict):
 
     importance = calculate_cp(feature_iit, classes, FL_params.data_name, 0, FL_params.unlearn_class,tf_idf_map=tf_idf_map)
     # feature, score = importance.items()
+    print(importance,feature_iit, classes, FL_params.unlearn_class, tf_idf_map)
     for feature, score in importance.items():
         # feature= feature.item()
         # score= score.item()
         print(f"Feature: {feature}, Importance: {score}")
-    redundant_classes_indices = np.argsort(score)[-10:] #返回数值最大的10个index
+    #mnist。cifar10，purchase，adult2，cifar100 100
+    redundant_classes_indices = np.argsort(score)[-2:] #返回数值最大的10个index
     # 将tensor转换为整数类型
     redundant_classes_indices = redundant_classes_indices.cpu().numpy().astype(int)
 
@@ -432,25 +434,47 @@ def unlearning_step_once(old_client_models, new_client_models, global_model_befo
     # global_model_before_forget=global_model_before_forget[0]
     # print('Let me seeeeeeeeeeeeeeeeee', type(global_model_after_forget))
 
-    for layer in global_model_before_forget.state_dict.keys():
-        old_param_update[layer] = 0 * global_model_before_forget.statFÏe_dict()[layer]
-        new_param_update[layer] = 0 * global_model_before_forget.state_dict()[layer]
+    # for layer in global_model_before_forget.state_dict.keys():
+    #     old_param_update[layer] = 0 * global_model_before_forget.state_dict()[layer]
+    #     new_param_update[layer] = 0 * global_model_before_forget.state_dict()[layer]
+    #
+    #     return_model_state[layer] = 0 * global_model_before_forget.state_dict()[layer]
+    #
+    #     for ii in range(len(new_client_models)):
+    #         old_param_update[layer] += old_client_models[ii].state_dict()[layer]
+    #         new_param_update[layer] += new_client_models[ii].state_dict()[layer]
+    #     old_param_update[layer] /= (ii + 1)  # Model Params： oldCM
+    #     new_param_update[layer] /= (ii + 1)  # Model Params： newCM
+    #
+    #     old_param_update[layer] = old_param_update[layer] - global_model_before_forget.state_dict()[layer]  # 参数： oldCM - oldGM_t
+    #     new_param_update[layer] = new_param_update[layer] - global_model_after_forget.state_dict()[layer]  # 参数： newCM - newGM_t
+    #
+    #     step_length = torch.norm(old_param_update[layer])  # ||oldCM - oldGM_t||
+    #     step_direction = new_param_update[layer] / torch.norm(new_param_update[layer])  # (newCM - newGM_t)/||newCM - newGM_t||
+    #
+    #     return_model_state[layer] = new_global_model_state[layer] + step_length * step_direction
+    # 遍历模型的参数
+    for layer_name, layer_param in global_model_before_forget:
+        old_param_update[layer_name] = torch.zeros_like(layer_param)
+        new_param_update[layer_name] = torch.zeros_like(layer_param)
+        return_model_state[layer_name] = torch.zeros_like(layer_param)
 
-        return_model_state[layer] = 0 * global_model_before_forget.state_dict()[layer]
-
+        # 计算每个参数的更新量
         for ii in range(len(new_client_models)):
-            old_param_update[layer] += old_client_models[ii].state_dict()[layer]
-            new_param_update[layer] += new_client_models[ii].state_dict()[layer]
-        old_param_update[layer] /= (ii + 1)  # Model Params： oldCM
-        new_param_update[layer] /= (ii + 1)  # Model Params： newCM
+            old_param_update[layer_name] += old_client_models[ii].state_dict()[layer_name]
+            new_param_update[layer_name] += new_client_models[ii].state_dict()[layer_name]
+        old_param_update[layer_name] /= (ii + 1)  # Model Params： oldCM
+        new_param_update[layer_name] /= (ii + 1)  # Model Params： newCM
 
-        old_param_update[layer] = old_param_update[layer] - global_model_before_forget.state_dict()[layer]  # 参数： oldCM - oldGM_t
-        new_param_update[layer] = new_param_update[layer] - global_model_after_forget.state_dict()[layer]  # 参数： newCM - newGM_t
+        old_param_update[layer_name] = old_param_update[layer_name] - layer_param  # 参数： oldCM - oldGM_t
+        new_param_update[layer_name] = new_param_update[layer_name] - global_model_after_forget.state_dict()[
+            layer_name]  # 参数： newCM - newGM_t
 
-        step_length = torch.norm(old_param_update[layer])  # ||oldCM - oldGM_t||
-        step_direction = new_param_update[layer] / torch.norm(new_param_update[layer])  # (newCM - newGM_t)/||newCM - newGM_t||
+        step_length = torch.norm(old_param_update[layer_name])  # ||oldCM - oldGM_t||
+        step_direction = new_param_update[layer_name] / torch.norm(
+            new_param_update[layer_name])  # (newCM - newGM_t)/||newCM - newGM_t||
 
-        return_model_state[layer] = new_global_model_state[layer] + step_length * step_direction
+        return_model_state[layer_name] = new_global_model_state[layer_name] + step_length * step_direction
 
     return_global_model = copy.deepcopy(global_model_after_forget)
 

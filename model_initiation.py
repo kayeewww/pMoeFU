@@ -25,15 +25,16 @@ from get_data_iter import cutout_batch
 
 def model_init(data_name, model_name):
     if (data_name == 'cifar10'):
-        return Net_cifar10(model_name)
+        model=Net_cifar10(model_name)
     elif (data_name == 'cifar100'):
-        return Net_cifar100(model_name)
+        model=Net_cifar100(model_name)
     elif (data_name == 'mnist'):
-        return Net_mnist(model_name)
+        model=Net_mnist(model_name)
     elif(data_name == 'purchase'):
-        return Net_purchase(model_name)
+        model=Net_purchase()
     elif(data_name == 'adult'):
-        return Net_adult(model_name)
+        model=Net_adult()
+    return model
 
 """Function: load data"""
 
@@ -263,6 +264,16 @@ class BasicBlock(nn.Module):
         self.conv_bn1 = nn.Sequential(OrderedDict([('conv', conv1), ('bn', bn1)]))
         self.conv_bn2 = nn.Sequential(OrderedDict([('conv', conv2), ('bn', bn2)]))
         self.shortcut = nn.Sequential()
+        # if stride != 1 or in_planes != planes:
+        #     # 使用标准层代替 LambdaLayer
+        #     layers = []
+        #     if stride != 1:
+        #         layers.append(nn.ZeroPad2d(
+        #             (0, 0, 0, 0, (planes - in_planes) // 2, planes - in_planes - (planes - in_planes) // 2)))
+        #     else:
+        #         layers.append(nn.ZeroPad2d(
+        #             (0, 0, 0, 0, (planes - in_planes) // 2, planes - in_planes - (planes - in_planes) // 2)))
+        #     self.shortcut = nn.Sequential(*layers)
         if stride != 1 or in_planes != planes:
             if stride != 1:
                 self.shortcut = LambdaLayer(
@@ -357,43 +368,74 @@ def Net_cifar10(model_name):
 
 def Net_cifar100(model_name):
     if model_name == 'resnet56':
-        return ResNet(depth=56, num_classes=100, in_channels=3)
+        model=ResNet(depth=56, num_classes=100, in_channels=3)
     elif model_name == 'resnet20':
-        return ResNet(depth=20, num_classes=100, in_channels=3)
+        model=ResNet(depth=20, num_classes=100, in_channels=3)
     elif model_name == 'resnet32':
-        return ResNet(depth=32, num_classes=100, in_channels=3)
+        model=ResNet(depth=32, num_classes=100, in_channels=3)
     elif model_name == 'resnet44':
-        return ResNet(depth=44, num_classes=100, in_channels=3)
+        model=ResNet(depth=44, num_classes=100, in_channels=3)
+    return model
+
+
+class Net_purchase(nn.Module):
+    def __init__(self):
+        super(Net_purchase, self).__init__()
+        self.fc1 = nn.Linear(600, 300)
+        self.fc2 = nn.Linear(300, 50)
+        self.fc3 = nn.Linear(50, 2)
+
+    def forward(self, x):
+        x = F.relu(self.fc1(x))
+        x = F.relu(self.fc2(x))
+        x = F.relu(self.fc3(x))
+        return x
+
+
+class Net_adult(nn.Module):
+    def __init__(self):
+        super(Net_adult, self).__init__()
+        self.fc1 = nn.Linear(108, 50)
+        self.fc2 = nn.Linear(50, 10)
+        self.fc3 = nn.Linear(10, 2)
+
+    def forward(self, x):
+        x = F.relu(self.fc1(x))
+        x = F.relu(self.fc2(x))
+        x = F.relu(self.fc3(x))
+        return x
+
 def Net_mnist(model_name):
     if model_name == 'resnet56':
-        return ResNet(depth=56, num_classes=10, in_channels=1, cutout=False)
+        model=ResNet(depth=56, num_classes=10, in_channels=1, cutout=False)
     elif model_name == 'resnet20':
-        return ResNet(depth=20, num_classes=10, in_channels=1, cutout=False)
+        model=ResNet(depth=20, num_classes=10, in_channels=1, cutout=False)
     elif model_name == 'resnet32':
-        return ResNet(depth=32, num_classes=10, in_channels=1, cutout=False)
+        model=ResNet(depth=32, num_classes=10, in_channels=1, cutout=False)
     elif model_name == 'resnet44':
-        return ResNet(depth=44, num_classes=10, in_channels=1, cutout=False)
-def Net_purchase(model_name):
-    if model_name == 'resnet56':
-        return ResNet(depth=56, num_classes=2, in_channels=1, cutout=False)
-    elif model_name == 'resnet20':
-        return ResNet(depth=20, num_classes=2, in_channels=1, cutout=False)
-    elif model_name == 'resnet32':
-        return ResNet(depth=32, num_classes=2, in_channels=1, cutout=False)
-    elif model_name == 'resnet44':
-        return ResNet(depth=44, num_classes=2, in_channels=1, cutout=False)
-
-def Net_adult(model_name):
-    if model_name == 'resnet56':
-        return ResNet(depth=56, num_classes=2, in_channels=1, cutout=False)
-    elif model_name == 'resnet20':
-        return ResNet(depth=20, num_classes=2, in_channels=1, cutout=False)
-    elif model_name == 'resnet32':
-        return ResNet(depth=32, num_classes=2, in_channels=1, cutout=False)
-    elif model_name == 'resnet44':
-        return ResNet(depth=44, num_classes=2, in_channels=1, cutout=False)
-
-
+        model=ResNet(depth=44, num_classes=10, in_channels=1, cutout=False)
+    return model
+# def Net_purchase(model_name):
+#     if model_name == 'resnet56':
+#         model=ResNet(depth=56, num_classes=2, in_channels=1, cutout=False)
+#     elif model_name == 'resnet20':
+#         model=ResNet(depth=20, num_classes=2, in_channels=1, cutout=False)
+#     elif model_name == 'resnet32':
+#         model=ResNet(depth=32, num_classes=2, in_channels=1, cutout=False)
+#     elif model_name == 'resnet44':
+#         model=ResNet(depth=44, num_classes=2, in_channels=1, cutout=False)
+#     return model
+#
+# def Net_adult(model_name):
+#     if model_name == 'resnet56':
+#         model = ResNet(depth=56, num_classes=2, in_channels=1, cutout=False)
+#     elif model_name == 'resnet20':
+#         model = ResNet(depth=20, num_classes=2, in_channels=1, cutout=False)
+#     elif model_name == 'resnet32':
+#         model = ResNet(depth=32, num_classes=2, in_channels=1, cutout=False)
+#     elif model_name == 'resnet44':
+#         model = ResNet(depth=44, num_classes=2, in_channels=1, cutout=False)
+#     return model
 
 # class All_CNN(nn.Module):
 #     def __init__(self, filters_percentage=1., n_channels=3, num_classes=10, dropout=False, batch_norm=True):
