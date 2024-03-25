@@ -85,6 +85,8 @@ def FL_Train(init_global_model, client_data_loaders, test_loader, FL_params):
     all_client_models = list()
 
     global_model = init_global_model
+    all_global_models.append(copy.deepcopy(global_model))
+
     project_dir = Path(__file__).resolve().parent
     save_info = project_dir / 'ckpt' / FL_params.model_name
 
@@ -99,8 +101,8 @@ def FL_Train(init_global_model, client_data_loaders, test_loader, FL_params):
         print("Global Federated Learning epoch = {}".format(epoch))
         net, (val_acc, test_loss) = test(global_model, test_loader)
         save_flag = save_net(net, val_acc, FL_params.save_acc, save_info, epoch)
-        all_global_models+=[global_model]
-        # all_global_models.append(copy.deepcopy(global_model))
+        # all_global_models+=[global_model]
+        all_global_models.append(copy.deepcopy(global_model))
 
         if save_flag:
             break

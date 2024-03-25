@@ -323,6 +323,12 @@ class ResNet(nn.Module):
             self.in_planes = planes
         return nn.Sequential(OrderedDict(layers))
 
+    def state_dict(self, *args, **kwargs):
+        state_dict = super(ResNet, self).state_dict(*args, **kwargs)
+        for key in state_dict.keys():
+            state_dict[key] = state_dict[key].cpu()
+        return state_dict
+
     def forward(self, x):
         if self.training and self.cutout:
             with torch.no_grad():

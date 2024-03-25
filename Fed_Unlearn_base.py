@@ -298,12 +298,14 @@ def unlearning(old_GMs, old_CMs, client_data_loaders, test_loader, FL_params):
     # old_client_models = old_client_models[-FL_params.global_epoch:]
     # print('len of old cm: ', len(old_client_models)) #20
 
-    GM_intv = np.arange(0, FL_params.global_epoch, FL_params.unlearn_interval, dtype=np.int16)
+    # GM_intv = np.arange(0, FL_params.global_epoch, FL_params.unlearn_interval, dtype=np.int16)
+    GM_intv = np.arange(0, FL_params.global_epoch + 1, FL_params.unlearn_interval, dtype=np.int16())
+
     print('GM_intvhere', GM_intv) #[0-19]
     CM_intv = GM_intv - 1
     CM_intv = CM_intv[1:]
     print('CM_intvhere', CM_intv)
-    selected_GMs = [old_global_models[ii:1] for ii in GM_intv]
+    selected_GMs = [0]#[old_global_models[ii] for ii in GM_intv]
     # print('len of selected GMs: ', len(selected_GMs)) #20
     for ii in GM_intv:
         if ii < len(old_global_models):
@@ -385,7 +387,7 @@ def unlearning(old_GMs, old_CMs, client_data_loaders, test_loader, FL_params):
         new_client_models = global_train_once(global_model, client_data_loaders, test_loader, FL_params)
 
         # core part of FedEraser
-        new_GM = unlearning_step_once(selected_CMs[epoch], new_client_models, selected_GMs[epoch], global_model)
+        new_GM = unlearning_step_once(selected_CMs[epoch], new_client_models, selected_GMs[epoch+1], global_model)
         unlearn_global_models.append(new_GM)
     FL_params.local_epoch = CONST_local_epoch
     FL_params.global_epoch = CONST_global_epoch
@@ -426,12 +428,12 @@ def unlearning_step_once(old_client_models, new_client_models, global_model_befo
     new_client_models=new_client_models[:len(old_client_models)]#[0]
     assert len(old_client_models) == len(new_client_models)
 
-    print('Let me seeeeeeeeeeeeeeeeee',type(global_model_before_forget[0]))
-    global_model_before_forget=global_model_before_forget[0]
-    print('Let me seeeeeeeeeeeeeeeeee', type(global_model_after_forget))
+    # print('Let me seeeeeeeeeeeeeeeeee',global_model_before_forget)
+    # global_model_before_forget=global_model_before_forget[0]
+    # print('Let me seeeeeeeeeeeeeeeeee', type(global_model_after_forget))
 
     for layer in global_model_before_forget.state_dict.keys():
-        old_param_update[layer] = 0 * global_model_before_forget.state_dict()[layer]
+        old_param_update[layer] = 0 * global_model_before_forget.statFÏe_dict()[layer]
         new_param_update[layer] = 0 * global_model_before_forget.state_dict()[layer]
 
         return_model_state[layer] = 0 * global_model_before_forget.state_dict()[layer]
