@@ -156,7 +156,7 @@ def Class_pruner(net, FL_params):
         # score= score.item()
         print(f"Feature: {feature}, Importance: {score}")
     #mnist。cifar10，purchase，adult2，cifar100 100
-    redundant_classes_indices = np.argsort(score)[-2:] #返回数值最大的10个index
+    redundant_classes_indices = np.argsort(score)[-10:] #返回数值最大的10个index
     # 将tensor转换为整数类型
     redundant_classes_indices = redundant_classes_indices.cpu().numpy().astype(int)
 
@@ -182,7 +182,7 @@ def Class_pruner(net, FL_params):
 
     # 更新 all_classes
     all_classes = filtered_classes
-    print("PPPPPPPPPPleaseFiltered classes: ", len(all_classes))
+    print("Filtered classes: ", len(all_classes))
     ################################
 
     '''test before pruning'''
