@@ -3,19 +3,21 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch.version import cuda
-import shap
 
+from data_preprocess import data_set
+from fedbabygpt import load_data, split_data, train_model, generate_text, BabyGPTmodel, GPTConfig, get_dataloaders
+from sklearn.feature_extraction.text import TfidfVectorizer
 
-# import L1FilterPruner, L1FilterPrunerMasker
-# from nni import L1FilterPruner, L1FilterPrunerMasker
-# from nni.compression.pruning import L1FilterPrunerMasker
-# from nni.compression.pruning import L1FilterPruner
-
-from nni.compression.pruning.basic_pruner import L1NormPruner, L2NormPruner
-import copy
-# from nni.compression.pruning import structured_pruning
-
+def compute_client_tfidf(clients_data, block_size):
+    tf_idf_list = []
+    for client, data in clients_data.items():
+        train_data_str = data['train']
+        print(f"Client {client} train_data_str: {train_data_str[:100]}")  # 打印前100个字符进行检查
+        vectorizer = TfidfVectorizer(analyzer='char', max_features=block_size)
+        tf_matrix = vectorizer.fit_transform([train_data_str])
+        tf_idf_map = {i: torch.tensor(tf_matrix[0, i]) for i in range(tf_matrix.shape[1])}
+        tf_idf_list.append(tf_idf_map)
+    return tf_idf_list
 
 # %%
 def acculumate_feature(model, loader, stop: int):
@@ -23,24 +25,29 @@ def acculumate_feature(model, loader, stop: int):
         model = model.cuda()
     features = {}
     classes = []
+    all_features = []
+    all_classes = []
 
     def hook_func(m, x, y, name, feature_iit):
         # print(name, y.shape) # ([256, 64, 8, 8])
         '''ReLU'''
         f = F.relu(y)
-        # f = y
-        '''Average Pool'''
-        feature = F.avg_pool2d(f, f.size()[3])
-        # print(feature.shape) # ([256, 64, 1, 1])
-        feature = feature.view(f.size()[0], -1)
-        # print(feature.shape) # ([256, 64])
-        feature = feature.transpose(0, 1)
-        # print(feature.shape)
-        if name not in feature_iit:
-            feature_iit[name] = feature.cpu()
-        else:
-            feature_iit[name] = torch.cat([feature_iit[name], feature.cpu()], 1)
+        if f.size()[3] != 0:
+            feature = F.avg_pool2d(f, f.size()[3])
+            # print(f"Shape after avg_pool2d: {feature.shape}")  # Print the shape after avg_pool2d
 
+            feature = feature.view(f.size()[0], -1)
+            # print(f"Shape after view: {feature.shape}")  # Print the shape after view
+
+            feature = feature.transpose(0, 1)
+            # print(f"Shape after transpose: {feature.shape}")  # Print the shape after transpose
+
+            if name not in feature_iit:
+                feature_iit[name] = feature.cpu()
+            else:
+                feature_iit[name] = torch.cat([feature_iit[name], feature.cpu()], 1)
+        else:
+            print(f"Skipping layer {name} due to zero dimension size.")
     hook = functools.partial(hook_func, feature_iit=features)
 
     handler_list = []
@@ -55,13 +62,25 @@ def acculumate_feature(model, loader, stop: int):
     for batch_idx, (inputs, targets) in enumerate(loader):
         if batch_idx >= stop:
             break
-        # if batch_idx % (10) == 0:
-        print('batch_idx', batch_idx)
         model.eval()
         classes.extend(targets.numpy())
+
         with torch.no_grad():
-            model(inputs)
-            # model(inputs.cuda())
+            for i, (data, target) in enumerate(loader):
+                if i >= stop:
+                    break
+                data, target = data.to('cpu'), target.to('cpu')
+                # print(f"Data shape: {data.shape}, Target shape: {target.shape}")
+                output = model(data)
+                if isinstance(output, tuple):  # 如果outputs是一个元组，选择第一个元素
+                    output = output[0]
+                all_features.append(output)
+                all_classes.append(target)
+
+    all_features = torch.cat(all_features, dim=0)
+    all_classes = torch.cat(all_classes, dim=0)
+    # print(f"Accumulated Features shape: {all_features.shape}, Accumulated Classes shape: {all_classes.shape}")
+
     [k.remove() for k in handler_list]
     '''Image-wise Activation'''
     return features, classes
@@ -79,6 +98,8 @@ def calculate_cp(features: dict, classes: list, dataset: str, coe: int, unlearn_
         class_num = 100
     if dataset == 'purchase'or dataset == 'adult':
         class_num = 2
+    if dataset == 'shakespeare':
+        class_num = 26
     list_classes_address = []
     # 把对应的类下的index存起来
     for z in range(class_num):
@@ -91,42 +112,6 @@ def calculate_cp(features: dict, classes: list, dataset: str, coe: int, unlearn_
         class_wise_features = torch.zeros(class_num, features[fea].shape[0])
         image_wise_features = features[fea].transpose(0, 1)
 
-        # for i, indices in dict_address.items():
-        #     if indices:
-        #         valid_indices = [index for index in indices if index < image_wise_features.shape[1]]
-        #         if valid_indices:
-        #             selected_features = image_wise_features[:, valid_indices]
-        #             if selected_features.shape[1] > 0:  # 确保至少有一个有效的样本
-        #                 class_wise_features[i] = selected_features.mean(dim=1)
-        #             else:
-        #                 class_wise_features[i] = torch.zeros(features[fea].shape[0])
-        #         else:
-        #             class_wise_features[i] = torch.zeros(features[fea].shape[0])
-        #     else:
-        #         class_wise_features[i] = torch.zeros(features[fea].shape[0])
-
-        # for i, indices in dict_address.items():
-        #     if indices:  # 确保索引列表不为空
-        #         valid_indices = [index for index in indices if index < image_wise_features.shape[1]]
-        #         if valid_indices:  # 确保所有索引都有效
-        #             class_wise_features[i] = image_wise_features[:, valid_indices].mean(dim=1)
-        #         else:
-        #             class_wise_features[i] = torch.zeros(features[fea].shape[0])
-        #     else:
-        #         class_wise_features[i] = torch.zeros(features[fea].shape[0])
-
-        # for i, indices in dict_address.items():
-        #     class_wise_features[i] = image_wise_features[:, indices].mean(dim=1) if indices else torch.zeros(
-        #         features[fea].shape[0])
-        # tf_idf_map[fea] = class_wise_features.transpose(0, 1)  # Store class-wise features
-
-
-        # for i, indices in dict_address.items():
-        #     if len(indices) > 0:
-        #         class_wise_features[i] = image_wise_features[indices].mean(dim=0)
-        #     else:
-        #         class_wise_features[i] = 0
-        #TODO 上面的
         for i, v in dict_address.items():
             for j in v:
                 class_wise_features[i] += image_wise_features[j]
@@ -141,40 +126,7 @@ def calculate_cp(features: dict, classes: list, dataset: str, coe: int, unlearn_
         # tf_idf_map[fea] = (
         calc_tf_idf(features_class_wise[fea], fea, coe=coe, unlearn_client=unlearn_client, tf_idf_map=tf_idf_map)
 
-        print(f"Feature: {fea}, TF-IDF: {tf_idf_map[fea]}")
-
-        '''TF-IDF'''
-        # calc_tf_idf(features_class_wise[fea], fea, coe=coe,
-        #             unlearn_class=unlearn_class, tf_idf_map=tf_idf_map)
-        # print(tf_idf_map[fea].shape)
     return tf_idf_map
-
-# def calculate_cp(features: dict, classes: list, dataset: str, coe: int, unlearn_class: int):
-#     class_num = {'cifar10': 10, 'mnist': 10, 'cifar100': 100, 'purchase': 2, 'adult': 2}.get(dataset, 10)
-#     list_classes_address = [(z, [x for x in range(len(classes)) if classes[x] == z]) for z in range(class_num)]
-#     dict_address = dict(list_classes_address)
-#
-#     features_class_wise = {}
-#     tf_idf_map = {}
-#
-#     for fea in features:
-#         class_wise_features = torch.zeros(class_num, features[fea].shape[0])
-#         image_wise_features = features[fea].transpose(0, 1)
-#
-#         for i, indices in dict_address.items():
-#             if indices:
-#                 class_wise_features[i] = image_wise_features[:, indices].mean(axis=1)
-#             else:
-#                 class_wise_features[i] = torch.zeros(features[fea].shape[0])
-#
-#         features_class_wise[fea] = class_wise_features.transpose(0, 1)
-#         tf_idf_map[fea] = calc_tf_idf(features_class_wise[fea], coe=coe, unlearn_class=unlearn_class)
-#
-#         print(f"Feature: {fea}, TF-IDF: {tf_idf_map[fea]}")
-#
-#     return tf_idf_map
-
-
 
 # c - filters; n - classes
 # feature = [c, n] ([64, 10])
@@ -208,30 +160,6 @@ def calc_tf_idf(feature, name: str, coe: int, unlearn_client: int, tf_idf_map: d
     tf_idf_map[name] = importance
     return tf_idf_map
 
-
-#根据给定的稀疏度（sparsity）从TF-IDF值的映射（mapper字典）中获取一个阈值，该阈值用于剪枝（pruning）操作
-# def get_threshold_by_sparsity(mapper: dict, sparsity: float):
-#     assert 0 < sparsity < 1
-#     tf_idf_array = torch.cat([v for v in mapper.values()], 0)
-#     print(tf_idf_array.shape) # ([688])
-#     # 找到TF-IDF值中按大小排序的前int(tf_idf_array.shape[0] * (1 - sparsity))个值，并取这些值中的最小值作为阈值
-#     threshold = torch.topk(tf_idf_array, int(tf_idf_array.shape[0] * (1 - sparsity)))[0].min()
-#     threshold = float(threshold.item())
-#     return threshold
-# def get_threshold_by_sparsity(tf_idf,FL_params, sparsity: float):
-#     assert 0 < sparsity < 1
-#     if(FL_params.fats_method=='sample'):
-#         tf_idf_array = tf_idf['conv2']  # Directly use the tensor
-#     elif(FL_params.fats_method=='client'):
-#         tf_idf_array = tf_idf
-#     print('tf_idf_array.shape: ', tf_idf_array.shape)  # Debugging: print the shape to verify
-#
-#     # Calculate the threshold based on the desired sparsity
-#     # Getting the top k values where k is determined by the sparsity level
-#     k_value = int(tf_idf_array.numel() * (1 - sparsity))  # Use numel() to get total number of elements in tensor
-#     top_values, _ = torch.topk(tf_idf_array.flatten(), k=k_value, largest=True, sorted=True)
-#     threshold = top_values[-1].item()  # The last value in the top k values is the threshold
-#     return threshold
 def get_threshold_by_sparsity(mapper: dict, sparsity: float):
     assert 0 < sparsity < 1
     # print(len(mapper.values())) # 19
@@ -239,17 +167,7 @@ def get_threshold_by_sparsity(mapper: dict, sparsity: float):
     # print(tf_idf_array.shape) # ([688])
     threshold = torch.topk(tf_idf_array, int(tf_idf_array.shape[0] * (1 - sparsity)))[0].min()
     return threshold
-# def select_least_important_clients(tf_idf_map, num_clients_to_select):
-#     print(tf_idf_map)
-#     for tfidf in tf_idf_map:
-#         client_importance = {i: 0 for i in range(len(next(iter(tfidf.values())).size()))}
-#         # client_importance = {i: 0 for i in range(len(next(iter(tf_idf_map.values())).size()))}
-#     for feature_importance in tf_idf_map.values():
-#         for client_id in range(len(client_importance)):
-#             if client_id < feature_importance.size(0):  # 确保 client_id 在 feature_importance 的范围内
-#                 client_importance[client_id] += feature_importance[client_id].sum().item()
-#     sorted_clients = sorted(client_importance.items(), key=lambda item: item[1])
-#     return [client[0] for client in sorted_clients[:num_clients_to_select]]
+
 def select_least_important_clients(tf_idf_list, num_clients_to_select):
     client_importance = {}
 
@@ -259,72 +177,80 @@ def select_least_important_clients(tf_idf_list, num_clients_to_select):
             client_importance[client_id] += feature_importance.sum().item()
 
     # 按照重要性排序，选择重要性最低的客户端
-    print('8888',client_importance)
+    # print('client_importance', client_importance)
     sorted_clients = sorted(client_importance, key=client_importance.get)
     least_important_clients = sorted_clients[:num_clients_to_select]
 
     return least_important_clients
 
-# class TFIDFPruner(L1NormPruner):
-#     def __init__(self, model, config_list, cp_config: dict, pruning_algorithm='l1',
-#                  optimizer=None, **algo_kwargs):
-#         # model（待剪枝的模型）、config_list（剪枝配置列表）、
-#         # cp_config（剪枝配置，应该是一个字典）、pruning_algorithm（剪枝算法，默认为 'l1'）、
-#         # optimizer（优化器，默认为 None）以及其他参数通过 **algo_kwargs 传递。
-#         super().__init__(model, config_list, optimizer)
-#         # self.set_wrappers_attribute("if_calculated", False) #用于跟踪是否已经计算了TF-IDF值
-#         self.model = model
-#         self.masker = TFIDFMasker(model, self, threshold=cp_config["threshold"],
-#                                   tf_idf_map=cp_config["map"], **algo_kwargs)
-#
-#     def update_masker(self, model, threshold, mapper):
-#         self.masker = TFIDFMasker(model, self, threshold=threshold, tf_idf_map=mapper)
-#         #更新 self.masker 属性，将其替换为一个新的 TFIDFMasker 对象
-#
-#     def export_model(self, pruned_model_path, pruned_mask_path):
-#         pruned_model_state_dict = self.model.state_dict()
-#         pruned_mask = self.masker.get_tf_idf_mask()
-#
-#         # 保存剪枝后的模型参数
-#         torch.save(pruned_model_state_dict, pruned_model_path)
-#
-#         # 保存剪枝后的掩码
-#         with open(pruned_mask_path, 'wb') as f:
-#             torch.save(pruned_mask, f)
-#
-#         print("Pruned model and mask exported successfully.")
-#
-#
-# class TFIDFMasker(L1NormPruner):
-#     def __init__(self, model, pruner, threshold, tf_idf_map, config_list, preserve_round=1, dependency_aware=False ):
-#         super().__init__(model, config_list)
-#         # self, model: torch.nn.Module, config_list: List[Dict], evaluator: Evaluator | None = None,
-#         #                  existed_wrappers: Dict[str, ModuleWrapper] | None = None
-#         self.threshold = threshold
-#         self.pruner = pruner
-#         self.tf_idf_map = tf_idf_map
-#         self.preserve_round = preserve_round
-#         self.dependency_aware = dependency_aware
-#
-#     # 用于生成剪枝掩码，接收参数base_mask（基础掩码）、weight（权重）、
-#     # num_prune（剪枝数量）、wrapper（包装器）、wrapper_idx（包装器索引）等。
-#     def get_mask(self, base_mask, weight, num_prune, wrapper, wrapper_idx, channel_masks=None):
-#         # get the l1-norm sum for each filter -> importance for each filter
-#         w_tf_idf_structured = self.get_tf_idf_mask(wrapper, wrapper_idx)
-#
-#         # 根据TF-IDF掩码和阈值生成布尔型掩码
-#         mask_weight = torch.gt(w_tf_idf_structured, self.threshold)[
-#                       :, None, None, None].expand_as(weight).type_as(weight)
-#         mask_bias = torch.gt(w_tf_idf_structured, self.threshold).type_as(
-#             weight).detach() if base_mask['bias_mask'] is not None else None
-#
-#         return {'weight_mask': mask_weight.detach(), 'bias_mask': mask_bias}
-#
-#     #从TF-IDF映射中获取指定包装器的TF-IDF掩码
-#     def get_tf_idf_mask(self, wrapper, wrapper_idx):
-#         name = wrapper.name
-#         if wrapper.name.split('.')[-1] == 'module':
-#             name = wrapper.name[0:-7]
-#         # print(name)
-#         w_tf_idf_structured = self.tf_idf_map[name]
-#         return w_tf_idf_structured
+def Class_pruner(net, FL_params):
+    # project_dir = Path(__file__).resolve().parent
+    # model_path = project_dir / 'ckpt' / FL_params.model_name / FL_params.model_file
+    # pruned_save_info = project_dir / 'ckpt' / 'pruned' / FL_params.model_name
+    # finetuned_save_info = project_dir / 'ckpt' / 'finetuned' / FL_params.model_name
+
+    models = []
+    trainset, testset = data_set(FL_params.data_name)
+    loaders = []
+    if FL_params.data_name=='shakespeare':
+        data,_,_,_,_,_ = load_data("data/shakespeare.txt")
+        num_clients = 3
+
+        # 分割数据
+        client_data, train_data, val_data = split_data(data, num_clients)
+
+        # 计算每个客户端的 TF-IDF
+        block_size = 1024
+        tf_idf = compute_client_tfidf(client_data, block_size)
+
+        # 选择重要性最低的客户端
+        num_clients_to_select = 2
+        least_important_clients = select_least_important_clients(tf_idf, num_clients_to_select)
+        print(f"Least important clients: {least_important_clients}")
+
+        # data, string2integer, integer2string, vocab_size, chars = load_data("data/shakespeare.txt")
+        # clients_data, train_data, val_data = split_data(data, num_clients=3)
+        # clients_data_str = {}
+        # # for client, data_dict in clients_data.items():
+        # #     clients_data_str[client] = {
+        # #         'train': data_dict['train'].tolist(),
+        # #         'val': data_dict['val'].tolist()
+        # #     }
+        # train_data_str = convert_data_to_string(train_data)
+        # val_data_str = convert_data_to_string(val_data)
+        # clients_data_str = {
+        #     client: {'train': convert_data_to_string(data['train']), 'val': convert_data_to_string(data['val'])} for
+        #     client, data in clients_data.items()}
+        #
+        # tf_idf = []
+        # for client in range(FL_params.N_client):
+        #     # clients_text=[]
+        #     # with open("data/shakespeare.txt", 'r', encoding='utf-8') as file:
+        #     #     text = file.read()
+        #     # clients_text.append(text)
+        #
+        #     # block_size = 4
+        #     # batch_size = 64
+        #     # train_loader, val_loader = get_dataloaders(train_data, val_data, block_size, batch_size)
+        #     text=train_data_str
+        #     block_size = 1024
+        #     tf_matrix, vectorizer = compute_tf(text, block_size)
+        #     tf_idf_client = compute_tfidf(tf_matrix, vectorizer)
+        #     tf_idf.append(tf_idf_client[0])
+    else:
+        train_loader = torch.utils.data.DataLoader(trainset, batch_size=FL_params.local_batch_size, shuffle=False)
+        for _ in range(FL_params.N_client):
+            models.append(net)
+            loaders.append(train_loader)
+        tf_idf = []
+        for m, l in zip(models, loaders):
+            features, classes = acculumate_feature(m, l, stop=10)
+            # 计算TF-IDF
+            tf_idf_map = calculate_cp(features, classes, dataset='cifar10', coe=1, unlearn_client=0)
+            tf_idf.append(tf_idf_map)
+    # cp_config = {"threshold": threshold, "map": tf_idf_map}
+    #     print('Here tf_idf: ', tf_idf)
+        least_important_clients = select_least_important_clients(tf_idf, num_clients_to_select=FL_params.K)
+
+        print("single tfidf Selected least important clients:", least_important_clients)
+    return least_important_clients, tf_idf

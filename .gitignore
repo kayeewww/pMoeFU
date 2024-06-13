@@ -2,4 +2,5 @@ nni/
 data/
 ckpt/
 excel/
+log/
 output.txt

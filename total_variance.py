@@ -1,155 +1,166 @@
 import copy
-import torch
 import numpy as np
-import random
+import torch
 from torch import nn, optim
-from collections import defaultdict
 from torch.utils.data import Subset, DataLoader
-from Fed_Unlearn_base import fedavg, global_train_once, unlearning_step_once, Class_pruner
-from FL_base import FL_Finetuned
-from sim import simulate_client
+# from Fed_Unlearn_base import
+from FL_base import FL_Finetuned,fedavg, global_train_once, unlearning_step_once
+from class_pruner import Class_pruner
+from moe import MoE
+import data_preprocess
 
-# Algorithm 1: Sample-level Unlearning for FATS
-def sample_level_unlearning(global_model, old_client_models, client_data_loaders,test_loader, t_u, FL_params, device='cpu'):
-    """
-    Unlearn a particular sample X_u from the federated learning process.
-    """
+from fedbabygpt import load_data, split_data, train_model, generate_text, BabyGPTmodel, GPTConfig, get_client_batch
 
-    client_data_loader_K = list()
-    client_models_old_K = list()
-    unlearn_global_model = list()
-    update_unlearn_global_model=list()
-    updated_global_models = list()
-    # old_global_models=list()
+import torch
+from torchtext.data.utils import get_tokenizer
+from torchtext.vocab import build_vocab_from_iterator
+# from torchtext.data import Dataset, Example, Field, BucketIterator
 
-    for epoch in range(FL_params.global_epoch):
-        if (epoch == 0):
-            continue
-        # print("Federated Unlearning Global Epoch  = {}".format(epoch))
-        old_global_model = global_model[epoch]  # oldGM_t
-        # old_global_models.append(copy.deepcopy(old_global_model))
-    # print('old_global_model', type(old_global_model), len(old_global_models))
-    global_model = old_global_model.to(device)
-    global_model.train()
+#
+# # Algorithm 1: Sample-level Unlearning for FATS
+# def sample_level_unlearning(global_model, old_client_models, client_data_loaders, test_loader, t_u, FL_params,
+#                             device='cpu'):
+#     """
+#     Unlearn a particular sample X_u from the federated learning process.
+#     """
+#
+#     client_data_loader_K = list()
+#     client_models_old_K = list()
+#     unlearn_global_model = list()
+#     update_unlearn_global_model = list()
+#     updated_global_models = list()
+#     # old_global_models=list()
+#
+#     for epoch in range(FL_params.global_epoch):
+#         if (epoch == 0):
+#             continue
+#         # print("Federated Unlearning Global Epoch  = {}".format(epoch))
+#         old_global_model = global_model[epoch]  # oldGM_t
+#         # old_global_models.append(copy.deepcopy(old_global_model))
+#     # print('old_global_model', type(old_global_model), len(old_global_models))
+#     global_model = old_global_model.to(device)
+#     global_model.train()
+#
+#     FL_params.K = int((FL_params.rouc * FL_params.local_epoch * FL_params.M) / (
+#         FL_params.global_epoch
+#     ))
+#     FL_params.b = int((FL_params.rous * FL_params.N_datapoint) / (FL_params.rouc * FL_params.local_epoch))
+#
+#     client_states = {k: {'model': copy.deepcopy(global_model).to(device)} for k in range(FL_params.N_client)}
+#
+#     split_clients = np.array_split(list(client_states),
+#                                    np.arange(FL_params.K, len(client_states), FL_params.K))
+#
+#     flat_clients = [item for sublist in split_clients for item in sublist]
+#     print('split_clients', split_clients)
+#     # selected_client = np.random.choice(flat_clients, 1, replace=True)
+#
+#     selected_client, _ = Class_pruner(global_model, FL_params)
+#     print('Pruned sample index here:', selected_client)
+#     FL_params.forget_client_idx = selected_client  # [0]
+#
+#     for idx in split_clients:
+#         if (idx == np.array(selected_client)).any():
+#             FL_params.selected_K_group = idx
+#
+#     client_models = [copy.deepcopy(global_model) for _ in range(FL_params.N_client)]
+#
+#     client_K_models = list()
+#     split_client_models = np.array_split(list(client_models),
+#                                          np.arange(FL_params.K, len(client_models), FL_params.K))
+#     for i in FL_params.selected_K_group:
+#         client_data_loader_K.append(client_data_loaders[i])
+#         client_models_old_K.append(client_models[i])
+#     data_loader_ku = client_data_loaders[FL_params.forget_client_idx]
+#
+#     for client_idx in FL_params.selected_K_group:
+#         client_K_models.append(client_models[client_idx])  # .state_dict())
+#         print('K client_models', client_K_models)
+#
+#     for i in client_data_loader_K:
+#         print('here')
+#         if data_loader_ku == i:
+#             # Perform retraining from this point onwards
+#             client_data_loader = remove_sample_from_loader(data_loader_ku, FL_params.forget_client_idx, FL_params)
+#             # client_data_loaders.append(client_data_loader)
+#
+#             FL_params.if_sample_unlearning = True
+#             fedavg_global_model = fedavg(client_K_models)
+#
+#             unlearn_global_model.append(fedavg_global_model)
+#
+#     # print("Updated global", type(updated_global_models), len(updated_global_models))
+#     CONST_local_epoch = copy.deepcopy(FL_params.local_epoch)
+#     FL_params.local_epoch = np.ceil(FL_params.local_epoch * FL_params.forget_local_epoch_ratio)
+#     FL_params.local_epoch = np.int16(FL_params.local_epoch)
+#
+#     CONST_global_epoch = copy.deepcopy(FL_params.global_epoch)
+#     # FL_params.global_epoch = CM_intv.shape[0]
+#
+#     # print('Sample-level Unlearning Local Calibration Training epoch = {}'.format(FL_params.local_epoch))
+#     for epoch in range(0, FL_params.K - 1):  # global_epoch):
+#         if (epoch == 0):
+#             continue
+#         print("Sample-level Unlearning Local Calibration Training epoch  = {}".format(epoch))
+#         global_model = list()
+#
+#         for e in range(FL_params.global_epoch):
+#             global_model.append(unlearn_global_model)
+#             global_model = global_model[-1]
+#
+#             new_client_models = global_train_once(global_model[0], client_data_loader, test_loader, FL_params)
+#             unlearning_client_models = new_client_models[-FL_params.K:]
+#             new_GM = unlearning_step_once(client_models_old_K, unlearning_client_models, fedavg_global_model,
+#                                           global_model[0])
+#
+#             unlearn_global_model.append(new_GM)
+#     FL_params.local_epoch = CONST_local_epoch
+#     FL_params.global_epoch = CONST_global_epoch
+#
+#     '''fine tuning'''
+#     print(5 * "#" + "  Federated Fine-tuning Start" + 5 * "#")
+#     finetuned_global_models = unlearn_global_model
+#     finetuned_global_model, train_acc, train_epoch = FL_Finetuned(finetuned_global_models[-1], client_data_loaders,
+#                                                                   client_data_loader[-1], FL_params)
+#     print("Fine-tuning train acc:%.4f" % train_acc)
+#     print("Fine-tuning train epoch:%d" % train_epoch)
+#     print(5 * "#" + "  Federated Fine-tuning End" + 5 * "#")
+#     updated_global_models.append(finetuned_global_model)
+#
+#     return updated_global_models
+#
+#
+# def remove_sample_from_loader(data_loader, sample_to_remove, FL_params):
+#     """
+#         从给定的data_loader中移除特定的样本。
+#
+#         参数:
+#         - data_loader: 原始的DataLoader。
+#         - indices_to_remove: 一个包含要移除样本索引的列表。
+#
+#         返回:
+#         - 新的不包含指定样本的DataLoader。
+#         """
+#     # 获取原始数据集
+#     original_dataset = data_loader.dataset
+#
+#     # 计算要保留的样本的索引
+#     indices_to_keep = [i for i in range(len(original_dataset)) if i != sample_to_remove]
+#
+#     # 创建一个不包含指定样本的子数据集
+#     subset_dataset = Subset(original_dataset, indices_to_keep)
+#
+#     # 使用相同的参数创建一个新的DataLoader，但使用新的子数据集
+#     new_data_loader = DataLoader(subset_dataset, batch_size=FL_params.b, shuffle=False,
+#                                  num_workers=data_loader.num_workers)
+#     new_loaders = list()
+#     new_loaders.append(new_data_loader)
+#
+#     return new_loaders
 
-    FL_params.K = int((FL_params.rouc * FL_params.local_epoch * FL_params.M) / (
-        FL_params.global_epoch
-    ))
-    FL_params.b = int((FL_params.rous * FL_params.N_datapoint) / (FL_params.rouc * FL_params.local_epoch))
-
-    client_states = {k: {'model': copy.deepcopy(global_model).to(device)} for k in range(FL_params.N_client)}
-
-    split_clients = np.array_split(list(client_states),
-                                   np.arange(FL_params.K, len(client_states), FL_params.K))
-
-    flat_clients = [item for sublist in split_clients for item in sublist]
-    print('split_clients', split_clients)
-    # selected_client = np.random.choice(flat_clients, 1, replace=True)
-
-    selected_client, _ = Class_pruner(global_model, FL_params)
-    print('Pruned sample index here:', selected_client)
-    FL_params.forget_client_idx = selected_client  # [0]
-
-    for idx in split_clients:
-        if (idx == np.array(selected_client)).any():
-            FL_params.selected_K_group = idx
-
-    client_models = [copy.deepcopy(global_model) for _ in range(FL_params. N_client)]
-
-    client_K_models=list()
-    split_client_models=np.array_split(list(client_models),
-                                   np.arange(FL_params.K, len(client_models), FL_params.K))
-    for i in FL_params.selected_K_group:
-        client_data_loader_K.append(client_data_loaders[i])
-        client_models_old_K.append(client_models[i])
-    data_loader_ku = client_data_loaders[FL_params.forget_client_idx]
-
-    for client_idx in FL_params.selected_K_group:
-        client_K_models.append(client_models[client_idx])#.state_dict())
-        print('K client_models', client_K_models)
-
-    for i in client_data_loader_K:
-        print('here')
-        if data_loader_ku == i:
-        # Perform retraining from this point onwards
-            client_data_loader = remove_sample_from_loader(data_loader_ku, FL_params.forget_client_idx, FL_params)
-            # client_data_loaders.append(client_data_loader)
-
-            FL_params.if_sample_unlearning = True
-            fedavg_global_model = fedavg(client_K_models)
-
-            unlearn_global_model.append(fedavg_global_model)
-
-    # print("Updated global", type(updated_global_models), len(updated_global_models))
-    CONST_local_epoch = copy.deepcopy(FL_params.local_epoch)
-    FL_params.local_epoch = np.ceil(FL_params.local_epoch * FL_params.forget_local_epoch_ratio)
-    FL_params.local_epoch = np.int16(FL_params.local_epoch)
-
-    CONST_global_epoch = copy.deepcopy(FL_params.global_epoch)
-    # FL_params.global_epoch = CM_intv.shape[0]
-
-    # print('Sample-level Unlearning Local Calibration Training epoch = {}'.format(FL_params.local_epoch))
-    for epoch in range(0, FL_params.K - 1):  # global_epoch):
-        if (epoch == 0):
-            continue
-        print("Sample-level Unlearning Local Calibration Training epoch  = {}".format(epoch))
-        global_model = list()
-
-        for e in range(FL_params.global_epoch):
-            global_model.append(unlearn_global_model)
-            global_model=global_model[-1]
-
-            new_client_models = global_train_once(global_model[0], client_data_loader, test_loader, FL_params)
-            unlearning_client_models = new_client_models[-FL_params.K:]
-            new_GM = unlearning_step_once(client_models_old_K, unlearning_client_models, fedavg_global_model,
-                                          global_model[0])
-
-            unlearn_global_model.append(new_GM)
-    FL_params.local_epoch = CONST_local_epoch
-    FL_params.global_epoch = CONST_global_epoch
-
-    '''fine tuning'''
-    print(5 * "#" + "  Federated Fine-tuning Start" + 5 * "#")
-    finetuned_global_models = unlearn_global_model
-    finetuned_global_model, train_acc, train_epoch = FL_Finetuned(finetuned_global_models[-1], client_data_loaders,
-                                                                  client_data_loader[-1], FL_params)
-    print("Fine-tuning train acc:%.4f" % train_acc)
-    print("Fine-tuning train epoch:%d" % train_epoch)
-    print(5 * "#" + "  Federated Fine-tuning End" + 5 * "#")
-    updated_global_models.append(finetuned_global_model)
-
-    return updated_global_models
-
-def remove_sample_from_loader(data_loader, sample_to_remove, FL_params):
-    """
-        从给定的data_loader中移除特定的样本。
-
-        参数:
-        - data_loader: 原始的DataLoader。
-        - indices_to_remove: 一个包含要移除样本索引的列表。
-
-        返回:
-        - 新的不包含指定样本的DataLoader。
-        """
-    # 获取原始数据集
-    original_dataset = data_loader.dataset
-
-    # 计算要保留的样本的索引
-    indices_to_keep = [i for i in range(len(original_dataset)) if i != sample_to_remove]
-
-    # 创建一个不包含指定样本的子数据集
-    subset_dataset = Subset(original_dataset, indices_to_keep)
-
-    # 使用相同的参数创建一个新的DataLoader，但使用新的子数据集
-    new_data_loader = DataLoader(subset_dataset, batch_size=FL_params.b, shuffle=False,
-                                 num_workers=data_loader.num_workers)
-    new_loaders = list()
-    new_loaders.append(new_data_loader)
-
-    return new_loaders
 
 # Algorithm 2: Client-level Unlearning for FATS
-def client_level_unlearning(global_model, old_client_models, client_data_loaders,test_loader, FL_params, device='cpu'):
+def client_level_unlearning(global_model, old_client_models, client_data_loaders, test_loader, FL_params, device='cpu'):
     """
     Unlearn an entire client from the federated learning process.
     t_u: unlearning time step
@@ -163,22 +174,21 @@ def client_level_unlearning(global_model, old_client_models, client_data_loaders
     for epoch in range(FL_params.global_epoch):
         if (epoch == 0):
             continue
-        print("Client-level Federated Unlearning Global Epoch  = {}".format(epoch))
+        # print("Client-level Federated Unlearning Global Epoch  = {}".format(epoch))
         old_global_model = old_global_models[epoch]
         global_model = old_global_model.to(device)
         global_model.train()
         new_GMs.append(global_model)
 
-    FL_params.K = int((FL_params.rouc * FL_params.local_epoch * FL_params.M) / (
-        FL_params.global_epoch
-    ))
-    FL_params.b = int((FL_params.rous * FL_params.N_datapoint) / (FL_params.rouc * FL_params.local_epoch))
+    # FL_params.K = int((FL_params.rouc * FL_params.local_epoch * FL_params.M) / (
+    #     FL_params.global_epoch
+    # ))
+    # # print(FL_params.rouc,' ' ,FL_params.local_epoch,' ' ,FL_params.M,' ' ,FL_params.global_epoch)
+    # FL_params.b = int((FL_params.rous * FL_params.N_datapoint) / (FL_params.rouc * FL_params.local_epoch))
     print('K, b: ', FL_params.K, FL_params.b)
 
     # Time steps
     client_states = {k: {'model': copy.deepcopy(global_model).to(device)} for k in range(FL_params.N_client)}
-
-
 
     split_clients = np.array_split(list(client_states),
                                    np.arange(FL_params.K, len(client_states), FL_params.K))
@@ -186,47 +196,173 @@ def client_level_unlearning(global_model, old_client_models, client_data_loaders
     # flat_clients = [item for sublist in split_clients for item in sublist]
     print('split_clients', split_clients)
 
-    selected_client, _ = Class_pruner(global_model, FL_params)
-    print('selected_client', selected_client)
-    print('Pruned sample index here:', selected_client)
-    # selected_client = np.random.choice(flat_clients, 1, replace=True)
-    for idx in split_clients:
-        if (idx == np.array(selected_client)).any():
-            FL_params.selected_K_group = idx
+    selected_client, tf_idf_scores = Class_pruner(global_model, FL_params)
+    if FL_params.data_name=='cifar10':
+        num_experts = FL_params.N_client
+        experts = nn.ModuleList([data_preprocess.model_init('cifar10', 'cpu') for i in range(num_experts)])
+        moe_model = MoE(input_size=3 * 32 * 32, output_size=10, experts=experts, num_experts=num_experts, hidden_size=100,
+                        tf_idf_scores=tf_idf_scores, forget_client_idx=FL_params.forget_client_idx,
+                        k=FL_params.forget_clients_num, noisy_gating=True)
+        # print(tf_idf_scores)
+        moe_model = moe_model.to(device)
+        dataiter = iter(client_data_loaders[-1])
+        images, labels = next(dataiter)
 
-    client_models = [copy.deepcopy(global_model) for _ in range(FL_params.N_client)]
-    for client_idx in FL_params.selected_K_group:
-        client_models[client_idx].load_state_dict(global_model.state_dict())
+        # 将 CIFAR-10 数据集的图像转换为模型输入格式
+        images = images.to(device)
+        outputs = moe_model(images.view(-1, 3 * 32 * 32))
+    elif FL_params.data_name=='mnist':
+        num_experts = FL_params.N_client
+        experts = nn.ModuleList([data_preprocess.model_init('mnist', 'cpu') for i in range(num_experts)])
+        moe_model = MoE(input_size=1 * 28 * 28, output_size=10, experts=experts, num_experts=10, hidden_size=100,
+                        tf_idf_scores=tf_idf_scores, forget_client_idx=FL_params.forget_client_idx,
+                        k=FL_params.forget_clients_num, noisy_gating=True)
+        # print(tf_idf_scores)
+        moe_model = moe_model.to(device)
 
-    FL_params.forget_client_idx = selected_client[-1]
+        dataiter = iter(client_data_loaders[-1])
+        images, labels = next(dataiter)
+
+        # 将 MNIST 数据集的图像转换为模型输入格式
+        images = images.to(device)
+        outputs = moe_model(images.view(-1, 1 * 28 * 28))
+        # for images, labels in client_data_loaders[-1]:
+        # images = images.view(images.size(0), 1, 28, 28)  # 确保输入展平
+        # images = images.to(device)
+        # outputs = moe_model(images)
+        # break  # 仅打印一个批次以验证
+    elif FL_params.data_name == 'shakespeare':
+        text, data, string2integer, integer2string, vocab_size, chars = load_data("data/shakespeare.txt")
+
+        num_experts = FL_params.N_client
+        block_size = 64
+        experts = nn.ModuleList([data_preprocess.model_init('shakespeare', 'cpu') for i in range(num_experts)])
+        moe_model = MoE(input_size=block_size, output_size=10, experts=experts, num_experts=10, hidden_size=100,
+                        tf_idf_scores=tf_idf_scores, forget_client_idx=FL_params.forget_client_idx,
+                        k=3, noisy_gating=True)
+        # print(tf_idf_scores)
+        moe_model = moe_model.to(device)
+        # FL_params.forget_client_idx = [1,2]
+        config = GPTConfig(
+            block_size=4,
+            vocab_size=len(chars),
+            n_head=4,
+            n_layer=4,
+            n_embd=16
+        )
+
+
+        text, data, string2integer, integer2string, vocab_size, chars = load_data("data/shakespeare.txt")
+        clients_data, train_data, val_data = split_data(data, num_clients=3)
+        model = train_model(chars, clients_data, train_data, val_data)
+        for client in clients_data.keys():
+            optimizer = torch.optim.AdamW(moe_model.parameters(), lr=0.005)
+            xb, yb = get_client_batch(client, 'train', config, clients_data)
+            logits, loss = moe_model(xb, yb)
+            optimizer.zero_grad(set_to_none=True)
+            loss.backward()
+            optimizer.step()
+
+
+
+    # 打印输出和选择的 client index
+
+    print("Forget Client Index:", moe_model.forget_client_idx)
+    FL_params.forget_client_idx = moe_model.forget_client_idx
+    print('Client chosen by MoE: ', FL_params.forget_client_idx)
+    print("Initial model type", type(moe_model), moe_model)
+
+    # print('selected_client',  FL_params.forget_client_idx)
+    # # selected_client = np.random.choice(flat_clients, 1, replace=True)
+    # for idx in split_clients:
+    #     if (idx == np.array(selected_client)).any():
+    #         FL_params.selected_K_group = idx
+    #
+    # client_models = [copy.deepcopy(global_model) for _ in range(FL_params.N_client)]
+    # for client_idx in FL_params.selected_K_group:
+    #     client_models[client_idx].load_state_dict(global_model.state_dict())
+    #
+    # FL_params.forget_client_idx = selected_client[-1]
+    client_models = copy.deepcopy(moe_model)
 
     updated_global_models = list()
-
+    client_list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     # if 1:#k_u in selected_clients:
-    for ii in range(FL_params.global_epoch):
-        temp = old_client_models[ii * FL_params.N_client: ii * FL_params.N_client + FL_params.N_client]
-        # print('TEMP HERE',temp)
-        temp.pop(FL_params.forget_client_idx)  # During Unlearn, the model saved by the forgotten user pops up
-        old_client_models.append(temp)
-    old_client_models = old_client_models[-FL_params.N_total_client:]
+    temp=old_client_models
+    if type(FL_params.forget_client_idx) == int:
+        temp.pop(FL_params.forget_client_idx)
+    else:
+        for k_client in FL_params.forget_client_idx:
+            temp.pop(k_client)
+    # for k_client in FL_params.forget_client_idx:
+    #     temp.pop(k_client)
+        # remain_client_list = client_list.pop(k_client)
+    # remain_client_list=[]
+    client_set=set(client_list)
+    forget_set=set(FL_params.forget_client_idx)
+    remain_client_list = list(client_set-forget_set)
+    print('Remove one', remain_client_list)
+    old_client_models.append(temp)
+    # for ii in range(FL_params.global_epoch):
+    #     temp = old_client_models[ii * FL_params.N_client: ii * FL_params.N_client + FL_params.N_client]
+    #     # print('TEMP HERE')#,temp)
+    #     for k_client in FL_params.forget_client_idx:
+    #         temp.pop(k_client)
+    #         remain_client_list=client_list.pop(k_client)
+    #     print('Remove one', remain_client_list)
+    #     #     remain_client_list
+    #     # # temp.pop(FL_params.forget_client_idx)  # During Unlearn, the model saved by the forgotten user pops up
+    #     #     if 0 <= FL_params.forget_client_idx < len(client_list):
+    #     #         remain_client_list = client_list[:FL_params.forget_client_idx] + client_list[
+    #     #                                                                          FL_params.forget_client_idx + 1:]
+    #     #     else:
+    #     #         raise IndexError("forget_client_idx is out of range")
+    #     old_client_models.append(temp)
+    # old_client_models = old_client_models[-FL_params.N_total_client:]
 
     new_c_data_loaders = [dl for i, dl in enumerate(client_data_loaders) if i != FL_params.forget_client_idx]
-    new_client_data_loaders=[]
+    new_client_data_loaders = []
     for dl in new_c_data_loaders:
         new_client_data_loader = DataLoader(dl.dataset, batch_size=FL_params.b, shuffle=False)
         new_client_data_loaders.append(new_client_data_loader)
 
-    local_client_models=list()
+    local_client_models = list()
 
-    for client in FL_params.selected_K_group:
-        data_loader = new_client_data_loaders[client]
-        local_model = old_client_models[client]
+    # for client in FL_params.selected_K_group:
+    for client in remain_client_list:
+        # data_loader = new_client_data_loaders[client]
+        local_model = client_models  # old_client_models[client]
         # Performing local SGD - mini-batch
+        # for epoch in range(FL_params.local_epoch):
+            # train_data = ShakespeareDataset('./data/shakespeare_train.txt', TEXT, LABEL)
+            # test_data = ShakespeareDataset('./data/shakespeare_test.txt', TEXT, LABEL)
+            # train_loader, test_loader = BucketIterator.splits(
+            #     (train_data, test_data),
+            #     batch_size=32,
+            #     sort_key=lambda x: len(x.text),
+            #     sort_within_batch=True,
+            #     device=torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+            # )
+            #
+            # criterion = nn.BCEWithLogitsLoss()
+            # optimizer = optim.Adam(local_model.parameters(), lr=0.001)
+
+            # local_model.train()
+            # for batch in new_client_data_loaders[epoch]:
+            #     texts = batch.text.to(device)
+            #     labels = batch.label.to(device, dtype=torch.float)
+            #
+            #     outputs = local_model(texts)
+            #     loss = criterion(outputs.squeeze(), labels)
+            #
+            #     optimizer.zero_grad()
+            #     loss.backward()
+            #     optimizer.step()
+        #TODO
         for itr in range(FL_params.local_epoch):
             # local_model = local_model1[itr]
             # sampled_dataloader = np.random.choice(list(data_loader), FL_params.b, replace=True)
             for inputs, targets in new_client_data_loaders[itr]:
-
                 optimizer = optim.SGD(local_model.parameters(), lr=FL_params.local_lr)
                 optimizer.zero_grad()
                 outputs = local_model(inputs)
@@ -235,6 +371,7 @@ def client_level_unlearning(global_model, old_client_models, client_data_loaders
                 loss.backward()
                 optimizer.step()
             local_client_models.append(local_model)
+
         # Aggregating local models to update the global model
         # if ii % FL_params.local_epoch == 0:
         unlearn_global_model = list()
@@ -243,8 +380,8 @@ def client_level_unlearning(global_model, old_client_models, client_data_loaders
 
     updated_global_models.append(unlearn_global_model)
 
-
-    print("Updated global",updated_global_models,type(updated_global_models),len(updated_global_models),type(updated_global_models[0]))
+    print("Updated global", updated_global_models, type(updated_global_models), len(updated_global_models),
+          type(updated_global_models[0]))
     CONST_local_epoch = copy.deepcopy(FL_params.local_epoch)
     FL_params.local_epoch = np.ceil(FL_params.local_epoch * FL_params.forget_local_epoch_ratio)
     FL_params.local_epoch = np.int16(FL_params.local_epoch)
@@ -271,11 +408,11 @@ def client_level_unlearning(global_model, old_client_models, client_data_loaders
     '''fine tuning'''
     print(5 * "#" + "  Federated Fine-tuning Start" + 5 * "#")
     finetuned_global_models = updated_global_models[-1]
-    finetuned_global_model, test_acc, train_epoch,test_loss, train_acc,train_loss = FL_Finetuned(finetuned_global_models[-1], new_client_data_loaders, new_client_data_loader, FL_params)
+    finetuned_global_model, test_acc, train_epoch, test_loss, train_acc, train_loss = FL_Finetuned(
+        finetuned_global_models[-1], new_client_data_loaders, test_loader, FL_params)
     print("Fine-tuning train acc:%.4f" % train_acc)
     print("Fine-tuning train epoch:%d" % train_epoch)
     print(5 * "#" + "  Federated Fine-tuning End" + 5 * "#")
     updated_global_models.append(finetuned_global_model)
 
-    return updated_global_models,train_acc,train_loss, test_acc,test_loss
-
+    return updated_global_models, train_acc, train_loss, test_acc, test_loss
