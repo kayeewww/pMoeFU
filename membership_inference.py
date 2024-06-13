@@ -9,22 +9,7 @@ import torch
 import torch.functional as F
 import torch.nn as nn
 from torch.nn.functional import softmax
-import torch.optim as optim
-import argparse
-from torch.utils.data import DataLoader, Dataset
-import copy
-from sklearn.metrics import accuracy_score
 import numpy as np
-from model_initiation import model_init
-from data_preprocess import data_set
-from FL_base import global_train_once
-from FL_base import fedavg
-from FL_base import test
-from sklearn.linear_model import LogisticRegression
-from FL_base import FL_Train, FL_Retrain
-from Fed_Unlearn_base import unlearning, unlearning_without_cali, federated_learning_unlearning
-
-from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score
 import xgboost as xgb
 from xgboost import XGBClassifier
@@ -184,10 +169,12 @@ def attack(target_model, attack_model, client_loaders, test_loader, FL_params):
     with torch.no_grad():
         #TODO
         if(FL_params.fats_method=='client'):
-            for batch_idx, (data, target) in enumerate(client_loaders[FL_params.forget_client_idx]):
-                        data = data.to(device)
-                        out = target_model(data)
-                        unlearn_X = torch.cat([unlearn_X, out])
+            for k in FL_params.forget_client_idx:
+                # target_loader = client_loaders[k]
+                for batch_idx, (data, target) in enumerate(client_loaders[k]):
+                            data = data.to(device)
+                            out = target_model(data)
+                            unlearn_X = torch.cat([unlearn_X, out])
         elif(FL_params.fats_method=='sample'):
             for batch_idx, (data, target) in enumerate(client_loaders[FL_params.unlearn_client]):
                         data = data.to(device)

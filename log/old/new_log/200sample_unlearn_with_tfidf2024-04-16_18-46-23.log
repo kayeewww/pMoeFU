@@ -1,0 +1,1079 @@
+Files already downloaded and verified
+============================================================
+Step1. Federated Learning Settings 
+ We use dataset: cifar10 for our Federated Unlearning experiment.
+
+============================================================
+Step2. Client data loaded, testing data loaded!!!
+       Initial Model loaded!!!
+Files already downloaded and verified
+Files already downloaded and verified
+============================================================
+Step3. Fedearated Learning and Unlearning Training...
+len of selected client loader, 12
+#####  Federated Learning Start#####
+Global Federated Learning epoch = 0
+Global Federated Learning epoch = 1
+Global Federated Learning epoch = 2
+Global Federated Learning epoch = 3
+Global Federated Learning epoch = 4
+Global Federated Learning epoch = 5
+Global Federated Learning epoch = 6
+Global Federated Learning epoch = 7
+Global Federated Learning epoch = 8
+Global Federated Learning epoch = 9
+Global Federated Learning epoch = 10
+Global Federated Learning epoch = 11
+Global Federated Learning epoch = 12
+Global Federated Learning epoch = 13
+Global Federated Learning epoch = 14
+Global Federated Learning epoch = 15
+Global Federated Learning epoch = 16
+Global Federated Learning epoch = 17
+Global Federated Learning epoch = 18
+Global Federated Learning epoch = 19
+Global Federated Learning epoch = 20
+Global Federated Learning epoch = 21
+Global Federated Learning epoch = 22
+Global Federated Learning epoch = 23
+Global Federated Learning epoch = 24
+Global Federated Learning epoch = 25
+Global Federated Learning epoch = 26
+Global Federated Learning epoch = 27
+Global Federated Learning epoch = 28
+Global Federated Learning epoch = 29
+Global Federated Learning epoch = 30
+Global Federated Learning epoch = 31
+Global Federated Learning epoch = 32
+Global Federated Learning epoch = 33
+Global Federated Learning epoch = 34
+Global Federated Learning epoch = 35
+Global Federated Learning epoch = 36
+Global Federated Learning epoch = 37
+Global Federated Learning epoch = 38
+Global Federated Learning epoch = 39
+Global Federated Learning epoch = 40
+Global Federated Learning epoch = 41
+Global Federated Learning epoch = 42
+Global Federated Learning epoch = 43
+Global Federated Learning epoch = 44
+Global Federated Learning epoch = 45
+Global Federated Learning epoch = 46
+Global Federated Learning epoch = 47
+Global Federated Learning epoch = 48
+Global Federated Learning epoch = 49
+Global Federated Learning epoch = 50
+Global Federated Learning epoch = 51
+Global Federated Learning epoch = 52
+Global Federated Learning epoch = 53
+Global Federated Learning epoch = 54
+Global Federated Learning epoch = 55
+Global Federated Learning epoch = 56
+Global Federated Learning epoch = 57
+Global Federated Learning epoch = 58
+Global Federated Learning epoch = 59
+Global Federated Learning epoch = 60
+Global Federated Learning epoch = 61
+Global Federated Learning epoch = 62
+Global Federated Learning epoch = 63
+Global Federated Learning epoch = 64
+Global Federated Learning epoch = 65
+Global Federated Learning epoch = 66
+Global Federated Learning epoch = 67
+Global Federated Learning epoch = 68
+Global Federated Learning epoch = 69
+Global Federated Learning epoch = 70
+Global Federated Learning epoch = 71
+Global Federated Learning epoch = 72
+Global Federated Learning epoch = 73
+Global Federated Learning epoch = 74
+Global Federated Learning epoch = 75
+Global Federated Learning epoch = 76
+Global Federated Learning epoch = 77
+Global Federated Learning epoch = 78
+Global Federated Learning epoch = 79
+Global Federated Learning epoch = 80
+Global Federated Learning epoch = 81
+Global Federated Learning epoch = 82
+Global Federated Learning epoch = 83
+Global Federated Learning epoch = 84
+Global Federated Learning epoch = 85
+Global Federated Learning epoch = 86
+Global Federated Learning epoch = 87
+Global Federated Learning epoch = 88
+Global Federated Learning epoch = 89
+Global Federated Learning epoch = 90
+Global Federated Learning epoch = 91
+Global Federated Learning epoch = 92
+Global Federated Learning epoch = 93
+Global Federated Learning epoch = 94
+Global Federated Learning epoch = 95
+Global Federated Learning epoch = 96
+Global Federated Learning epoch = 97
+Global Federated Learning epoch = 98
+Global Federated Learning epoch = 99
+Global Federated Learning epoch = 100
+Global Federated Learning epoch = 101
+Global Federated Learning epoch = 102
+Global Federated Learning epoch = 103
+Global Federated Learning epoch = 104
+Global Federated Learning epoch = 105
+Global Federated Learning epoch = 106
+Global Federated Learning epoch = 107
+Global Federated Learning epoch = 108
+Global Federated Learning epoch = 109
+Global Federated Learning epoch = 110
+Global Federated Learning epoch = 111
+Global Federated Learning epoch = 112
+Global Federated Learning epoch = 113
+Global Federated Learning epoch = 114
+Global Federated Learning epoch = 115
+Global Federated Learning epoch = 116
+Global Federated Learning epoch = 117
+Global Federated Learning epoch = 118
+Global Federated Learning epoch = 119
+Global Federated Learning epoch = 120
+Global Federated Learning epoch = 121
+Global Federated Learning epoch = 122
+Global Federated Learning epoch = 123
+Global Federated Learning epoch = 124
+Global Federated Learning epoch = 125
+Global Federated Learning epoch = 126
+Global Federated Learning epoch = 127
+Global Federated Learning epoch = 128
+Global Federated Learning epoch = 129
+Global Federated Learning epoch = 130
+Global Federated Learning epoch = 131
+Global Federated Learning epoch = 132
+Global Federated Learning epoch = 133
+Global Federated Learning epoch = 134
+Global Federated Learning epoch = 135
+Global Federated Learning epoch = 136
+Global Federated Learning epoch = 137
+Global Federated Learning epoch = 138
+Global Federated Learning epoch = 139
+Global Federated Learning epoch = 140
+Global Federated Learning epoch = 141
+Global Federated Learning epoch = 142
+Global Federated Learning epoch = 143
+Global Federated Learning epoch = 144
+Global Federated Learning epoch = 145
+Global Federated Learning epoch = 146
+Global Federated Learning epoch = 147
+Global Federated Learning epoch = 148
+Global Federated Learning epoch = 149
+Global Federated Learning epoch = 150
+Global Federated Learning epoch = 151
+Global Federated Learning epoch = 152
+Global Federated Learning epoch = 153
+Global Federated Learning epoch = 154
+Global Federated Learning epoch = 155
+Global Federated Learning epoch = 156
+Global Federated Learning epoch = 157
+Global Federated Learning epoch = 158
+Global Federated Learning epoch = 159
+Global Federated Learning epoch = 160
+Global Federated Learning epoch = 161
+Global Federated Learning epoch = 162
+Global Federated Learning epoch = 163
+Global Federated Learning epoch = 164
+Global Federated Learning epoch = 165
+Global Federated Learning epoch = 166
+Global Federated Learning epoch = 167
+Global Federated Learning epoch = 168
+Global Federated Learning epoch = 169
+Global Federated Learning epoch = 170
+Global Federated Learning epoch = 171
+Global Federated Learning epoch = 172
+Global Federated Learning epoch = 173
+Global Federated Learning epoch = 174
+Global Federated Learning epoch = 175
+Global Federated Learning epoch = 176
+Global Federated Learning epoch = 177
+Global Federated Learning epoch = 178
+Global Federated Learning epoch = 179
+Global Federated Learning epoch = 180
+Global Federated Learning epoch = 181
+Global Federated Learning epoch = 182
+Global Federated Learning epoch = 183
+Global Federated Learning epoch = 184
+Global Federated Learning epoch = 185
+Global Federated Learning epoch = 186
+Global Federated Learning epoch = 187
+Global Federated Learning epoch = 188
+Global Federated Learning epoch = 189
+Global Federated Learning epoch = 190
+Global Federated Learning epoch = 191
+Global Federated Learning epoch = 192
+Global Federated Learning epoch = 193
+Global Federated Learning epoch = 194
+Global Federated Learning epoch = 195
+Global Federated Learning epoch = 196
+Global Federated Learning epoch = 197
+Global Federated Learning epoch = 198
+Global Federated Learning epoch = 199
+#####  Federated Learning End#####
+
+
+#####  Federated Unlearning Start  #####
+#### Sample-level Unlearning ####
+split_clients [array([0, 1]), array([2, 3]), array([4, 5]), array([6, 7]), array([8, 9])]
+Files already downloaded and verified
+Files already downloaded and verified
+batch_idx 0
+Classes indices:  [12  7 11  4 15 14  2  0  3  5]
+tf_idf {'conv1': tensor([0.0468, 0.2196, 0.0631, 0.1385, 0.0660, 0.1395]), 'conv2': tensor([0.0578, 0.0270, 0.0467, 0.0723, 0.0390, 0.1185, 0.0211, 0.0292, 0.0282,
+        0.0204, 0.0136, 0.0352, 0.0284, 0.0160, 0.0415, 0.0409])}
+tf_idf_array.shape:  torch.Size([16])
+threshold 0.016031432896852493
+all_classes ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
+Class to be removed:  ['deer']
+#Remain classes:  9
+Pruned sample index here: 4
+K client_models [Net_cifar10(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+)]
+K client_models [Net_cifar10(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+), Net_cifar10(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+)]
+here
+here
+#####  Federated Unlearning End  #####
+
+
+#####  Federated Unlearning without Calibration Start  #####
+FL_params.forget_client_idx:  4
+Federated Unlearning without Clibration Global Epoch  = 0
+Federated Unlearning without Clibration Global Epoch  = 1
+Federated Unlearning without Clibration Global Epoch  = 2
+Federated Unlearning without Clibration Global Epoch  = 3
+Federated Unlearning without Clibration Global Epoch  = 4
+Federated Unlearning without Clibration Global Epoch  = 5
+Federated Unlearning without Clibration Global Epoch  = 6
+Federated Unlearning without Clibration Global Epoch  = 7
+Federated Unlearning without Clibration Global Epoch  = 8
+Federated Unlearning without Clibration Global Epoch  = 9
+Federated Unlearning without Clibration Global Epoch  = 10
+Federated Unlearning without Clibration Global Epoch  = 11
+Federated Unlearning without Clibration Global Epoch  = 12
+Federated Unlearning without Clibration Global Epoch  = 13
+Federated Unlearning without Clibration Global Epoch  = 14
+Federated Unlearning without Clibration Global Epoch  = 15
+Federated Unlearning without Clibration Global Epoch  = 16
+Federated Unlearning without Clibration Global Epoch  = 17
+Federated Unlearning without Clibration Global Epoch  = 18
+Federated Unlearning without Clibration Global Epoch  = 19
+Federated Unlearning without Clibration Global Epoch  = 20
+Federated Unlearning without Clibration Global Epoch  = 21
+Federated Unlearning without Clibration Global Epoch  = 22
+Federated Unlearning without Clibration Global Epoch  = 23
+Federated Unlearning without Clibration Global Epoch  = 24
+Federated Unlearning without Clibration Global Epoch  = 25
+Federated Unlearning without Clibration Global Epoch  = 26
+Federated Unlearning without Clibration Global Epoch  = 27
+Federated Unlearning without Clibration Global Epoch  = 28
+Federated Unlearning without Clibration Global Epoch  = 29
+Federated Unlearning without Clibration Global Epoch  = 30
+Federated Unlearning without Clibration Global Epoch  = 31
+Federated Unlearning without Clibration Global Epoch  = 32
+Federated Unlearning without Clibration Global Epoch  = 33
+Federated Unlearning without Clibration Global Epoch  = 34
+Federated Unlearning without Clibration Global Epoch  = 35
+Federated Unlearning without Clibration Global Epoch  = 36
+Federated Unlearning without Clibration Global Epoch  = 37
+Federated Unlearning without Clibration Global Epoch  = 38
+Federated Unlearning without Clibration Global Epoch  = 39
+Federated Unlearning without Clibration Global Epoch  = 40
+Federated Unlearning without Clibration Global Epoch  = 41
+Federated Unlearning without Clibration Global Epoch  = 42
+Federated Unlearning without Clibration Global Epoch  = 43
+Federated Unlearning without Clibration Global Epoch  = 44
+Federated Unlearning without Clibration Global Epoch  = 45
+Federated Unlearning without Clibration Global Epoch  = 46
+Federated Unlearning without Clibration Global Epoch  = 47
+Federated Unlearning without Clibration Global Epoch  = 48
+Federated Unlearning without Clibration Global Epoch  = 49
+Federated Unlearning without Clibration Global Epoch  = 50
+Federated Unlearning without Clibration Global Epoch  = 51
+Federated Unlearning without Clibration Global Epoch  = 52
+Federated Unlearning without Clibration Global Epoch  = 53
+Federated Unlearning without Clibration Global Epoch  = 54
+Federated Unlearning without Clibration Global Epoch  = 55
+Federated Unlearning without Clibration Global Epoch  = 56
+Federated Unlearning without Clibration Global Epoch  = 57
+Federated Unlearning without Clibration Global Epoch  = 58
+Federated Unlearning without Clibration Global Epoch  = 59
+Federated Unlearning without Clibration Global Epoch  = 60
+Federated Unlearning without Clibration Global Epoch  = 61
+Federated Unlearning without Clibration Global Epoch  = 62
+Federated Unlearning without Clibration Global Epoch  = 63
+Federated Unlearning without Clibration Global Epoch  = 64
+Federated Unlearning without Clibration Global Epoch  = 65
+Federated Unlearning without Clibration Global Epoch  = 66
+Federated Unlearning without Clibration Global Epoch  = 67
+Federated Unlearning without Clibration Global Epoch  = 68
+Federated Unlearning without Clibration Global Epoch  = 69
+Federated Unlearning without Clibration Global Epoch  = 70
+Federated Unlearning without Clibration Global Epoch  = 71
+Federated Unlearning without Clibration Global Epoch  = 72
+Federated Unlearning without Clibration Global Epoch  = 73
+Federated Unlearning without Clibration Global Epoch  = 74
+Federated Unlearning without Clibration Global Epoch  = 75
+Federated Unlearning without Clibration Global Epoch  = 76
+Federated Unlearning without Clibration Global Epoch  = 77
+Federated Unlearning without Clibration Global Epoch  = 78
+Federated Unlearning without Clibration Global Epoch  = 79
+Federated Unlearning without Clibration Global Epoch  = 80
+Federated Unlearning without Clibration Global Epoch  = 81
+Federated Unlearning without Clibration Global Epoch  = 82
+Federated Unlearning without Clibration Global Epoch  = 83
+Federated Unlearning without Clibration Global Epoch  = 84
+Federated Unlearning without Clibration Global Epoch  = 85
+Federated Unlearning without Clibration Global Epoch  = 86
+Federated Unlearning without Clibration Global Epoch  = 87
+Federated Unlearning without Clibration Global Epoch  = 88
+Federated Unlearning without Clibration Global Epoch  = 89
+Federated Unlearning without Clibration Global Epoch  = 90
+Federated Unlearning without Clibration Global Epoch  = 91
+Federated Unlearning without Clibration Global Epoch  = 92
+Federated Unlearning without Clibration Global Epoch  = 93
+Federated Unlearning without Clibration Global Epoch  = 94
+Federated Unlearning without Clibration Global Epoch  = 95
+Federated Unlearning without Clibration Global Epoch  = 96
+Federated Unlearning without Clibration Global Epoch  = 97
+Federated Unlearning without Clibration Global Epoch  = 98
+Federated Unlearning without Clibration Global Epoch  = 99
+Federated Unlearning without Clibration Global Epoch  = 100
+Federated Unlearning without Clibration Global Epoch  = 101
+Federated Unlearning without Clibration Global Epoch  = 102
+Federated Unlearning without Clibration Global Epoch  = 103
+Federated Unlearning without Clibration Global Epoch  = 104
+Federated Unlearning without Clibration Global Epoch  = 105
+Federated Unlearning without Clibration Global Epoch  = 106
+Federated Unlearning without Clibration Global Epoch  = 107
+Federated Unlearning without Clibration Global Epoch  = 108
+Federated Unlearning without Clibration Global Epoch  = 109
+Federated Unlearning without Clibration Global Epoch  = 110
+Federated Unlearning without Clibration Global Epoch  = 111
+Federated Unlearning without Clibration Global Epoch  = 112
+Federated Unlearning without Clibration Global Epoch  = 113
+Federated Unlearning without Clibration Global Epoch  = 114
+Federated Unlearning without Clibration Global Epoch  = 115
+Federated Unlearning without Clibration Global Epoch  = 116
+Federated Unlearning without Clibration Global Epoch  = 117
+Federated Unlearning without Clibration Global Epoch  = 118
+Federated Unlearning without Clibration Global Epoch  = 119
+Federated Unlearning without Clibration Global Epoch  = 120
+Federated Unlearning without Clibration Global Epoch  = 121
+Federated Unlearning without Clibration Global Epoch  = 122
+Federated Unlearning without Clibration Global Epoch  = 123
+Federated Unlearning without Clibration Global Epoch  = 124
+Federated Unlearning without Clibration Global Epoch  = 125
+Federated Unlearning without Clibration Global Epoch  = 126
+Federated Unlearning without Clibration Global Epoch  = 127
+Federated Unlearning without Clibration Global Epoch  = 128
+Federated Unlearning without Clibration Global Epoch  = 129
+Federated Unlearning without Clibration Global Epoch  = 130
+Federated Unlearning without Clibration Global Epoch  = 131
+Federated Unlearning without Clibration Global Epoch  = 132
+Federated Unlearning without Clibration Global Epoch  = 133
+Federated Unlearning without Clibration Global Epoch  = 134
+Federated Unlearning without Clibration Global Epoch  = 135
+Federated Unlearning without Clibration Global Epoch  = 136
+Federated Unlearning without Clibration Global Epoch  = 137
+Federated Unlearning without Clibration Global Epoch  = 138
+Federated Unlearning without Clibration Global Epoch  = 139
+Federated Unlearning without Clibration Global Epoch  = 140
+Federated Unlearning without Clibration Global Epoch  = 141
+Federated Unlearning without Clibration Global Epoch  = 142
+Federated Unlearning without Clibration Global Epoch  = 143
+Federated Unlearning without Clibration Global Epoch  = 144
+Federated Unlearning without Clibration Global Epoch  = 145
+Federated Unlearning without Clibration Global Epoch  = 146
+Federated Unlearning without Clibration Global Epoch  = 147
+Federated Unlearning without Clibration Global Epoch  = 148
+Federated Unlearning without Clibration Global Epoch  = 149
+Federated Unlearning without Clibration Global Epoch  = 150
+Federated Unlearning without Clibration Global Epoch  = 151
+Federated Unlearning without Clibration Global Epoch  = 152
+Federated Unlearning without Clibration Global Epoch  = 153
+Federated Unlearning without Clibration Global Epoch  = 154
+Federated Unlearning without Clibration Global Epoch  = 155
+Federated Unlearning without Clibration Global Epoch  = 156
+Federated Unlearning without Clibration Global Epoch  = 157
+Federated Unlearning without Clibration Global Epoch  = 158
+Federated Unlearning without Clibration Global Epoch  = 159
+Federated Unlearning without Clibration Global Epoch  = 160
+Federated Unlearning without Clibration Global Epoch  = 161
+Federated Unlearning without Clibration Global Epoch  = 162
+Federated Unlearning without Clibration Global Epoch  = 163
+Federated Unlearning without Clibration Global Epoch  = 164
+Federated Unlearning without Clibration Global Epoch  = 165
+Federated Unlearning without Clibration Global Epoch  = 166
+Federated Unlearning without Clibration Global Epoch  = 167
+Federated Unlearning without Clibration Global Epoch  = 168
+Federated Unlearning without Clibration Global Epoch  = 169
+Federated Unlearning without Clibration Global Epoch  = 170
+Federated Unlearning without Clibration Global Epoch  = 171
+Federated Unlearning without Clibration Global Epoch  = 172
+Federated Unlearning without Clibration Global Epoch  = 173
+Federated Unlearning without Clibration Global Epoch  = 174
+Federated Unlearning without Clibration Global Epoch  = 175
+Federated Unlearning without Clibration Global Epoch  = 176
+Federated Unlearning without Clibration Global Epoch  = 177
+Federated Unlearning without Clibration Global Epoch  = 178
+Federated Unlearning without Clibration Global Epoch  = 179
+Federated Unlearning without Clibration Global Epoch  = 180
+Federated Unlearning without Clibration Global Epoch  = 181
+Federated Unlearning without Clibration Global Epoch  = 182
+Federated Unlearning without Clibration Global Epoch  = 183
+Federated Unlearning without Clibration Global Epoch  = 184
+Federated Unlearning without Clibration Global Epoch  = 185
+Federated Unlearning without Clibration Global Epoch  = 186
+Federated Unlearning without Clibration Global Epoch  = 187
+Federated Unlearning without Clibration Global Epoch  = 188
+Federated Unlearning without Clibration Global Epoch  = 189
+Federated Unlearning without Clibration Global Epoch  = 190
+Federated Unlearning without Clibration Global Epoch  = 191
+Federated Unlearning without Clibration Global Epoch  = 192
+Federated Unlearning without Clibration Global Epoch  = 193
+Federated Unlearning without Clibration Global Epoch  = 194
+Federated Unlearning without Clibration Global Epoch  = 195
+Federated Unlearning without Clibration Global Epoch  = 196
+Federated Unlearning without Clibration Global Epoch  = 197
+Federated Unlearning without Clibration Global Epoch  = 198
+Federated Unlearning without Clibration Global Epoch  = 199
+Federated Unlearning Global Epoch  = 1
+Federated Unlearning Global Epoch  = 2
+Federated Unlearning Global Epoch  = 3
+Federated Unlearning Global Epoch  = 4
+Federated Unlearning Global Epoch  = 5
+Federated Unlearning Global Epoch  = 6
+Federated Unlearning Global Epoch  = 7
+Federated Unlearning Global Epoch  = 8
+Federated Unlearning Global Epoch  = 9
+Federated Unlearning Global Epoch  = 10
+Federated Unlearning Global Epoch  = 11
+Federated Unlearning Global Epoch  = 12
+Federated Unlearning Global Epoch  = 13
+Federated Unlearning Global Epoch  = 14
+Federated Unlearning Global Epoch  = 15
+Federated Unlearning Global Epoch  = 16
+Federated Unlearning Global Epoch  = 17
+Federated Unlearning Global Epoch  = 18
+Federated Unlearning Global Epoch  = 19
+Federated Unlearning Global Epoch  = 20
+Federated Unlearning Global Epoch  = 21
+Federated Unlearning Global Epoch  = 22
+Federated Unlearning Global Epoch  = 23
+Federated Unlearning Global Epoch  = 24
+Federated Unlearning Global Epoch  = 25
+Federated Unlearning Global Epoch  = 26
+Federated Unlearning Global Epoch  = 27
+Federated Unlearning Global Epoch  = 28
+Federated Unlearning Global Epoch  = 29
+Federated Unlearning Global Epoch  = 30
+Federated Unlearning Global Epoch  = 31
+Federated Unlearning Global Epoch  = 32
+Federated Unlearning Global Epoch  = 33
+Federated Unlearning Global Epoch  = 34
+Federated Unlearning Global Epoch  = 35
+Federated Unlearning Global Epoch  = 36
+Federated Unlearning Global Epoch  = 37
+Federated Unlearning Global Epoch  = 38
+Federated Unlearning Global Epoch  = 39
+Federated Unlearning Global Epoch  = 40
+Federated Unlearning Global Epoch  = 41
+Federated Unlearning Global Epoch  = 42
+Federated Unlearning Global Epoch  = 43
+Federated Unlearning Global Epoch  = 44
+Federated Unlearning Global Epoch  = 45
+Federated Unlearning Global Epoch  = 46
+Federated Unlearning Global Epoch  = 47
+Federated Unlearning Global Epoch  = 48
+Federated Unlearning Global Epoch  = 49
+Federated Unlearning Global Epoch  = 50
+Federated Unlearning Global Epoch  = 51
+Federated Unlearning Global Epoch  = 52
+Federated Unlearning Global Epoch  = 53
+Federated Unlearning Global Epoch  = 54
+Federated Unlearning Global Epoch  = 55
+Federated Unlearning Global Epoch  = 56
+Federated Unlearning Global Epoch  = 57
+Federated Unlearning Global Epoch  = 58
+Federated Unlearning Global Epoch  = 59
+Federated Unlearning Global Epoch  = 60
+Federated Unlearning Global Epoch  = 61
+Federated Unlearning Global Epoch  = 62
+Federated Unlearning Global Epoch  = 63
+Federated Unlearning Global Epoch  = 64
+Federated Unlearning Global Epoch  = 65
+Federated Unlearning Global Epoch  = 66
+Federated Unlearning Global Epoch  = 67
+Federated Unlearning Global Epoch  = 68
+Federated Unlearning Global Epoch  = 69
+Federated Unlearning Global Epoch  = 70
+Federated Unlearning Global Epoch  = 71
+Federated Unlearning Global Epoch  = 72
+Federated Unlearning Global Epoch  = 73
+Federated Unlearning Global Epoch  = 74
+Federated Unlearning Global Epoch  = 75
+Federated Unlearning Global Epoch  = 76
+Federated Unlearning Global Epoch  = 77
+Federated Unlearning Global Epoch  = 78
+Federated Unlearning Global Epoch  = 79
+Federated Unlearning Global Epoch  = 80
+Federated Unlearning Global Epoch  = 81
+Federated Unlearning Global Epoch  = 82
+Federated Unlearning Global Epoch  = 83
+Federated Unlearning Global Epoch  = 84
+Federated Unlearning Global Epoch  = 85
+Federated Unlearning Global Epoch  = 86
+Federated Unlearning Global Epoch  = 87
+Federated Unlearning Global Epoch  = 88
+Federated Unlearning Global Epoch  = 89
+Federated Unlearning Global Epoch  = 90
+Federated Unlearning Global Epoch  = 91
+Federated Unlearning Global Epoch  = 92
+Federated Unlearning Global Epoch  = 93
+Federated Unlearning Global Epoch  = 94
+Federated Unlearning Global Epoch  = 95
+Federated Unlearning Global Epoch  = 96
+Federated Unlearning Global Epoch  = 97
+Federated Unlearning Global Epoch  = 98
+Federated Unlearning Global Epoch  = 99
+Federated Unlearning Global Epoch  = 100
+Federated Unlearning Global Epoch  = 101
+Federated Unlearning Global Epoch  = 102
+Federated Unlearning Global Epoch  = 103
+Federated Unlearning Global Epoch  = 104
+Federated Unlearning Global Epoch  = 105
+Federated Unlearning Global Epoch  = 106
+Federated Unlearning Global Epoch  = 107
+Federated Unlearning Global Epoch  = 108
+Federated Unlearning Global Epoch  = 109
+Federated Unlearning Global Epoch  = 110
+Federated Unlearning Global Epoch  = 111
+Federated Unlearning Global Epoch  = 112
+Federated Unlearning Global Epoch  = 113
+Federated Unlearning Global Epoch  = 114
+Federated Unlearning Global Epoch  = 115
+Federated Unlearning Global Epoch  = 116
+Federated Unlearning Global Epoch  = 117
+Federated Unlearning Global Epoch  = 118
+Federated Unlearning Global Epoch  = 119
+Federated Unlearning Global Epoch  = 120
+Federated Unlearning Global Epoch  = 121
+Federated Unlearning Global Epoch  = 122
+Federated Unlearning Global Epoch  = 123
+Federated Unlearning Global Epoch  = 124
+Federated Unlearning Global Epoch  = 125
+Federated Unlearning Global Epoch  = 126
+Federated Unlearning Global Epoch  = 127
+Federated Unlearning Global Epoch  = 128
+Federated Unlearning Global Epoch  = 129
+Federated Unlearning Global Epoch  = 130
+Federated Unlearning Global Epoch  = 131
+Federated Unlearning Global Epoch  = 132
+Federated Unlearning Global Epoch  = 133
+Federated Unlearning Global Epoch  = 134
+Federated Unlearning Global Epoch  = 135
+Federated Unlearning Global Epoch  = 136
+Federated Unlearning Global Epoch  = 137
+Federated Unlearning Global Epoch  = 138
+Federated Unlearning Global Epoch  = 139
+Federated Unlearning Global Epoch  = 140
+Federated Unlearning Global Epoch  = 141
+Federated Unlearning Global Epoch  = 142
+Federated Unlearning Global Epoch  = 143
+Federated Unlearning Global Epoch  = 144
+Federated Unlearning Global Epoch  = 145
+Federated Unlearning Global Epoch  = 146
+Federated Unlearning Global Epoch  = 147
+Federated Unlearning Global Epoch  = 148
+Federated Unlearning Global Epoch  = 149
+Federated Unlearning Global Epoch  = 150
+Federated Unlearning Global Epoch  = 151
+Federated Unlearning Global Epoch  = 152
+Federated Unlearning Global Epoch  = 153
+Federated Unlearning Global Epoch  = 154
+Federated Unlearning Global Epoch  = 155
+Federated Unlearning Global Epoch  = 156
+Federated Unlearning Global Epoch  = 157
+Federated Unlearning Global Epoch  = 158
+Federated Unlearning Global Epoch  = 159
+Federated Unlearning Global Epoch  = 160
+Federated Unlearning Global Epoch  = 161
+Federated Unlearning Global Epoch  = 162
+Federated Unlearning Global Epoch  = 163
+Federated Unlearning Global Epoch  = 164
+Federated Unlearning Global Epoch  = 165
+Federated Unlearning Global Epoch  = 166
+Federated Unlearning Global Epoch  = 167
+Federated Unlearning Global Epoch  = 168
+Federated Unlearning Global Epoch  = 169
+Federated Unlearning Global Epoch  = 170
+Federated Unlearning Global Epoch  = 171
+Federated Unlearning Global Epoch  = 172
+Federated Unlearning Global Epoch  = 173
+Federated Unlearning Global Epoch  = 174
+Federated Unlearning Global Epoch  = 175
+Federated Unlearning Global Epoch  = 176
+Federated Unlearning Global Epoch  = 177
+Federated Unlearning Global Epoch  = 178
+Federated Unlearning Global Epoch  = 179
+Federated Unlearning Global Epoch  = 180
+Federated Unlearning Global Epoch  = 181
+Federated Unlearning Global Epoch  = 182
+Federated Unlearning Global Epoch  = 183
+Federated Unlearning Global Epoch  = 184
+Federated Unlearning Global Epoch  = 185
+Federated Unlearning Global Epoch  = 186
+Federated Unlearning Global Epoch  = 187
+Federated Unlearning Global Epoch  = 188
+Federated Unlearning Global Epoch  = 189
+Federated Unlearning Global Epoch  = 190
+Federated Unlearning Global Epoch  = 191
+Federated Unlearning Global Epoch  = 192
+Federated Unlearning Global Epoch  = 193
+Federated Unlearning Global Epoch  = 194
+Federated Unlearning Global Epoch  = 195
+Federated Unlearning Global Epoch  = 196
+Federated Unlearning Global Epoch  = 197
+Federated Unlearning Global Epoch  = 198
+Federated Unlearning Global Epoch  = 199
+#####  Federated Unlearning without Calibration End  #####
+ Learning time consuming = 6257.451476812363 secods
+ Unlearning time consuming = 1.941892147064209 secods
+ Unlearning no Cali time consuming = 1.0154776573181152 secods
+
+
+#####  【Federated Retraining Start】  #####
+Global Federated Learning epoch = 0
+Test Loss=0.0147, Test accuracy=0.0880
+Global Federated Learning epoch = 1
+Test Loss=0.0146, Test accuracy=0.1527
+Global Federated Learning epoch = 2
+Test Loss=0.0146, Test accuracy=0.1247
+Global Federated Learning epoch = 3
+Test Loss=0.0145, Test accuracy=0.1152
+Global Federated Learning epoch = 4
+Test Loss=0.0144, Test accuracy=0.1321
+Global Federated Learning epoch = 5
+Test Loss=0.0142, Test accuracy=0.1679
+Global Federated Learning epoch = 6
+Test Loss=0.0139, Test accuracy=0.1959
+Global Federated Learning epoch = 7
+Test Loss=0.0137, Test accuracy=0.2166
+Global Federated Learning epoch = 8
+Test Loss=0.0134, Test accuracy=0.2278
+Global Federated Learning epoch = 9
+Test Loss=0.0132, Test accuracy=0.2367
+Global Federated Learning epoch = 10
+Test Loss=0.0130, Test accuracy=0.2414
+Global Federated Learning epoch = 11
+Test Loss=0.0128, Test accuracy=0.2546
+Global Federated Learning epoch = 12
+Test Loss=0.0127, Test accuracy=0.2676
+Global Federated Learning epoch = 13
+Test Loss=0.0125, Test accuracy=0.2762
+Global Federated Learning epoch = 14
+Test Loss=0.0124, Test accuracy=0.2855
+Global Federated Learning epoch = 15
+Test Loss=0.0123, Test accuracy=0.2951
+Global Federated Learning epoch = 16
+Test Loss=0.0121, Test accuracy=0.3053
+Global Federated Learning epoch = 17
+Test Loss=0.0120, Test accuracy=0.3118
+Global Federated Learning epoch = 18
+Test Loss=0.0119, Test accuracy=0.3194
+Global Federated Learning epoch = 19
+Test Loss=0.0117, Test accuracy=0.3224
+Global Federated Learning epoch = 20
+Test Loss=0.0116, Test accuracy=0.3285
+Global Federated Learning epoch = 21
+Test Loss=0.0115, Test accuracy=0.3297
+Global Federated Learning epoch = 22
+Test Loss=0.0114, Test accuracy=0.3368
+Global Federated Learning epoch = 23
+Test Loss=0.0114, Test accuracy=0.3358
+Global Federated Learning epoch = 24
+Test Loss=0.0114, Test accuracy=0.3379
+Global Federated Learning epoch = 25
+Test Loss=0.0113, Test accuracy=0.3418
+Global Federated Learning epoch = 26
+Test Loss=0.0113, Test accuracy=0.3516
+Global Federated Learning epoch = 27
+Test Loss=0.0114, Test accuracy=0.3552
+Global Federated Learning epoch = 28
+Test Loss=0.0114, Test accuracy=0.3572
+Global Federated Learning epoch = 29
+Test Loss=0.0114, Test accuracy=0.3618
+Global Federated Learning epoch = 30
+Test Loss=0.0114, Test accuracy=0.3619
+Global Federated Learning epoch = 31
+Test Loss=0.0114, Test accuracy=0.3730
+Global Federated Learning epoch = 32
+Test Loss=0.0115, Test accuracy=0.3682
+Global Federated Learning epoch = 33
+Test Loss=0.0116, Test accuracy=0.3709
+Global Federated Learning epoch = 34
+Test Loss=0.0115, Test accuracy=0.3744
+Global Federated Learning epoch = 35
+Test Loss=0.0116, Test accuracy=0.3742
+Global Federated Learning epoch = 36
+Test Loss=0.0118, Test accuracy=0.3749
+Global Federated Learning epoch = 37
+Test Loss=0.0119, Test accuracy=0.3694
+Global Federated Learning epoch = 38
+Test Loss=0.0120, Test accuracy=0.3710
+Global Federated Learning epoch = 39
+Test Loss=0.0121, Test accuracy=0.3764
+Global Federated Learning epoch = 40
+Test Loss=0.0122, Test accuracy=0.3780
+Global Federated Learning epoch = 41
+Test Loss=0.0124, Test accuracy=0.3696
+Global Federated Learning epoch = 42
+Test Loss=0.0126, Test accuracy=0.3731
+Global Federated Learning epoch = 43
+Test Loss=0.0127, Test accuracy=0.3700
+Global Federated Learning epoch = 44
+Test Loss=0.0129, Test accuracy=0.3735
+Global Federated Learning epoch = 45
+Test Loss=0.0131, Test accuracy=0.3725
+Global Federated Learning epoch = 46
+Test Loss=0.0131, Test accuracy=0.3724
+Global Federated Learning epoch = 47
+Test Loss=0.0134, Test accuracy=0.3703
+Global Federated Learning epoch = 48
+Test Loss=0.0135, Test accuracy=0.3706
+Global Federated Learning epoch = 49
+Test Loss=0.0137, Test accuracy=0.3743
+Global Federated Learning epoch = 50
+Test Loss=0.0140, Test accuracy=0.3683
+Global Federated Learning epoch = 51
+Test Loss=0.0141, Test accuracy=0.3733
+Global Federated Learning epoch = 52
+Test Loss=0.0145, Test accuracy=0.3676
+Global Federated Learning epoch = 53
+Test Loss=0.0147, Test accuracy=0.3727
+Global Federated Learning epoch = 54
+Test Loss=0.0149, Test accuracy=0.3677
+Global Federated Learning epoch = 55
+Test Loss=0.0153, Test accuracy=0.3672
+Global Federated Learning epoch = 56
+Test Loss=0.0157, Test accuracy=0.3742
+Global Federated Learning epoch = 57
+Test Loss=0.0158, Test accuracy=0.3725
+Global Federated Learning epoch = 58
+Test Loss=0.0161, Test accuracy=0.3691
+Global Federated Learning epoch = 59
+Test Loss=0.0165, Test accuracy=0.3622
+Global Federated Learning epoch = 60
+Test Loss=0.0167, Test accuracy=0.3664
+Global Federated Learning epoch = 61
+Test Loss=0.0170, Test accuracy=0.3650
+Global Federated Learning epoch = 62
+Test Loss=0.0175, Test accuracy=0.3641
+Global Federated Learning epoch = 63
+Test Loss=0.0176, Test accuracy=0.3745
+Global Federated Learning epoch = 64
+Test Loss=0.0180, Test accuracy=0.3693
+Global Federated Learning epoch = 65
+Test Loss=0.0185, Test accuracy=0.3614
+Global Federated Learning epoch = 66
+Test Loss=0.0186, Test accuracy=0.3649
+Global Federated Learning epoch = 67
+Test Loss=0.0191, Test accuracy=0.3637
+Global Federated Learning epoch = 68
+Test Loss=0.0192, Test accuracy=0.3625
+Global Federated Learning epoch = 69
+Test Loss=0.0196, Test accuracy=0.3706
+Global Federated Learning epoch = 70
+Test Loss=0.0200, Test accuracy=0.3673
+Global Federated Learning epoch = 71
+Test Loss=0.0201, Test accuracy=0.3667
+Global Federated Learning epoch = 72
+Test Loss=0.0206, Test accuracy=0.3710
+Global Federated Learning epoch = 73
+Test Loss=0.0211, Test accuracy=0.3696
+Global Federated Learning epoch = 74
+Test Loss=0.0215, Test accuracy=0.3716
+Global Federated Learning epoch = 75
+Test Loss=0.0219, Test accuracy=0.3664
+Global Federated Learning epoch = 76
+Test Loss=0.0224, Test accuracy=0.3655
+Global Federated Learning epoch = 77
+Test Loss=0.0225, Test accuracy=0.3708
+Global Federated Learning epoch = 78
+Test Loss=0.0227, Test accuracy=0.3686
+Global Federated Learning epoch = 79
+Test Loss=0.0232, Test accuracy=0.3666
+Global Federated Learning epoch = 80
+Test Loss=0.0237, Test accuracy=0.3712
+Global Federated Learning epoch = 81
+Test Loss=0.0237, Test accuracy=0.3726
+Global Federated Learning epoch = 82
+Test Loss=0.0242, Test accuracy=0.3694
+Global Federated Learning epoch = 83
+Test Loss=0.0246, Test accuracy=0.3695
+Global Federated Learning epoch = 84
+Test Loss=0.0247, Test accuracy=0.3686
+Global Federated Learning epoch = 85
+Test Loss=0.0253, Test accuracy=0.3697
+Global Federated Learning epoch = 86
+Test Loss=0.0252, Test accuracy=0.3732
+Global Federated Learning epoch = 87
+Test Loss=0.0257, Test accuracy=0.3712
+Global Federated Learning epoch = 88
+Test Loss=0.0258, Test accuracy=0.3720
+Global Federated Learning epoch = 89
+Test Loss=0.0267, Test accuracy=0.3689
+Global Federated Learning epoch = 90
+Test Loss=0.0266, Test accuracy=0.3729
+Global Federated Learning epoch = 91
+Test Loss=0.0272, Test accuracy=0.3708
+Global Federated Learning epoch = 92
+Test Loss=0.0272, Test accuracy=0.3735
+Global Federated Learning epoch = 93
+Test Loss=0.0282, Test accuracy=0.3673
+Global Federated Learning epoch = 94
+Test Loss=0.0280, Test accuracy=0.3696
+Global Federated Learning epoch = 95
+Test Loss=0.0285, Test accuracy=0.3678
+Global Federated Learning epoch = 96
+Test Loss=0.0287, Test accuracy=0.3721
+Global Federated Learning epoch = 97
+Test Loss=0.0289, Test accuracy=0.3712
+Global Federated Learning epoch = 98
+Test Loss=0.0297, Test accuracy=0.3685
+Global Federated Learning epoch = 99
+Test Loss=0.0297, Test accuracy=0.3692
+Global Federated Learning epoch = 100
+Test Loss=0.0298, Test accuracy=0.3697
+Global Federated Learning epoch = 101
+Test Loss=0.0302, Test accuracy=0.3700
+Global Federated Learning epoch = 102
+Test Loss=0.0306, Test accuracy=0.3686
+Global Federated Learning epoch = 103
+Test Loss=0.0306, Test accuracy=0.3678
+Global Federated Learning epoch = 104
+Test Loss=0.0311, Test accuracy=0.3647
+Global Federated Learning epoch = 105
+Test Loss=0.0313, Test accuracy=0.3684
+Global Federated Learning epoch = 106
+Test Loss=0.0318, Test accuracy=0.3663
+Global Federated Learning epoch = 107
+Test Loss=0.0317, Test accuracy=0.3693
+Global Federated Learning epoch = 108
+Test Loss=0.0325, Test accuracy=0.3646
+Global Federated Learning epoch = 109
+Test Loss=0.0322, Test accuracy=0.3663
+Global Federated Learning epoch = 110
+Test Loss=0.0325, Test accuracy=0.3654
+Global Federated Learning epoch = 111
+Test Loss=0.0329, Test accuracy=0.3647
+Global Federated Learning epoch = 112
+Test Loss=0.0334, Test accuracy=0.3654
+Global Federated Learning epoch = 113
+Test Loss=0.0335, Test accuracy=0.3675
+Global Federated Learning epoch = 114
+Test Loss=0.0336, Test accuracy=0.3693
+Global Federated Learning epoch = 115
+Test Loss=0.0340, Test accuracy=0.3667
+Global Federated Learning epoch = 116
+Test Loss=0.0341, Test accuracy=0.3671
+Global Federated Learning epoch = 117
+Test Loss=0.0347, Test accuracy=0.3681
+Global Federated Learning epoch = 118
+Test Loss=0.0351, Test accuracy=0.3660
+Global Federated Learning epoch = 119
+Test Loss=0.0350, Test accuracy=0.3689
+Global Federated Learning epoch = 120
+Test Loss=0.0354, Test accuracy=0.3653
+Global Federated Learning epoch = 121
+Test Loss=0.0356, Test accuracy=0.3646
+Global Federated Learning epoch = 122
+Test Loss=0.0360, Test accuracy=0.3662
+Global Federated Learning epoch = 123
+Test Loss=0.0358, Test accuracy=0.3633
+Global Federated Learning epoch = 124
+Test Loss=0.0357, Test accuracy=0.3651
+Global Federated Learning epoch = 125
+Test Loss=0.0362, Test accuracy=0.3646
+Global Federated Learning epoch = 126
+Test Loss=0.0366, Test accuracy=0.3633
+Global Federated Learning epoch = 127
+Test Loss=0.0368, Test accuracy=0.3646
+Global Federated Learning epoch = 128
+Test Loss=0.0370, Test accuracy=0.3608
+Global Federated Learning epoch = 129
+Test Loss=0.0373, Test accuracy=0.3683
+Global Federated Learning epoch = 130
+Test Loss=0.0362, Test accuracy=0.3699
+Global Federated Learning epoch = 131
+Test Loss=0.0370, Test accuracy=0.3674
+Global Federated Learning epoch = 132
+Test Loss=0.0374, Test accuracy=0.3669
+Global Federated Learning epoch = 133
+Test Loss=0.0377, Test accuracy=0.3658
+Global Federated Learning epoch = 134
+Test Loss=0.0379, Test accuracy=0.3664
+Global Federated Learning epoch = 135
+Test Loss=0.0381, Test accuracy=0.3653
+Global Federated Learning epoch = 136
+Test Loss=0.0381, Test accuracy=0.3668
+Global Federated Learning epoch = 137
+Test Loss=0.0387, Test accuracy=0.3651
+Global Federated Learning epoch = 138
+Test Loss=0.0389, Test accuracy=0.3663
+Global Federated Learning epoch = 139
+Test Loss=0.0393, Test accuracy=0.3612
+Global Federated Learning epoch = 140
+Test Loss=0.0394, Test accuracy=0.3661
+Global Federated Learning epoch = 141
+Test Loss=0.0393, Test accuracy=0.3646
+Global Federated Learning epoch = 142
+Test Loss=0.0399, Test accuracy=0.3649
+Global Federated Learning epoch = 143
+Test Loss=0.0400, Test accuracy=0.3680
+Global Federated Learning epoch = 144
+Test Loss=0.0403, Test accuracy=0.3664
+Global Federated Learning epoch = 145
+Test Loss=0.0403, Test accuracy=0.3623
+Global Federated Learning epoch = 146
+Test Loss=0.0397, Test accuracy=0.3662
+Global Federated Learning epoch = 147
+Test Loss=0.0401, Test accuracy=0.3630
+Global Federated Learning epoch = 148
+Test Loss=0.0404, Test accuracy=0.3645
+Global Federated Learning epoch = 149
+Test Loss=0.0408, Test accuracy=0.3638
+Global Federated Learning epoch = 150
+Test Loss=0.0408, Test accuracy=0.3628
+Global Federated Learning epoch = 151
+Test Loss=0.0397, Test accuracy=0.3619
+Global Federated Learning epoch = 152
+Test Loss=0.0403, Test accuracy=0.3649
+Global Federated Learning epoch = 153
+Test Loss=0.0409, Test accuracy=0.3649
+Global Federated Learning epoch = 154
+Test Loss=0.0411, Test accuracy=0.3650
+Global Federated Learning epoch = 155
+Test Loss=0.0412, Test accuracy=0.3619
+Global Federated Learning epoch = 156
+Test Loss=0.0414, Test accuracy=0.3659
+Global Federated Learning epoch = 157
+Test Loss=0.0416, Test accuracy=0.3644
+Global Federated Learning epoch = 158
+Test Loss=0.0419, Test accuracy=0.3634
+Global Federated Learning epoch = 159
+Test Loss=0.0421, Test accuracy=0.3669
+Global Federated Learning epoch = 160
+Test Loss=0.0423, Test accuracy=0.3646
+Global Federated Learning epoch = 161
+Test Loss=0.0426, Test accuracy=0.3617
+Global Federated Learning epoch = 162
+Test Loss=0.0424, Test accuracy=0.3640
+Global Federated Learning epoch = 163
+Test Loss=0.0424, Test accuracy=0.3634
+Global Federated Learning epoch = 164
+Test Loss=0.0426, Test accuracy=0.3649
+Global Federated Learning epoch = 165
+Test Loss=0.0429, Test accuracy=0.3651
+Global Federated Learning epoch = 166
+Test Loss=0.0430, Test accuracy=0.3661
+Global Federated Learning epoch = 167
+Test Loss=0.0432, Test accuracy=0.3643
+Global Federated Learning epoch = 168
+Test Loss=0.0434, Test accuracy=0.3646
+Global Federated Learning epoch = 169
+Test Loss=0.0434, Test accuracy=0.3664
+Global Federated Learning epoch = 170
+Test Loss=0.0438, Test accuracy=0.3638
+Global Federated Learning epoch = 171
+Test Loss=0.0440, Test accuracy=0.3642
+Global Federated Learning epoch = 172
+Test Loss=0.0443, Test accuracy=0.3643
+Global Federated Learning epoch = 173
+Test Loss=0.0446, Test accuracy=0.3651
+Global Federated Learning epoch = 174
+Test Loss=0.0446, Test accuracy=0.3649
+Global Federated Learning epoch = 175
+Test Loss=0.0443, Test accuracy=0.3633
+Global Federated Learning epoch = 176
+Test Loss=0.0446, Test accuracy=0.3635
+Global Federated Learning epoch = 177
+Test Loss=0.0447, Test accuracy=0.3647
+Global Federated Learning epoch = 178
+Test Loss=0.0451, Test accuracy=0.3630
+Global Federated Learning epoch = 179
+Test Loss=0.0449, Test accuracy=0.3652
+Global Federated Learning epoch = 180
+Test Loss=0.0451, Test accuracy=0.3633
+Global Federated Learning epoch = 181
+Test Loss=0.0452, Test accuracy=0.3653
+Global Federated Learning epoch = 182
+Test Loss=0.0455, Test accuracy=0.3622
+Global Federated Learning epoch = 183
+Test Loss=0.0458, Test accuracy=0.3634
+Global Federated Learning epoch = 184
+Test Loss=0.0457, Test accuracy=0.3643
+Global Federated Learning epoch = 185
+Test Loss=0.0462, Test accuracy=0.3633
+Global Federated Learning epoch = 186
+Test Loss=0.0461, Test accuracy=0.3652
+Global Federated Learning epoch = 187
+Test Loss=0.0460, Test accuracy=0.3655
+Global Federated Learning epoch = 188
+Test Loss=0.0462, Test accuracy=0.3643
+Global Federated Learning epoch = 189
+Test Loss=0.0464, Test accuracy=0.3648
+Global Federated Learning epoch = 190
+Test Loss=0.0460, Test accuracy=0.3672
+Global Federated Learning epoch = 191
+Test Loss=0.0466, Test accuracy=0.3618
+Global Federated Learning epoch = 192
+Test Loss=0.0467, Test accuracy=0.3633
+Global Federated Learning epoch = 193
+Test Loss=0.0467, Test accuracy=0.3639
+Global Federated Learning epoch = 194
+Test Loss=0.0469, Test accuracy=0.3645
+Global Federated Learning epoch = 195
+Test Loss=0.0471, Test accuracy=0.3645
+Global Federated Learning epoch = 196
+Test Loss=0.0474, Test accuracy=0.3646
+Global Federated Learning epoch = 197
+Test Loss=0.0469, Test accuracy=0.3629
+Global Federated Learning epoch = 198
+Test Loss=0.0471, Test accuracy=0.3625
+Global Federated Learning epoch = 199
+Test Loss=0.0472, Test accuracy=0.3658
+#####  Federated Retraining End  #####
+Retrain Time using = 6748.694594621658 seconds 3
+Test Loss=0.0196, Test accuracy=0.5132
+Test Loss=11.6418, Test accuracy=0.0986
+Test Loss=0.0473, Test accuracy=0.3649
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/FedEraser-Code/Fed_Unlearn_main.py", line 224, in <module>
+    Federated_Unlearning()
+  File "/Users/wangjiayi/Desktop/FedEraser-Code/Fed_Unlearn_main.py", line 157, in Federated_Unlearning
+    federaser_test_acc, federaser_test_loss = test(unlearn_GMs[-1], test_loader)
+IndexError: list index out of range

@@ -1,0 +1,110 @@
+Files already downloaded and verified
+============================================================
+Step1. Federated Learning Settings 
+ We use dataset: cifar10 for our Federated Unlearning experiment.
+
+============================================================
+Step2. Client data loaded, testing data loaded!!!
+       Initial Model loaded!!!
+Files already downloaded and verified
+Files already downloaded and verified
+============================================================
+Step3. Fedearated Learning and Unlearning Training...
+#####  Federated Learning Start#####
+Global Federated Learning epoch = 0
+Global Federated Learning epoch = 1
+Global Federated Learning epoch = 2
+Global Federated Learning epoch = 3
+Global Federated Learning epoch = 4
+Global Federated Learning epoch = 5
+Global Federated Learning epoch = 6
+Global Federated Learning epoch = 7
+Global Federated Learning epoch = 8
+Global Federated Learning epoch = 9
+Global Federated Learning epoch = 10
+Global Federated Learning epoch = 11
+Global Federated Learning epoch = 12
+Global Federated Learning epoch = 13
+Global Federated Learning epoch = 14
+Global Federated Learning epoch = 15
+Global Federated Learning epoch = 16
+Global Federated Learning epoch = 17
+Global Federated Learning epoch = 18
+Global Federated Learning epoch = 19
+#####  Federated Learning End#####
+
+
+#####  Federated Unlearning Start  #####
+#### Sample-level Unlearning ####
+selected_clients2 [1, 0, 0, 7]
+P:  [1, 0, 0, 7]
+selected_clients2 [0, 9, 8, 2]
+P:  [0, 9, 8, 2]
+selected_clients2 [5, 6, 0, 2]
+P:  [5, 6, 0, 2]
+selected_clients2 [9, 0, 8, 8]
+P:  [9, 0, 8, 8]
+selected_clients2 [4, 9, 0, 6]
+P:  [4, 9, 0, 6]
+#####  Federated Unlearning End  #####
+
+
+#####  Federated Unlearning without Calibration Start  #####
+Federated Unlearning without Clibration Global Epoch  = 0
+Federated Unlearning Global Epoch  = 1
+Federated Unlearning Global Epoch  = 2
+Federated Unlearning Global Epoch  = 3
+Federated Unlearning Global Epoch  = 4
+Federated Unlearning Global Epoch  = 5
+Federated Unlearning Global Epoch  = 6
+Federated Unlearning Global Epoch  = 7
+Federated Unlearning Global Epoch  = 8
+Federated Unlearning Global Epoch  = 9
+Federated Unlearning Global Epoch  = 10
+Federated Unlearning Global Epoch  = 11
+Federated Unlearning Global Epoch  = 12
+Federated Unlearning Global Epoch  = 13
+Federated Unlearning Global Epoch  = 14
+Federated Unlearning Global Epoch  = 15
+Federated Unlearning Global Epoch  = 16
+Federated Unlearning Global Epoch  = 17
+Federated Unlearning Global Epoch  = 18
+Federated Unlearning Global Epoch  = 19
+#####  Federated Unlearning without Calibration End  #####
+ Learning time consuming = 342.6497700214386 secods
+ Unlearning time consuming = 0.0016219615936279297 secods
+ Unlearning no Cali time consuming = 0.07624101638793945 secods
+
+
+#####  Federated Retraining Start  #####
+Federated Retrain with Forget Client NO.2
+Global Retraining epoch = 0
+Global Retraining epoch = 1
+Global Retraining epoch = 2
+Global Retraining epoch = 3
+Global Retraining epoch = 4
+Global Retraining epoch = 5
+Global Retraining epoch = 6
+Global Retraining epoch = 7
+Global Retraining epoch = 8
+Global Retraining epoch = 9
+Global Retraining epoch = 10
+Global Retraining epoch = 11
+Global Retraining epoch = 12
+Global Retraining epoch = 13
+Global Retraining epoch = 14
+Global Retraining epoch = 15
+Global Retraining epoch = 16
+Global Retraining epoch = 17
+Global Retraining epoch = 18
+Global Retraining epoch = 19
+#####  Federated Retraining End  #####
+Retrain Time using = 237.6841778755188 seconds
+Test set: Average loss: 0.03529613
+Test set: Average acc:  0.4527
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/FedEraser-Code/Fed_Unlearn_main.py", line 180, in <module>
+    Federated_Unlearning()
+  File "/Users/wangjiayi/Desktop/FedEraser-Code/Fed_Unlearn_main.py", line 118, in Federated_Unlearning
+    federaser_test_loss, federaser_test_acc = test(unlearn_GMs[-1], test_loader)
+TypeError: 'NoneType' object is not subscriptable

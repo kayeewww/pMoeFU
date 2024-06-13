@@ -1,0 +1,36 @@
+============================================================
+Step1. Federated Learning Settings 
+ We use dataset: mnist for our Federated Unlearning experiment.
+
+============================================================
+Step2. Client data loaded, testing data loaded!!!
+       Initial Model loaded!!!
+============================================================
+Step3. Fedearated Learning and Unlearning Training...
+len of selected client loader, 10
+#####  Federated Learning Start#####
+ Learning time consuming = 5.245208740234375e-06 secods
+#####  Federated Learning End#####
+
+
+#####  Federated Unlearning Start  #####
+#### Client-level Unlearning ####
+-------Using pre-trained model------
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/Fed_Unlearn_main.py", line 217, in <module>
+    Federated_Unlearning()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/Fed_Unlearn_main.py", line 133, in Federated_Unlearning
+    old_GMs, unlearn_GMs, old_CMs = federated_learning_unlearning(init_global_model,
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/Fed_Unlearn_base.py", line 135, in federated_learning_unlearning
+    old_GM.load_state_dict(gm_checkpoint, strict=False)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torch/nn/modules/module.py", line 2189, in load_state_dict
+    raise RuntimeError('Error(s) in loading state_dict for {}:\n\t{}'.format(
+RuntimeError: Error(s) in loading state_dict for Net_mnist:
+	size mismatch for conv1.weight: copying a param with shape torch.Size([6, 3, 5, 5]) from checkpoint, the shape in current model is torch.Size([20, 1, 5, 5]).
+	size mismatch for conv1.bias: copying a param with shape torch.Size([6]) from checkpoint, the shape in current model is torch.Size([20]).
+	size mismatch for conv2.weight: copying a param with shape torch.Size([16, 6, 5, 5]) from checkpoint, the shape in current model is torch.Size([50, 20, 5, 5]).
+	size mismatch for conv2.bias: copying a param with shape torch.Size([16]) from checkpoint, the shape in current model is torch.Size([50]).
+	size mismatch for fc1.weight: copying a param with shape torch.Size([120, 400]) from checkpoint, the shape in current model is torch.Size([500, 800]).
+	size mismatch for fc1.bias: copying a param with shape torch.Size([120]) from checkpoint, the shape in current model is torch.Size([500]).
+	size mismatch for fc2.weight: copying a param with shape torch.Size([84, 120]) from checkpoint, the shape in current model is torch.Size([10, 500]).
+	size mismatch for fc2.bias: copying a param with shape torch.Size([84]) from checkpoint, the shape in current model is torch.Size([10]).

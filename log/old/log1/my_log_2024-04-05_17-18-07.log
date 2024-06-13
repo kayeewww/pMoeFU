@@ -1,0 +1,226 @@
+Files already downloaded and verified
+============================================================
+Step1. Federated Learning Settings 
+ We use dataset: cifar10 for our Federated Unlearning experiment.
+
+============================================================
+Step2. Client data loaded, testing data loaded!!!
+       Initial Model loaded!!!
+Files already downloaded and verified
+Files already downloaded and verified
+============================================================
+Step3. Fedearated Learning and Unlearning Training...
+#####  Federated Learning Start#####
+Global Federated Learning epoch = 0
+Global Federated Learning epoch = 1
+Global Federated Learning epoch = 2
+Global Federated Learning epoch = 3
+Global Federated Learning epoch = 4
+Global Federated Learning epoch = 5
+Global Federated Learning epoch = 6
+Global Federated Learning epoch = 7
+Global Federated Learning epoch = 8
+Global Federated Learning epoch = 9
+Global Federated Learning epoch = 10
+Global Federated Learning epoch = 11
+Global Federated Learning epoch = 12
+Global Federated Learning epoch = 13
+Global Federated Learning epoch = 14
+Global Federated Learning epoch = 15
+Global Federated Learning epoch = 16
+Global Federated Learning epoch = 17
+Global Federated Learning epoch = 18
+Global Federated Learning epoch = 19
+#####  Federated Learning End#####
+
+
+#####  Federated Unlearning Start  #####
+#### Sample-level Unlearning ####
+Files already downloaded and verified
+Files already downloaded and verified
+/Users/wangjiayi/anaconda3/envs/fedErase/lib/python3.9/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+selected_clients2 [9, 5, 2, 7]
+X_u tensor([[[ 0.6784,  0.6235,  0.5922,  ...,  0.9686,  0.9451,  0.9137],
+         [ 0.6941,  0.6392,  0.6078,  ...,  0.9451,  0.9059,  0.8745],
+         [ 0.7255,  0.6549,  0.6157,  ...,  0.8902,  0.8510,  0.8275],
+         ...,
+         [-0.3490, -0.4039, -0.3725,  ...,  0.0275, -0.0275, -0.1294],
+         [-0.4588, -0.4745, -0.4510,  ..., -0.0353, -0.1137, -0.2157],
+         [-0.3569, -0.4588, -0.4510,  ..., -0.0353, -0.1608, -0.1686]],
+
+        [[ 0.6784,  0.6235,  0.5922,  ...,  0.9686,  0.9451,  0.9137],
+         [ 0.6941,  0.6392,  0.6078,  ...,  0.9451,  0.9059,  0.8745],
+         [ 0.7255,  0.6549,  0.6157,  ...,  0.8902,  0.8510,  0.8275],
+         ...,
+         [-0.3490, -0.4039, -0.3725,  ...,  0.0275, -0.0275, -0.1294],
+         [-0.4588, -0.4745, -0.4510,  ..., -0.0353, -0.1137, -0.2157],
+         [-0.3569, -0.4588, -0.4510,  ..., -0.0353, -0.1608, -0.1686]],
+
+        [[ 0.6784,  0.6235,  0.5922,  ...,  0.9686,  0.9451,  0.9137],
+         [ 0.6941,  0.6392,  0.6078,  ...,  0.9451,  0.9059,  0.8745],
+         [ 0.7255,  0.6549,  0.6157,  ...,  0.8902,  0.8510,  0.8275],
+         ...,
+         [-0.3490, -0.4039, -0.3725,  ...,  0.0275, -0.0275, -0.1294],
+         [-0.4588, -0.4745, -0.4510,  ..., -0.0353, -0.1137, -0.2157],
+         [-0.3569, -0.4588, -0.4510,  ..., -0.0353, -0.1608, -0.1686]]])
+P:  [9, 5, 2, 7]
+selected_clients2 [9, 2, 7, 3]
+X_u tensor([[[ 0.6784,  0.6235,  0.5922,  ...,  0.9686,  0.9451,  0.9137],
+         [ 0.6941,  0.6392,  0.6078,  ...,  0.9451,  0.9059,  0.8745],
+         [ 0.7255,  0.6549,  0.6157,  ...,  0.8902,  0.8510,  0.8275],
+         ...,
+         [-0.3490, -0.4039, -0.3725,  ...,  0.0275, -0.0275, -0.1294],
+         [-0.4588, -0.4745, -0.4510,  ..., -0.0353, -0.1137, -0.2157],
+         [-0.3569, -0.4588, -0.4510,  ..., -0.0353, -0.1608, -0.1686]],
+
+        [[ 0.6784,  0.6235,  0.5922,  ...,  0.9686,  0.9451,  0.9137],
+         [ 0.6941,  0.6392,  0.6078,  ...,  0.9451,  0.9059,  0.8745],
+         [ 0.7255,  0.6549,  0.6157,  ...,  0.8902,  0.8510,  0.8275],
+         ...,
+         [-0.3490, -0.4039, -0.3725,  ...,  0.0275, -0.0275, -0.1294],
+         [-0.4588, -0.4745, -0.4510,  ..., -0.0353, -0.1137, -0.2157],
+         [-0.3569, -0.4588, -0.4510,  ..., -0.0353, -0.1608, -0.1686]],
+
+        [[ 0.6784,  0.6235,  0.5922,  ...,  0.9686,  0.9451,  0.9137],
+         [ 0.6941,  0.6392,  0.6078,  ...,  0.9451,  0.9059,  0.8745],
+         [ 0.7255,  0.6549,  0.6157,  ...,  0.8902,  0.8510,  0.8275],
+         ...,
+         [-0.3490, -0.4039, -0.3725,  ...,  0.0275, -0.0275, -0.1294],
+         [-0.4588, -0.4745, -0.4510,  ..., -0.0353, -0.1137, -0.2157],
+         [-0.3569, -0.4588, -0.4510,  ..., -0.0353, -0.1608, -0.1686]]])
+P:  [9, 2, 7, 3]
+Federated Unlearning Global Epoch  = 1
+Federated Unlearning Global Epoch  = 2
+Federated Unlearning Global Epoch  = 3
+Federated Unlearning Global Epoch  = 4
+Federated Unlearning Global Epoch  = 5
+Federated Unlearning Global Epoch  = 6
+Federated Unlearning Global Epoch  = 7
+Federated Unlearning Global Epoch  = 8
+Federated Unlearning Global Epoch  = 9
+Federated Unlearning Global Epoch  = 10
+Federated Unlearning Global Epoch  = 11
+Federated Unlearning Global Epoch  = 12
+Federated Unlearning Global Epoch  = 13
+Federated Unlearning Global Epoch  = 14
+Federated Unlearning Global Epoch  = 15
+Federated Unlearning Global Epoch  = 16
+Federated Unlearning Global Epoch  = 17
+Federated Unlearning Global Epoch  = 18
+Federated Unlearning Global Epoch  = 19
+N [9, 2, 7, 3]
+cc 0.4
+ss 0.8
+rouc:  0.4  rous:  0.8
+IE:  {1, 3, 5, 7, 9, 11, 13, 15, 17}
+tr:  5
+selected_clients2 [7 0 1 2]
+client_models 10
+selected_clients2 [4 6 6 4]
+client_models 10
+selected_clients2 [1 8 4 5]
+client_models 10
+selected_clients2 [6 6 3 1]
+client_models 10
+selected_clients2 [8 3 2 1]
+client_models 10
+selected_clients2 [0 9 6 2]
+client_models 10
+selected_clients2 [6 0 8 3]
+client_models 10
+#####  Federated Unlearning End  #####
+
+
+#####  Federated Unlearning without Calibration Start  #####
+Federated Unlearning without Clibration Global Epoch  = 0
+Federated Unlearning Global Epoch  = 1
+Federated Unlearning Global Epoch  = 2
+Federated Unlearning Global Epoch  = 3
+Federated Unlearning Global Epoch  = 4
+Federated Unlearning Global Epoch  = 5
+Federated Unlearning Global Epoch  = 6
+Federated Unlearning Global Epoch  = 7
+Federated Unlearning Global Epoch  = 8
+Federated Unlearning Global Epoch  = 9
+Federated Unlearning Global Epoch  = 10
+Federated Unlearning Global Epoch  = 11
+Federated Unlearning Global Epoch  = 12
+Federated Unlearning Global Epoch  = 13
+Federated Unlearning Global Epoch  = 14
+Federated Unlearning Global Epoch  = 15
+Federated Unlearning Global Epoch  = 16
+Federated Unlearning Global Epoch  = 17
+Federated Unlearning Global Epoch  = 18
+Federated Unlearning Global Epoch  = 19
+#####  Federated Unlearning without Calibration End  #####
+ Learning time consuming = 39.92774987220764 secods
+ Unlearning time consuming = 31.576124906539917 secods
+ Unlearning no Cali time consuming = 0.05752682685852051 secods
+
+
+#####  Federated Retraining Start  #####
+Federated Retrain with Forget Client NO.2
+Global Retraining epoch = 0
+Global Retraining epoch = 1
+Global Retraining epoch = 2
+Global Retraining epoch = 3
+Global Retraining epoch = 4
+Global Retraining epoch = 5
+Global Retraining epoch = 6
+Global Retraining epoch = 7
+Global Retraining epoch = 8
+Global Retraining epoch = 9
+Global Retraining epoch = 10
+Global Retraining epoch = 11
+Global Retraining epoch = 12
+Global Retraining epoch = 13
+Global Retraining epoch = 14
+Global Retraining epoch = 15
+Global Retraining epoch = 16
+Global Retraining epoch = 17
+Global Retraining epoch = 18
+Global Retraining epoch = 19
+#####  Federated Retraining End  #####
+Retrain Time using = 43.38541388511658 seconds
+Test set: Average loss: 0.03602176
+Test set: Average acc:  0.1230
+Test set: Average loss: nan
+Test set: Average acc:  0.1001
+Test set: Average loss: nan
+Test set: Average acc:  0.1001
+Test set: Average loss: 0.03596779
+Test set: Average acc:  0.1661
+Test set: Average loss: 0.03672272
+Test set: Average acc:  0.1233
+Test set: Average loss: nan
+Test set: Average acc:  0.0880
+Test set: Average loss: nan
+Test set: Average acc:  0.0858
+Test set: Average loss: 0.03667419
+Test set: Average acc:  0.1672
+*****  Result Summary  *****
+[FedEraser] Test set: Average loss = nan, Average acc = 0.1001
+[FedAccum] Test set: Average loss = nan, Average acc = 0.1001
+[FedRetrain] Test set: Average loss = 0.03596779, Average acc = 0.1661
+[FedAvg] Test set: Average loss = 0.03602176, Average acc = 0.1230
+
+
+[FedEraser] Target set: Average loss = nan, Average acc = 0.0880
+[FedAccum] Target set: Average loss = nan, Average acc = 0.0858
+[FedRetrain] Target set: Average loss = 0.03667419, Average acc = 0.1672
+[FedAvg] Target set: Average loss = 0.03672272, Average acc = 0.1233
+============================================================
+Step4. Membership Inference Attack aganist GM...
+
+Epoch  = -1
+Attacking against FL Standard  
+MIA Attacker precision = 0.9766
+MIA Attacker recall = 0.9200
+Attacking against FL Retrain  
+MIA Attacker precision = 0.5125
+MIA Attacker recall = 0.2460
+Attacking against FL Unlearn  
+MIA Attacker precision = 0.0000
+MIA Attacker recall = 0.0000
+Attacking against FL Unlearn without calibration  

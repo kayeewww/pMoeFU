@@ -1,0 +1,237 @@
+Files already downloaded and verified
+============================================================
+Step1. Federated Learning Settings 
+ We use dataset: cifar10 for our Federated Unlearning experiment.
+
+============================================================
+Step2. Client data loaded, testing data loaded!!!
+       Initial Model loaded!!!
+Files already downloaded and verified
+Files already downloaded and verified
+============================================================
+Step3. Fedearated Learning and Unlearning Training...
+len of selected client loader, 12
+#####  Federated Learning Start#####
+Global Federated Learning epoch = 0
+Global Federated Learning epoch = 1
+Global Federated Learning epoch = 2
+Global Federated Learning epoch = 3
+Global Federated Learning epoch = 4
+Global Federated Learning epoch = 5
+Global Federated Learning epoch = 6
+Global Federated Learning epoch = 7
+Global Federated Learning epoch = 8
+Global Federated Learning epoch = 9
+Global Federated Learning epoch = 10
+Global Federated Learning epoch = 11
+Global Federated Learning epoch = 12
+Global Federated Learning epoch = 13
+Global Federated Learning epoch = 14
+Global Federated Learning epoch = 15
+Global Federated Learning epoch = 16
+Global Federated Learning epoch = 17
+Global Federated Learning epoch = 18
+Global Federated Learning epoch = 19
+#####  Federated Learning End#####
+
+
+#####  Federated Unlearning Start  #####
+#### Client-level Unlearning ####
+2
+client_index_temp <class 'numpy.ndarray'> 100 9
+Federated Unlearning Global Epoch  = 1
+Federated Unlearning Global Epoch  = 2
+Federated Unlearning Global Epoch  = 3
+Federated Unlearning Global Epoch  = 4
+Federated Unlearning Global Epoch  = 5
+Federated Unlearning Global Epoch  = 6
+Federated Unlearning Global Epoch  = 7
+Federated Unlearning Global Epoch  = 8
+Federated Unlearning Global Epoch  = 9
+Federated Unlearning Global Epoch  = 10
+Federated Unlearning Global Epoch  = 11
+Federated Unlearning Global Epoch  = 12
+Federated Unlearning Global Epoch  = 13
+Federated Unlearning Global Epoch  = 14
+Federated Unlearning Global Epoch  = 15
+Federated Unlearning Global Epoch  = 16
+Federated Unlearning Global Epoch  = 17
+Federated Unlearning Global Epoch  = 18
+Federated Unlearning Global Epoch  = 19
+N, =#dataset 16
+rouc:  0.2  rous:  0.1
+IE:  {1, 3, 5, 7, 9, 11, 13, 15, 17}
+tr:  1
+selected_clients:      [3 8]
+client_models 10
+client_data_loaders: 11
+selected_clients 2
+client_data_loaders: 11
+selected_clients 2
+selected_clients:      [4 5]
+client_models 10
+client_data_loaders: 11
+selected_clients 2
+client_data_loaders: 11
+selected_clients 2
+selected_clients:      [9 3]
+client_models 10
+client_data_loaders: 11
+selected_clients 2
+client_data_loaders: 11
+selected_clients 2
+selected_clients:      [1 4]
+client_models 10
+client_data_loaders: 11
+selected_clients 2
+client_data_loaders: 11
+selected_clients 2
+selected_clients:      [9 7]
+client_models 10
+client_data_loaders: 11
+selected_clients 2
+client_data_loaders: 11
+selected_clients 2
+selected_clients:      [3 1]
+client_models 10
+client_data_loaders: 11
+selected_clients 2
+client_data_loaders: 11
+selected_clients 2
+selected_clients:      [3 7]
+client_models 10
+client_data_loaders: 11
+selected_clients 2
+client_data_loaders: 11
+selected_clients 2
+selected_clients:      [5 8]
+client_models 10
+client_data_loaders: 11
+selected_clients 2
+client_data_loaders: 11
+selected_clients 2
+selected_clients:      [4 4]
+client_models 10
+client_data_loaders: 11
+selected_clients 2
+client_data_loaders: 11
+selected_clients 2
+client_data_loaders: 11
+selected_clients 2
+client_data_loaders: 11
+selected_clients 2
+client_data_loaders: 11
+selected_clients 2
+GGGlobal <class 'model_initiation.Net_cifar10'>
+Updated global <class 'list'> 1 <class 'model_initiation.Net_cifar10'>
+Files already downloaded and verified
+Files already downloaded and verified
+batch_idx 0
+Feature: conv1, Importance: tensor([0.0649, 0.1344, 0.1451, 0.1029, 0.0311, 0.0774])
+Feature: conv2, Importance: tensor([0.0010, 0.0224, 0.0875, 0.0012, 0.0525, 0.0187, 0.0294, 0.1282, 0.0345,
+        0.0033, 0.0737, 0.0602, 0.0102, 0.0072, 0.0146, 0.0043])
+Classes indices:  [14  5  1  6  8  4 11 10  2  7]
+tf_idf {'conv1': tensor([0.0649, 0.1344, 0.1451, 0.1029, 0.0311, 0.0774]), 'conv2': tensor([0.0010, 0.0224, 0.0875, 0.0012, 0.0525, 0.0187, 0.0294, 0.1282, 0.0345,
+        0.0033, 0.0737, 0.0602, 0.0102, 0.0072, 0.0146, 0.0043])}
+tf_idf_array.shape:  torch.Size([16])
+threshold 0.0011734680738300085
+all_classes ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
+Class to be removed:  ['airplane']
+#Remain classes:  9
+<class 'list'> unlearn_testset
+<class 'list'> rest_trainset
+*****testing in unlearn_data************
+Test Loss=1.1379, Test accuracy=0.0000
+****************************************
+*****testing in rest_data***************
+Test Loss=1.1579, Test accuracy=0.1100
+****************************************
+#####  Federated Unlearning End  #####
+
+
+#####  Federated Unlearning without Calibration Start  #####
+FL_params.forget_client_idx:  0
+Federated Unlearning without Clibration Global Epoch  = 0
+Federated Unlearning Global Epoch  = 1
+Files already downloaded and verified
+Files already downloaded and verified
+batch_idx 0
+Feature: conv1, Importance: tensor([0.0484, 0.0679, 0.1601, 0.2607, 0.0639, 0.0916])
+Feature: conv2, Importance: tensor([0.0541, 0.1771, 0.0768, 0.0022, 0.0091, 0.0137, 0.0026, 0.0279, 0.0004,
+        0.0511, 0.1086, 0.0124, 0.0938, 0.0016, 0.0033, 0.0056])
+Classes indices:  [ 4 11  5  7  9  0  2 12 10  1]
+tf_idf {'conv1': tensor([0.0484, 0.0679, 0.1601, 0.2607, 0.0639, 0.0916]), 'conv2': tensor([0.0541, 0.1771, 0.0768, 0.0022, 0.0091, 0.0137, 0.0026, 0.0279, 0.0004,
+        0.0511, 0.1086, 0.0124, 0.0938, 0.0016, 0.0033, 0.0056])}
+tf_idf_array.shape:  torch.Size([16])
+threshold 0.0016295891255140305
+all_classes ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
+Class to be removed:  ['horse']
+#Remain classes:  9
+<class 'list'> unlearn_testset
+<class 'list'> rest_trainset
+*****testing in unlearn_data************
+Test Loss=1.1914, Test accuracy=0.0000
+****************************************
+*****testing in rest_data***************
+Test Loss=1.1495, Test accuracy=0.1000
+****************************************
+#####  Federated Unlearning without Calibration End  #####
+ Learning time consuming = 43.061124324798584 secods
+ Unlearning time consuming = 8.332051038742065 secods
+ Unlearning no Cali time consuming = 2.6881749629974365 secods
+
+
+#####  【Federated Retraining Start】  #####
+Global Federated Learning epoch = 0
+Test Loss=0.0147, Test accuracy=0.1032
+save path /Users/wangjiayi/Desktop/FedEraser-Code/ckpt/retrained/resnet32/seed_acc230.2_epoch0_2024-04-10 16-31-15.pth
+#####  Federated Retraining End  #####
+Retrain Time using = 3.4316201210021973 seconds 3
+unlearned GMs:  <class 'model_initiation.Net_cifar10'> Net_cifar10(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+)
+Test Loss=0.0134, Test accuracy=0.2525
+Test Loss=0.0147, Test accuracy=0.0996
+Test Loss=0.0147, Test accuracy=0.1032
+Test Loss=0.0147, Test accuracy=0.0989
+FL_params.unlearn_client:  7 7
+Test Loss=0.2881, Test accuracy=0.1000
+Test Loss=0.2633, Test accuracy=0.2160
+Test Loss=0.2876, Test accuracy=0.1160
+Test Loss=0.2879, Test accuracy=0.1160
+*****  Result Summary  *****
+[FedEraser] Test set: Average loss = 2.30352480, Average acc = 0.0989
+[FedAccum] Test set: Average loss = 2.30545159, Average acc = 0.0996
+[FedRetrain] Test set: Average loss = 2.30268024, Average acc = 0.1032
+[FedAvg] Test set: Average loss = 2.09688028, Average acc = 0.2525
+
+
+[FedEraser] Target set: Average loss = 2.30445695, Average acc = 0.1000
+[FedAccum] Target set: Average loss = 2.30118066, Average acc = 0.1160
+[FedRetrain] Target set: Average loss = 2.30282295, Average acc = 0.1160
+[FedAvg] Target set: Average loss = 2.10608807, Average acc = 0.2160
+============================================================
+Step4. Membership Inference Attack aganist GM...
+
+Epoch  = -1
+Attacking against FL Standard  
+MIA Attacker accuracy = 0.6580
+MIA Attacker precision = 0.9341
+MIA Attacker recall = 0.3400
+Attacking against FL Retrain  
+MIA Attacker accuracy = 0.5140
+MIA Attacker precision = 0.6591
+MIA Attacker recall = 0.0580
+Attacking against FL Unlearn  
+MIA Attacker accuracy = 0.4950
+MIA Attacker precision = 0.3077
+MIA Attacker recall = 0.0080
+Attacking against FL Unlearn without calibration  
+MIA Attacker accuracy = 0.4990
+MIA Attacker precision = 0.4000
+MIA Attacker recall = 0.0040

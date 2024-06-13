@@ -1,0 +1,201 @@
+============================================================
+Step1. Federated Learning Settings 
+ We use dataset: cifar10 for our Federated Unlearning experiment.
+
+============================================================
+Step2. Client data loaded, testing data loaded!!!
+       Initial Model loaded!!!
+Files already downloaded and verified
+Files already downloaded and verified
+============================================================
+Step3. Fedearated Learning and Unlearning Training...
+len of selected client loader, 10
+#####  Federated Learning Start#####
+ Learning time consuming = 1.1920928955078125e-06 secods
+#####  Federated Learning End#####
+
+
+#####  Federated Unlearning Start  #####
+#### Client-level Unlearning ####
+-------Using pre-trained model------
+K, b:  2 1
+split_clients [array([0, 1]), array([2, 3]), array([4, 5]), array([6, 7]), array([8, 9])]
+Files already downloaded and verified
+Files already downloaded and verified
+single tfidf Selected least important clients: [0, 3]
+Forget Client Index: [1, 4, 9]
+Client chosen by MoE:  [1, 4, 9]
+Initial model type <class 'moe.MoE'> MoE(
+  (experts): ModuleList(
+    (0-9): 10 x Net_cifar10(
+      (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+      (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+      (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+      (fc1): Linear(in_features=400, out_features=120, bias=True)
+      (fc2): Linear(in_features=120, out_features=84, bias=True)
+      (fc3): Linear(in_features=84, out_features=10, bias=True)
+    )
+  )
+  (softplus): Softplus(beta=1.0, threshold=20.0)
+  (softmax): Softmax(dim=1)
+)
+Remove one [0, 2, 3, 5, 6, 7, 8]
+Updated global [[MoE(
+  (experts): ModuleList(
+    (0-9): 10 x Net_cifar10(
+      (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+      (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+      (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+      (fc1): Linear(in_features=400, out_features=120, bias=True)
+      (fc2): Linear(in_features=120, out_features=84, bias=True)
+      (fc3): Linear(in_features=84, out_features=10, bias=True)
+    )
+  )
+  (softplus): Softplus(beta=1.0, threshold=20.0)
+  (softmax): Softmax(dim=1)
+)]] <class 'list'> 1 <class 'list'>
+#####  Federated Fine-tuning Start#####
+Global Federated Learning epoch = 0
+Test Loss=0.0140, Test accuracy=0.1791
+Test Loss=0.0044, Test accuracy=0.1760
+Global Federated Learning epoch = 1
+Test Loss=0.0136, Test accuracy=0.1886
+Test Loss=0.0043, Test accuracy=0.1980
+Global Federated Learning epoch = 2
+Test Loss=0.0134, Test accuracy=0.2140
+Test Loss=0.0043, Test accuracy=0.2060
+Global Federated Learning epoch = 3
+Test Loss=0.0133, Test accuracy=0.2181
+Test Loss=0.0042, Test accuracy=0.2100
+Global Federated Learning epoch = 4
+Test Loss=0.0131, Test accuracy=0.2272
+Test Loss=0.0041, Test accuracy=0.2320
+Global Federated Learning epoch = 5
+Test Loss=0.0130, Test accuracy=0.2366
+Test Loss=0.0041, Test accuracy=0.2260
+Global Federated Learning epoch = 6
+Test Loss=0.0129, Test accuracy=0.2376
+Test Loss=0.0041, Test accuracy=0.2300
+Global Federated Learning epoch = 7
+Test Loss=0.0129, Test accuracy=0.2271
+Test Loss=0.0041, Test accuracy=0.2320
+Global Federated Learning epoch = 8
+Test Loss=0.0129, Test accuracy=0.2314
+Test Loss=0.0041, Test accuracy=0.2100
+Global Federated Learning epoch = 9
+Test Loss=0.0128, Test accuracy=0.2442
+Test Loss=0.0041, Test accuracy=0.2320
+Global Federated Learning epoch = 10
+Test Loss=0.0127, Test accuracy=0.2382
+Test Loss=0.0040, Test accuracy=0.2840
+Global Federated Learning epoch = 11
+Test Loss=0.0127, Test accuracy=0.2493
+Test Loss=0.0040, Test accuracy=0.2560
+Global Federated Learning epoch = 12
+Test Loss=0.0128, Test accuracy=0.2501
+Test Loss=0.0040, Test accuracy=0.2700
+Global Federated Learning epoch = 13
+Test Loss=0.0127, Test accuracy=0.2534
+Test Loss=0.0040, Test accuracy=0.2620
+Global Federated Learning epoch = 14
+Test Loss=0.0127, Test accuracy=0.2583
+Test Loss=0.0040, Test accuracy=0.2740
+Global Federated Learning epoch = 15
+Test Loss=0.0127, Test accuracy=0.2643
+Test Loss=0.0040, Test accuracy=0.2320
+Global Federated Learning epoch = 16
+Test Loss=0.0129, Test accuracy=0.2370
+Test Loss=0.0041, Test accuracy=0.2240
+Global Federated Learning epoch = 17
+Test Loss=0.0125, Test accuracy=0.2718
+Test Loss=0.0039, Test accuracy=0.2700
+Global Federated Learning epoch = 18
+Test Loss=0.0125, Test accuracy=0.2560
+Test Loss=0.0040, Test accuracy=0.2640
+Global Federated Learning epoch = 19
+Test Loss=0.0125, Test accuracy=0.2625
+Test Loss=0.0040, Test accuracy=0.2820
+Fine-tuning train acc:0.2820
+Fine-tuning train epoch:19
+#####  Federated Fine-tuning End#####
+ Client-level Unlearning time consuming = 1346.315505027771 secods
+#####  Federated Unlearning End  #####
+
+
+#####  Federated Retraining Start  #####
+Global Federated Learning epoch = 0
+Test Loss=0.0125, Test accuracy=0.2665
+Global Federated Learning epoch = 1
+Test Loss=0.0124, Test accuracy=0.2682
+Global Federated Learning epoch = 2
+Test Loss=0.0124, Test accuracy=0.2695
+Global Federated Learning epoch = 3
+Test Loss=0.0124, Test accuracy=0.2710
+Global Federated Learning epoch = 4
+Test Loss=0.0123, Test accuracy=0.2726
+Global Federated Learning epoch = 5
+Test Loss=0.0123, Test accuracy=0.2739
+Global Federated Learning epoch = 6
+Test Loss=0.0123, Test accuracy=0.2741
+Global Federated Learning epoch = 7
+Test Loss=0.0123, Test accuracy=0.2742
+Global Federated Learning epoch = 8
+Test Loss=0.0122, Test accuracy=0.2756
+Global Federated Learning epoch = 9
+Test Loss=0.0122, Test accuracy=0.2744
+Global Federated Learning epoch = 10
+Test Loss=0.0122, Test accuracy=0.2739
+Global Federated Learning epoch = 11
+Test Loss=0.0122, Test accuracy=0.2745
+Global Federated Learning epoch = 12
+Test Loss=0.0122, Test accuracy=0.2750
+Global Federated Learning epoch = 13
+Test Loss=0.0122, Test accuracy=0.2756
+Global Federated Learning epoch = 14
+Test Loss=0.0122, Test accuracy=0.2774
+Global Federated Learning epoch = 15
+Test Loss=0.0121, Test accuracy=0.2779
+Global Federated Learning epoch = 16
+Test Loss=0.0121, Test accuracy=0.2788
+Global Federated Learning epoch = 17
+Test Loss=0.0121, Test accuracy=0.2779
+Global Federated Learning epoch = 18
+Test Loss=0.0121, Test accuracy=0.2774
+Global Federated Learning epoch = 19
+Test Loss=0.0121, Test accuracy=0.2782
+#####  Federated Retraining End  #####
+Retrain Time using = 204.9736750125885 seconds 3
+Test Loss=0.0147, Test accuracy=0.0998
+Test Loss=0.0121, Test accuracy=0.2782
+Test Loss=0.0125, Test accuracy=0.2625
+FL_params.unlearn_client:  [1, 4, 9]
+Test Loss=0.2486, Test accuracy=0.2660
+Test Loss=0.2426, Test accuracy=0.2900
+Test Loss=0.2477, Test accuracy=0.2960
+Test Loss=0.2366, Test accuracy=0.3140
+Test Loss=0.2884, Test accuracy=0.0880
+*****  Result Summary  *****
+[FedPruner] Test set: Average loss = 1.97029232, Average acc = 0.2625
+[FedRetrain] Test set: Average loss = 1.89800916, Average acc = 0.2782
+[FedAvg] Test set: Average loss = 2.30318177, Average acc = 0.0998
+
+
+[FedPruner] Target set: Average loss = 1.98182781, Average acc = 0.2960
+[FedRetrain] Target set: Average loss = 1.89250633, Average acc = 0.3140
+[FedAvg] Target set: Average loss = 2.30692303, Average acc = 0.0880
+============================================================
+Step4. Membership Inference Attack aganist GM...
+
+Epoch  = -1
+Attacking against FL Standard  
+MIA Attacker accuracy = 0.6357
+MIA Attacker precision = 0.9636
+MIA Attacker recall = 0.2820
+Attacking against FL Retrain  
+MIA Attacker accuracy = 0.4997
+MIA Attacker precision = 0.4000
+MIA Attacker recall = 0.0013
+Attacking against FL Client Unlearn  
+MIA Attacker accuracy = 0.5020
+MIA Attacker precision = 0.6154
+MIA Attacker recall = 0.0107

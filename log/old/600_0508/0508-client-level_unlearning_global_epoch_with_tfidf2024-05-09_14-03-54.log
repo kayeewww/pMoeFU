@@ -1,0 +1,298 @@
+Starting client 0
+Starting client 1
+Starting client 2
+Starting client 3
+Starting client 4
+Starting client 5
+Starting client 6
+Starting client 7
+Starting client 8
+Starting client 9
+[92mINFO [0m:      Starting Flower server, config: num_rounds=4, no round_timeout
+[92mINFO [0m:      Flower ECE: gRPC server running (4 rounds), SSL is disabled
+[92mINFO [0m:      [INIT]
+[92mINFO [0m:      Using initial global parameters provided by strategy
+[92mINFO [0m:      Evaluating initial global parameters
+[92mINFO [0m:      initial parameters (loss, other metrics): 2.2202987670898438, {'accuracy': 0.3}
+[92mINFO [0m:      
+[92mINFO [0m:      [ROUND 1]
+Using downloaded and verified file: ./data/cifar-10-python.tar.gz
+Extracting ./data/cifar-10-python.tar.gz to ./data
+Using downloaded and verified file: ./data/cifar-10-python.tar.gz
+Extracting ./data/cifar-10-python.tar.gz to ./data
+Using downloaded and verified file: ./data/cifar-10-python.tar.gz
+Extracting ./data/cifar-10-python.tar.gz to ./data
+Using downloaded and verified file: ./data/cifar-10-python.tar.gz
+Extracting ./data/cifar-10-python.tar.gz to ./data
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 292, in <module>
+    main()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 278, in main
+    trainset, testset = data_set(FL_params.data_name)
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/data_preprocess.py", line 141, in data_set
+    trainset = datasets.CIFAR10(root='./data',
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/cifar.py", line 66, in __init__
+    self.download()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/cifar.py", line 140, in download
+    download_and_extract_archive(self.url, self.root, filename=self.filename, md5=self.tgz_md5)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 399, in download_and_extract_archive
+    extract_archive(archive, extract_root, remove_finished)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 374, in extract_archive
+    extractor(from_path, to_path, compression)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 220, in _extract_tar
+    tar.extractall(to_path)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2034, in extractall
+    self.extract(tarinfo, path, set_attrs=not tarinfo.isdir(),
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2075, in extract
+    self._extract_member(tarinfo, os.path.join(path, tarinfo.name),
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2147, in _extract_member
+    self.makefile(tarinfo, targetpath)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2188, in makefile
+    with bltn_open(targetpath, "wb") as target:
+OSError: [Errno 89] Operation canceled: './data/cifar-10-batches-py/data_batch_4'
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 292, in <module>
+    main()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 278, in main
+    trainset, testset = data_set(FL_params.data_name)
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/data_preprocess.py", line 141, in data_set
+    trainset = datasets.CIFAR10(root='./data',
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/cifar.py", line 66, in __init__
+    self.download()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/cifar.py", line 140, in download
+    download_and_extract_archive(self.url, self.root, filename=self.filename, md5=self.tgz_md5)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 399, in download_and_extract_archive
+    extract_archive(archive, extract_root, remove_finished)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 374, in extract_archive
+    extractor(from_path, to_path, compression)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 220, in _extract_tar
+    tar.extractall(to_path)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2034, in extractall
+    self.extract(tarinfo, path, set_attrs=not tarinfo.isdir(),
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2075, in extract
+    self._extract_member(tarinfo, os.path.join(path, tarinfo.name),
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2147, in _extract_member
+    self.makefile(tarinfo, targetpath)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2188, in makefile
+    with bltn_open(targetpath, "wb") as target:
+OSError: [Errno 89] Operation canceled: './data/cifar-10-batches-py/data_batch_4'
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 292, in <module>
+    main()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 278, in main
+    trainset, testset = data_set(FL_params.data_name)
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/data_preprocess.py", line 141, in data_set
+    trainset = datasets.CIFAR10(root='./data',
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/cifar.py", line 66, in __init__
+    self.download()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/cifar.py", line 140, in download
+    download_and_extract_archive(self.url, self.root, filename=self.filename, md5=self.tgz_md5)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 399, in download_and_extract_archive
+    extract_archive(archive, extract_root, remove_finished)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 374, in extract_archive
+    extractor(from_path, to_path, compression)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 220, in _extract_tar
+    tar.extractall(to_path)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2034, in extractall
+    self.extract(tarinfo, path, set_attrs=not tarinfo.isdir(),
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2075, in extract
+    self._extract_member(tarinfo, os.path.join(path, tarinfo.name),
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2147, in _extract_member
+    self.makefile(tarinfo, targetpath)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2188, in makefile
+    with bltn_open(targetpath, "wb") as target:
+OSError: [Errno 89] Operation canceled: './data/cifar-10-batches-py/data_batch_4'
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 292, in <module>
+    main()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 278, in main
+    trainset, testset = data_set(FL_params.data_name)
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/data_preprocess.py", line 141, in data_set
+    trainset = datasets.CIFAR10(root='./data',
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/cifar.py", line 66, in __init__
+    self.download()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/cifar.py", line 140, in download
+    download_and_extract_archive(self.url, self.root, filename=self.filename, md5=self.tgz_md5)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 399, in download_and_extract_archive
+    extract_archive(archive, extract_root, remove_finished)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 374, in extract_archive
+    extractor(from_path, to_path, compression)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 220, in _extract_tar
+    tar.extractall(to_path)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2034, in extractall
+    self.extract(tarinfo, path, set_attrs=not tarinfo.isdir(),
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2075, in extract
+    self._extract_member(tarinfo, os.path.join(path, tarinfo.name),
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2147, in _extract_member
+    self.makefile(tarinfo, targetpath)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2188, in makefile
+    with bltn_open(targetpath, "wb") as target:
+OSError: [Errno 89] Operation canceled: './data/cifar-10-batches-py/data_batch_4'
+Using downloaded and verified file: ./data/cifar-10-python.tar.gz
+Extracting ./data/cifar-10-python.tar.gz to ./data
+Using downloaded and verified file: ./data/cifar-10-python.tar.gz
+Extracting ./data/cifar-10-python.tar.gz to ./data
+Using downloaded and verified file: ./data/cifar-10-python.tar.gz
+Extracting ./data/cifar-10-python.tar.gz to ./data
+Using downloaded and verified file: ./data/cifar-10-python.tar.gz
+Extracting ./data/cifar-10-python.tar.gz to ./data
+Using downloaded and verified file: ./data/cifar-10-python.tar.gz
+Extracting ./data/cifar-10-python.tar.gz to ./data
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 292, in <module>
+    main()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 278, in main
+    trainset, testset = data_set(FL_params.data_name)
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/data_preprocess.py", line 141, in data_set
+    trainset = datasets.CIFAR10(root='./data',
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/cifar.py", line 66, in __init__
+    self.download()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/cifar.py", line 140, in download
+    download_and_extract_archive(self.url, self.root, filename=self.filename, md5=self.tgz_md5)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 399, in download_and_extract_archive
+    extract_archive(archive, extract_root, remove_finished)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 374, in extract_archive
+    extractor(from_path, to_path, compression)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 220, in _extract_tar
+    tar.extractall(to_path)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2034, in extractall
+    self.extract(tarinfo, path, set_attrs=not tarinfo.isdir(),
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2075, in extract
+    self._extract_member(tarinfo, os.path.join(path, tarinfo.name),
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2147, in _extract_member
+    self.makefile(tarinfo, targetpath)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2188, in makefile
+    with bltn_open(targetpath, "wb") as target:
+OSError: [Errno 89] Operation canceled: './data/cifar-10-batches-py/data_batch_4'
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 292, in <module>
+    main()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 278, in main
+    trainset, testset = data_set(FL_params.data_name)
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/data_preprocess.py", line 141, in data_set
+    trainset = datasets.CIFAR10(root='./data',
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/cifar.py", line 66, in __init__
+    self.download()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/cifar.py", line 140, in download
+    download_and_extract_archive(self.url, self.root, filename=self.filename, md5=self.tgz_md5)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 399, in download_and_extract_archive
+    extract_archive(archive, extract_root, remove_finished)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 374, in extract_archive
+    extractor(from_path, to_path, compression)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 220, in _extract_tar
+    tar.extractall(to_path)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2034, in extractall
+    self.extract(tarinfo, path, set_attrs=not tarinfo.isdir(),
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2075, in extract
+    self._extract_member(tarinfo, os.path.join(path, tarinfo.name),
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2147, in _extract_member
+    self.makefile(tarinfo, targetpath)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2188, in makefile
+    with bltn_open(targetpath, "wb") as target:
+OSError: [Errno 89] Operation canceled: './data/cifar-10-batches-py/data_batch_4'
+Using downloaded and verified file: ./data/cifar-10-python.tar.gz
+Extracting ./data/cifar-10-python.tar.gz to ./data
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 292, in <module>
+    main()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 278, in main
+    trainset, testset = data_set(FL_params.data_name)
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/data_preprocess.py", line 141, in data_set
+    trainset = datasets.CIFAR10(root='./data',
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/cifar.py", line 66, in __init__
+    self.download()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/cifar.py", line 140, in download
+    download_and_extract_archive(self.url, self.root, filename=self.filename, md5=self.tgz_md5)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 399, in download_and_extract_archive
+    extract_archive(archive, extract_root, remove_finished)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 374, in extract_archive
+    extractor(from_path, to_path, compression)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 220, in _extract_tar
+    tar.extractall(to_path)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2034, in extractall
+    self.extract(tarinfo, path, set_attrs=not tarinfo.isdir(),
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2075, in extract
+    self._extract_member(tarinfo, os.path.join(path, tarinfo.name),
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2147, in _extract_member
+    self.makefile(tarinfo, targetpath)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2188, in makefile
+    with bltn_open(targetpath, "wb") as target:
+OSError: [Errno 89] Operation canceled: './data/cifar-10-batches-py/data_batch_4'
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 292, in <module>
+    main()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 278, in main
+    trainset, testset = data_set(FL_params.data_name)
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/data_preprocess.py", line 141, in data_set
+    trainset = datasets.CIFAR10(root='./data',
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/cifar.py", line 66, in __init__
+    self.download()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/cifar.py", line 140, in download
+    download_and_extract_archive(self.url, self.root, filename=self.filename, md5=self.tgz_md5)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 399, in download_and_extract_archive
+    extract_archive(archive, extract_root, remove_finished)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 374, in extract_archive
+    extractor(from_path, to_path, compression)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 220, in _extract_tar
+    tar.extractall(to_path)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2034, in extractall
+    self.extract(tarinfo, path, set_attrs=not tarinfo.isdir(),
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2075, in extract
+    self._extract_member(tarinfo, os.path.join(path, tarinfo.name),
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2147, in _extract_member
+    self.makefile(tarinfo, targetpath)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2188, in makefile
+    with bltn_open(targetpath, "wb") as target:
+OSError: [Errno 89] Operation canceled: './data/cifar-10-batches-py/data_batch_4'
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 292, in <module>
+    main()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 278, in main
+    trainset, testset = data_set(FL_params.data_name)
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/data_preprocess.py", line 141, in data_set
+    trainset = datasets.CIFAR10(root='./data',
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/cifar.py", line 66, in __init__
+    self.download()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/cifar.py", line 140, in download
+    download_and_extract_archive(self.url, self.root, filename=self.filename, md5=self.tgz_md5)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 399, in download_and_extract_archive
+    extract_archive(archive, extract_root, remove_finished)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 374, in extract_archive
+    extractor(from_path, to_path, compression)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 220, in _extract_tar
+    tar.extractall(to_path)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2034, in extractall
+    self.extract(tarinfo, path, set_attrs=not tarinfo.isdir(),
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2075, in extract
+    self._extract_member(tarinfo, os.path.join(path, tarinfo.name),
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2147, in _extract_member
+    self.makefile(tarinfo, targetpath)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2188, in makefile
+    with bltn_open(targetpath, "wb") as target:
+OSError: [Errno 89] Operation canceled: './data/cifar-10-batches-py/data_batch_4'
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 292, in <module>
+    main()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 278, in main
+    trainset, testset = data_set(FL_params.data_name)
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/data_preprocess.py", line 141, in data_set
+    trainset = datasets.CIFAR10(root='./data',
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/cifar.py", line 66, in __init__
+    self.download()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/cifar.py", line 140, in download
+    download_and_extract_archive(self.url, self.root, filename=self.filename, md5=self.tgz_md5)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 399, in download_and_extract_archive
+    extract_archive(archive, extract_root, remove_finished)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 374, in extract_archive
+    extractor(from_path, to_path, compression)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 220, in _extract_tar
+    tar.extractall(to_path)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2034, in extractall
+    self.extract(tarinfo, path, set_attrs=not tarinfo.isdir(),
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2075, in extract
+    self._extract_member(tarinfo, os.path.join(path, tarinfo.name),
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2147, in _extract_member
+    self.makefile(tarinfo, targetpath)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2188, in makefile
+    with bltn_open(targetpath, "wb") as target:
+OSError: [Errno 89] Operation canceled: './data/cifar-10-batches-py/data_batch_4'

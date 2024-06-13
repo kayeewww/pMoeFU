@@ -13,7 +13,7 @@ import torch.nn as nn
 from torch.distributions.normal import Normal
 import numpy as np
 
-import model_initiation
+import data_preprocess#model_initiation
 
 
 class SparseDispatcher(object):
@@ -113,20 +113,20 @@ class SparseDispatcher(object):
         # split nonzero gates for each expert
         return torch.split(self._nonzero_gates, self._part_sizes, dim=0)
 
-class MLP(nn.Module):
-    def __init__(self, input_size, output_size, hidden_size):
-        super(MLP, self).__init__()
-        self.fc1 = nn.Linear(input_size, hidden_size)
-        self.fc2 = nn.Linear(hidden_size, output_size)
-        self.relu = nn.ReLU()
-        self.soft = nn.Softmax(1)
-
-    def forward(self, x):
-        out = self.fc1(x)
-        out = self.relu(out)
-        out = self.fc2(out)
-        out = self.soft(out)
-        return out
+# class MLP(nn.Module):
+#     def __init__(self, input_size, output_size, hidden_size):
+#         super(MLP, self).__init__()
+#         self.fc1 = nn.Linear(input_size, hidden_size)
+#         self.fc2 = nn.Linear(hidden_size, output_size)
+#         self.relu = nn.ReLU()
+#         self.soft = nn.Softmax(1)
+#
+#     def forward(self, x):
+#         out = self.fc1(x)
+#         out = self.relu(out)
+#         out = self.fc2(out)
+#         out = self.soft(out)
+#         return out
 
 
 class MoE(nn.Module):
@@ -141,21 +141,24 @@ class MoE(nn.Module):
     k: an integer - how many experts to use for each batch element
     """
 
-    def __init__(self, input_size, output_size, num_experts, hidden_size, noisy_gating=True, k=4):
+    def __init__(self, input_size, output_size, experts, num_experts, hidden_size, tf_idf_scores, forget_client_idx, k, noisy_gating=True):
         super(MoE, self).__init__()
+        self.forget_client_idx = forget_client_idx
         self.noisy_gating = noisy_gating
+        self.tf_idf_scores = tf_idf_scores
         self.num_experts = num_experts
         self.output_size = output_size
         self.input_size = input_size
+
         self.hidden_size = hidden_size
         self.k = k
         # instantiate experts
-        #TODO 这里experts换成各个client端
-        self.experts = nn.ModuleList([model_initiation.model_init('cifar10','cpu') for i in range(self.num_experts)])
+        self.experts = experts
         # self.experts = nn.ModuleList([MLP(self.input_size, self.output_size, self.hidden_size) for i in range(self.num_experts)])
-
         self.w_gate = nn.Parameter(torch.zeros(input_size, num_experts), requires_grad=True)
         self.w_noise = nn.Parameter(torch.zeros(input_size, num_experts), requires_grad=True)
+        # self.w_gate = nn.Parameter(torch.zeros(400, num_experts), requires_grad=True)
+        # self.w_noise = nn.Parameter(torch.zeros(400, num_experts), requires_grad=True)
 
         self.softplus = nn.Softplus()
         self.softmax = nn.Softmax(1)
@@ -234,7 +237,10 @@ class MoE(nn.Module):
             gates: a Tensor with shape [batch_size, num_experts]
             load: a Tensor with shape [num_experts]
         """
+        batch_size = x.size(0)
+        x = x.view(batch_size, -1)
         clean_logits = x @ self.w_gate
+
         if self.noisy_gating and train:
             raw_noise_stddev = x @ self.w_noise
             noise_stddev = ((self.softplus(raw_noise_stddev) + noise_epsilon))
@@ -246,8 +252,21 @@ class MoE(nn.Module):
         # calculate topk + 1 that will be needed for the noisy gates
         logits = self.softmax(logits)
         top_logits, top_indices = logits.topk(min(self.k + 1, self.num_experts), dim=1)
+        for i in range(clean_logits.size(0)):
+            client_importance = self.tf_idf_scores[i % len(self.tf_idf_scores)]
+            if isinstance(client_importance, dict):
+                client_importance = client_importance.get(i, 1.0)  # 提取字典中的数值，如果没有就默认1.0
+            top_logits[i] *= client_importance
+            # clean_logits[i] *= client_importance
+
         top_k_logits = top_logits[:, :self.k]
         top_k_indices = top_indices[:, :self.k]
+        # print(f"Selected top {self.k} clients' indices: {top_k_indices}")
+        # unique, counts = torch.unique(top_k_indices, return_counts=True)
+        # most_uncommon_index = unique[torch.argmin(counts)]
+        # print(f"Most frequently selected client index: {most_uncommon_index}")
+
+        # self.forget_client_idx = most_uncommon_index.item()
         top_k_gates = top_k_logits / (top_k_logits.sum(1, keepdim=True) + 1e-6)  # normalization
 
         zeros = torch.zeros_like(logits, requires_grad=True)
@@ -257,6 +276,14 @@ class MoE(nn.Module):
             load = (self._prob_in_top_k(clean_logits, noisy_logits, noise_stddev, top_logits)).sum(0)
         else:
             load = self._gates_to_load(gates)
+        # Incorporate TF-IDF scores into the selection
+        flat_indices = top_indices.flatten()
+        unique, counts = flat_indices.unique(return_counts=True)
+        least_common_indices = unique[torch.argsort(counts)[:self.k]]
+
+        self.forget_client_idx = least_common_indices.tolist()
+        # print('moe forget check:', least_common_indices)
+
         return gates, load
 
     def forward(self, x, loss_coef=1e-2):
@@ -271,6 +298,8 @@ class MoE(nn.Module):
         training loss of the model.  The backpropagation of this loss
         encourages all experts to be approximately equally used across a batch.
         """
+        batch_size = x.size(0)
+        x = x.view(batch_size, -1)
         gates, load = self.noisy_top_k_gating(x, self.training)
         # calculate importance loss
         importance = gates.sum(0)
@@ -281,6 +310,9 @@ class MoE(nn.Module):
         dispatcher = SparseDispatcher(self.num_experts, gates)
         expert_inputs = dispatcher.dispatch(x)
         gates = dispatcher.expert_to_gates()
-        expert_outputs = [self.experts[i](expert_inputs[i]) for i in range(self.num_experts)]
+        # expert_outputs = [self.experts[i](expert_inputs[i]) for i in range(self.num_experts)]
+        expert_outputs = [self.experts[i](expert_inputs[i].view(-1, 3, 32, 32)) for i in range(self.num_experts)]
+        # expert_outputs = [self.experts[i](expert_inputs[i].view(-1, 1, 28, 28)) for i in range(self.num_experts)]
+
         y = dispatcher.combine(expert_outputs)
-        return y, loss
+        return y#, loss

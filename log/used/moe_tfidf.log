@@ -1,0 +1,208 @@
+opt/miniconda3/envs/fedEdge/bin/python /Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/Fed_Unlearn_main.py 
+Files already downloaded and verified
+Files already downloaded and verified
+============================================================
+Step1. Federated Learning Settings 
+ We use dataset: cifar10 for our Federated Unlearning experiment.
+
+============================================================
+Step2. Client data loaded, testing data loaded!!!
+       Initial Model loaded!!!
+Files already downloaded and verified
+Files already downloaded and verified
+============================================================
+Step3. Fedearated Learning and Unlearning Training...
+Files already downloaded and verified
+Files already downloaded and verified
+len of selected client loader, 10
+#####  Federated Learning Start#####
+-------Using pre-trained model------
+#####  Federated Learning End#####
+
+
+#####  Federated Unlearning Start  #####
+#### Client-level Unlearning ####
+K, b:  2 5
+split_clients [array([0, 1]), array([2, 3]), array([4, 5]), array([6, 7]), array([8, 9])]
+Files already downloaded and verified
+Files already downloaded and verified
+Forget Client Index: [1, 9]
+Client chosen by MoE:  [1, 9]
+Initial model type <class 'moe.MoE'> MoE(
+  (experts): ModuleList(
+    (0-9): 10 x Net_cifar10(
+      (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+      (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+      (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+      (fc1): Linear(in_features=400, out_features=120, bias=True)
+      (fc2): Linear(in_features=120, out_features=84, bias=True)
+      (fc3): Linear(in_features=84, out_features=10, bias=True)
+    )
+  )
+  (softplus): Softplus(beta=1.0, threshold=20.0)
+  (softmax): Softmax(dim=1)
+)
+Remove one [0, 2, 3, 4, 5, 6, 7, 8]
+Updated global [[MoE(
+  (experts): ModuleList(
+    (0-9): 10 x Net_cifar10(
+      (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+      (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+      (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+      (fc1): Linear(in_features=400, out_features=120, bias=True)
+      (fc2): Linear(in_features=120, out_features=84, bias=True)
+      (fc3): Linear(in_features=84, out_features=10, bias=True)
+    )
+  )
+  (softplus): Softplus(beta=1.0, threshold=20.0)
+  (softmax): Softmax(dim=1)
+)]] <class 'list'> 1 <class 'list'>
+#####  Federated Fine-tuning Start#####
+Global Federated Learning epoch = 0
+Test Loss=0.0135, Test accuracy=0.2109
+Test Loss=0.0210, Test accuracy=0.2320
+Global Federated Learning epoch = 1
+Test Loss=0.0131, Test accuracy=0.2489
+Test Loss=0.0206, Test accuracy=0.2440
+Global Federated Learning epoch = 2
+Test Loss=0.0128, Test accuracy=0.2661
+Test Loss=0.0201, Test accuracy=0.2680
+Global Federated Learning epoch = 3
+Test Loss=0.0126, Test accuracy=0.2887
+Test Loss=0.0197, Test accuracy=0.2840
+Global Federated Learning epoch = 4
+Test Loss=0.0123, Test accuracy=0.3032
+Test Loss=0.0193, Test accuracy=0.2940
+Global Federated Learning epoch = 5
+Test Loss=0.0121, Test accuracy=0.3145
+Test Loss=0.0189, Test accuracy=0.3300
+Global Federated Learning epoch = 6
+Test Loss=0.0118, Test accuracy=0.3357
+Test Loss=0.0184, Test accuracy=0.3440
+Global Federated Learning epoch = 7
+Test Loss=0.0117, Test accuracy=0.3416
+Test Loss=0.0183, Test accuracy=0.3460
+Global Federated Learning epoch = 8
+Test Loss=0.0114, Test accuracy=0.3515
+Test Loss=0.0179, Test accuracy=0.3640
+Global Federated Learning epoch = 9
+Test Loss=0.0113, Test accuracy=0.3558
+Test Loss=0.0176, Test accuracy=0.3720
+Global Federated Learning epoch = 10
+Test Loss=0.0112, Test accuracy=0.3635
+Test Loss=0.0171, Test accuracy=0.4000
+Global Federated Learning epoch = 11
+Test Loss=0.0111, Test accuracy=0.3722
+Test Loss=0.0170, Test accuracy=0.3780
+Global Federated Learning epoch = 12
+Test Loss=0.0110, Test accuracy=0.3815
+Test Loss=0.0167, Test accuracy=0.4020
+Global Federated Learning epoch = 13
+Test Loss=0.0108, Test accuracy=0.3838
+Test Loss=0.0164, Test accuracy=0.4340
+Global Federated Learning epoch = 14
+Test Loss=0.0108, Test accuracy=0.3910
+Test Loss=0.0165, Test accuracy=0.4240
+Global Federated Learning epoch = 15
+Test Loss=0.0108, Test accuracy=0.3885
+Test Loss=0.0163, Test accuracy=0.4260
+Global Federated Learning epoch = 16
+Test Loss=0.0106, Test accuracy=0.3967
+Test Loss=0.0166, Test accuracy=0.3880
+Global Federated Learning epoch = 17
+Test Loss=0.0107, Test accuracy=0.3975
+Test Loss=0.0161, Test accuracy=0.3980
+Global Federated Learning epoch = 18
+Test Loss=0.0105, Test accuracy=0.4126
+Test Loss=0.0164, Test accuracy=0.4140
+Global Federated Learning epoch = 19
+Test Loss=0.0105, Test accuracy=0.4122
+Test Loss=0.0159, Test accuracy=0.4200
+Fine-tuning train acc:0.4200
+Fine-tuning train epoch:19
+#####  Federated Fine-tuning End#####
+#####  Federated Unlearning End  #####
+
+
+#####  【Federated Retraining Start】  #####
+Global Federated Learning epoch = 0
+Test Loss=0.0102, Test accuracy=0.4161
+Global Federated Learning epoch = 1
+Test Loss=0.0102, Test accuracy=0.4183
+Global Federated Learning epoch = 2
+Test Loss=0.0101, Test accuracy=0.4201
+Global Federated Learning epoch = 3
+Test Loss=0.0101, Test accuracy=0.4227
+Global Federated Learning epoch = 4
+Test Loss=0.0100, Test accuracy=0.4245
+Global Federated Learning epoch = 5
+Test Loss=0.0100, Test accuracy=0.4263
+Global Federated Learning epoch = 6
+Test Loss=0.0100, Test accuracy=0.4261
+Global Federated Learning epoch = 7
+Test Loss=0.0100, Test accuracy=0.4280
+Global Federated Learning epoch = 8
+Test Loss=0.0099, Test accuracy=0.4291
+Global Federated Learning epoch = 9
+Test Loss=0.0099, Test accuracy=0.4304
+Global Federated Learning epoch = 10
+Test Loss=0.0099, Test accuracy=0.4320
+Global Federated Learning epoch = 11
+Test Loss=0.0099, Test accuracy=0.4329
+Global Federated Learning epoch = 12
+Test Loss=0.0099, Test accuracy=0.4329
+Global Federated Learning epoch = 13
+Test Loss=0.0099, Test accuracy=0.4364
+Global Federated Learning epoch = 14
+Test Loss=0.0099, Test accuracy=0.4354
+Global Federated Learning epoch = 15
+Test Loss=0.0099, Test accuracy=0.4374
+Global Federated Learning epoch = 16
+Test Loss=0.0099, Test accuracy=0.4389
+Global Federated Learning epoch = 17
+Test Loss=0.0098, Test accuracy=0.4392
+Global Federated Learning epoch = 18
+Test Loss=0.0098, Test accuracy=0.4408
+Global Federated Learning epoch = 19
+Test Loss=0.0098, Test accuracy=0.4399
+#####  Federated Retraining End  #####
+Retrain Time using = 171.10699605941772 seconds 3
+Test Loss=0.0131, Test accuracy=0.2564
+Test Loss=0.0098, Test accuracy=0.4399
+Test Loss=0.0105, Test accuracy=0.4122
+FL_params.unlearn_client:  [1, 9]
+Test Loss=0.2048, Test accuracy=0.4360
+Test Loss=0.1960, Test accuracy=0.4460
+Test Loss=0.1816, Test accuracy=0.4720
+Test Loss=0.2600, Test accuracy=0.2440
+*****  Result Summary  *****
+[FedPruner] Test set: Average loss = 1.64343717, Average acc = 0.4122
+[FedRetrain] Test set: Average loss = 1.54334420, Average acc = 0.4399
+[FedAvg] Test set: Average loss = 2.06125076, Average acc = 0.2564
+
+
+[FedPruner] Target set: Average loss = 1.56772067, Average acc = 0.4460
+[FedRetrain] Target set: Average loss = 1.45307648, Average acc = 0.4720
+[FedAvg] Target set: Average loss = 2.07960966, Average acc = 0.2440
+============================================================
+Step4. Membership Inference Attack aganist GM...
+
+Epoch  = -1
+Attacking against FL Standard  
+MIA Attacker accuracy = 0.6290
+MIA Attacker precision = 0.9243
+MIA Attacker recall = 0.2810
+Attacking against FL Retrain  
+MIA Attacker accuracy = 0.5155
+MIA Attacker precision = 0.5381
+MIA Attacker recall = 0.2190
+Attacking against FL Unlearn  
+MIA Attacker accuracy = 0.5165
+MIA Attacker precision = 0.5372
+MIA Attacker recall = 0.2380
+Attacking against FL Unlearn without calibration  
+MIA Attacker accuracy = 0.5185
+MIA Attacker precision = 0.5649
+MIA Attacker recall = 0.1610
+
+进程已结束，退出代码为 0

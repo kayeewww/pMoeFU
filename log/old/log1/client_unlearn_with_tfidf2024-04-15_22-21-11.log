@@ -1,0 +1,240 @@
+Files already downloaded and verified
+============================================================
+Step1. Federated Learning Settings 
+ We use dataset: cifar10 for our Federated Unlearning experiment.
+
+============================================================
+Step2. Client data loaded, testing data loaded!!!
+       Initial Model loaded!!!
+Files already downloaded and verified
+Files already downloaded and verified
+============================================================
+Step3. Fedearated Learning and Unlearning Training...
+len of selected client loader, 12
+#####  Federated Learning Start#####
+Global Federated Learning epoch = 0
+Global Federated Learning epoch = 1
+Global Federated Learning epoch = 2
+Global Federated Learning epoch = 3
+Global Federated Learning epoch = 4
+Global Federated Learning epoch = 5
+Global Federated Learning epoch = 6
+Global Federated Learning epoch = 7
+Global Federated Learning epoch = 8
+Global Federated Learning epoch = 9
+Global Federated Learning epoch = 10
+Global Federated Learning epoch = 11
+Global Federated Learning epoch = 12
+Global Federated Learning epoch = 13
+Global Federated Learning epoch = 14
+Global Federated Learning epoch = 15
+Global Federated Learning epoch = 16
+Global Federated Learning epoch = 17
+Global Federated Learning epoch = 18
+Global Federated Learning epoch = 19
+#####  Federated Learning End#####
+
+
+#####  Federated Unlearning Start  #####
+#### Client-level Unlearning ####
+k_u:  2
+client_index_temp: <class 'numpy.ndarray'> 10 [54 92 31 66 29 66 85 78 77  4]
+Federated Unlearning Global Epoch  = 1
+Federated Unlearning Global Epoch  = 2
+Federated Unlearning Global Epoch  = 3
+Federated Unlearning Global Epoch  = 4
+Federated Unlearning Global Epoch  = 5
+Federated Unlearning Global Epoch  = 6
+Federated Unlearning Global Epoch  = 7
+Federated Unlearning Global Epoch  = 8
+Federated Unlearning Global Epoch  = 9
+Federated Unlearning Global Epoch  = 10
+Federated Unlearning Global Epoch  = 11
+Federated Unlearning Global Epoch  = 12
+Federated Unlearning Global Epoch  = 13
+Federated Unlearning Global Epoch  = 14
+Federated Unlearning Global Epoch  = 15
+Federated Unlearning Global Epoch  = 16
+Federated Unlearning Global Epoch  = 17
+Federated Unlearning Global Epoch  = 18
+Federated Unlearning Global Epoch  = 19
+N_datapoint 16
+rouc:  0.2  rous:  0.1
+IE:  {1, 3, 5, 7, 9, 11, 13, 15, 17}
+tr:  0
+Local Calibration Training epoch = 1
+Updated global <class 'list'> 2 <class 'list'>
+Files already downloaded and verified
+Files already downloaded and verified
+batch_idx 0
+Feature: conv1, Importance: tensor([0.0766, 0.1457, 0.0330, 0.0742, 0.1603, 0.0679])
+Feature: conv2, Importance: tensor([0.0448, 0.0863, 0.0521, 0.0146, 0.0531, 0.0277, 0.0038, 0.0463, 0.0167,
+        0.0238, 0.0801, 0.0083, 0.0105, 0.0984, 0.0204, 0.0010])
+Classes indices:  [14  9  5  0  7  2  4 10  1 13]
+tf_idf {'conv1': tensor([0.0766, 0.1457, 0.0330, 0.0742, 0.1603, 0.0679]), 'conv2': tensor([0.0448, 0.0863, 0.0521, 0.0146, 0.0531, 0.0277, 0.0038, 0.0463, 0.0167,
+        0.0238, 0.0801, 0.0083, 0.0105, 0.0984, 0.0204, 0.0010])}
+tf_idf_array.shape:  torch.Size([16])
+threshold 0.0038011742290109396
+all_classes ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
+Class to be removed:  ['airplane']
+#Remain classes:  9
+<class 'list'> unlearn_testset
+<class 'list'> rest_trainset
+*****testing in unlearn_data************
+Test Loss=1.1941, Test accuracy=0.0000
+****************************************
+*****testing in rest_data***************
+Test Loss=1.1492, Test accuracy=0.1700
+****************************************
+#####  Federated Unlearning End  #####
+
+
+#####  Federated Unlearning without Calibration Start  #####
+FL_params.forget_client_idx:  0
+Federated Unlearning without Clibration Global Epoch  = 0
+Federated Unlearning Global Epoch  = 1
+Federated Unlearning Global Epoch  = 2
+Federated Unlearning Global Epoch  = 3
+Federated Unlearning Global Epoch  = 4
+Federated Unlearning Global Epoch  = 5
+Federated Unlearning Global Epoch  = 6
+Federated Unlearning Global Epoch  = 7
+Federated Unlearning Global Epoch  = 8
+Federated Unlearning Global Epoch  = 9
+Federated Unlearning Global Epoch  = 10
+Federated Unlearning Global Epoch  = 11
+Federated Unlearning Global Epoch  = 12
+Federated Unlearning Global Epoch  = 13
+Federated Unlearning Global Epoch  = 14
+Federated Unlearning Global Epoch  = 15
+Federated Unlearning Global Epoch  = 16
+Federated Unlearning Global Epoch  = 17
+Federated Unlearning Global Epoch  = 18
+Federated Unlearning Global Epoch  = 19
+Files already downloaded and verified
+Files already downloaded and verified
+batch_idx 0
+Feature: conv1, Importance: tensor([0.0558, 0.0481, 0.0314, 0.2629, 0.0719, 0.0431])
+Feature: conv2, Importance: tensor([0.0422, 0.0153, 0.0044, 0.0301, 0.0078, 0.0002, 0.0033, 0.0038, 0.0659,
+        0.0033, 0.0688, 0.0057, 0.0517, 0.0132, 0.0973, 0.0287])
+Classes indices:  [ 4 13  1 15  3  0 12  8 10 14]
+tf_idf {'conv1': tensor([0.0558, 0.0481, 0.0314, 0.2629, 0.0719, 0.0431]), 'conv2': tensor([0.0422, 0.0153, 0.0044, 0.0301, 0.0078, 0.0002, 0.0033, 0.0038, 0.0659,
+        0.0033, 0.0688, 0.0057, 0.0517, 0.0132, 0.0973, 0.0287])}
+tf_idf_array.shape:  torch.Size([16])
+threshold 0.003254004055634141
+all_classes ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
+Class to be removed:  ['cat']
+#Remain classes:  9
+<class 'list'> unlearn_testset
+<class 'list'> rest_trainset
+*****testing in unlearn_data************
+Test Loss=1.1601, Test accuracy=0.0000
+****************************************
+*****testing in rest_data***************
+Test Loss=1.1526, Test accuracy=0.0500
+****************************************
+#####  Federated Unlearning without Calibration End  #####
+ Learning time consuming = 10.108525037765503 secods
+ Unlearning time consuming = 3.506913900375366 secods
+ Unlearning no Cali time consuming = 2.9062798023223877 secods
+
+
+#####  【Federated Retraining Start】  #####
+Global Federated Learning epoch = 0
+Test Loss=0.0147, Test accuracy=0.0997
+Global Federated Learning epoch = 1
+Test Loss=0.0147, Test accuracy=0.0989
+Global Federated Learning epoch = 2
+Test Loss=0.0147, Test accuracy=0.0983
+Global Federated Learning epoch = 3
+Test Loss=0.0147, Test accuracy=0.0994
+Global Federated Learning epoch = 4
+Test Loss=0.0147, Test accuracy=0.0996
+Global Federated Learning epoch = 5
+Test Loss=0.0147, Test accuracy=0.1006
+Global Federated Learning epoch = 6
+Test Loss=0.0147, Test accuracy=0.1005
+Global Federated Learning epoch = 7
+Test Loss=0.0147, Test accuracy=0.1001
+Global Federated Learning epoch = 8
+Test Loss=0.0147, Test accuracy=0.1013
+Global Federated Learning epoch = 9
+Test Loss=0.0147, Test accuracy=0.1012
+Global Federated Learning epoch = 10
+Test Loss=0.0147, Test accuracy=0.1015
+Global Federated Learning epoch = 11
+Test Loss=0.0147, Test accuracy=0.1021
+Global Federated Learning epoch = 12
+Test Loss=0.0146, Test accuracy=0.1023
+Global Federated Learning epoch = 13
+Test Loss=0.0146, Test accuracy=0.1037
+Global Federated Learning epoch = 14
+Test Loss=0.0146, Test accuracy=0.1056
+Global Federated Learning epoch = 15
+Test Loss=0.0146, Test accuracy=0.1066
+Global Federated Learning epoch = 16
+Test Loss=0.0146, Test accuracy=0.1106
+Global Federated Learning epoch = 17
+Test Loss=0.0146, Test accuracy=0.1140
+Global Federated Learning epoch = 18
+Test Loss=0.0146, Test accuracy=0.1192
+Global Federated Learning epoch = 19
+Test Loss=0.0146, Test accuracy=0.1262
+#####  Federated Retraining End  #####
+Retrain Time using = 31.30413579940796 seconds 3
+unlearned GMs:  <class 'model_initiation.Net_cifar10'> Net_cifar10(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+)
+unlearn_uncali <class 'model_initiation.Net_cifar10'> Net_cifar10(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+)
+Test Loss=0.0146, Test accuracy=0.1139
+Test Loss=0.0147, Test accuracy=0.0705
+Test Loss=0.0146, Test accuracy=0.1262
+Test Loss=0.0147, Test accuracy=0.1231
+FL_params.unlearn_client:  3
+Test Loss=0.2882, Test accuracy=0.1060
+Test Loss=0.2886, Test accuracy=0.0840
+Test Loss=0.2872, Test accuracy=0.1360
+Test Loss=0.2873, Test accuracy=0.1260
+*****  Result Summary  *****
+[FedEraser] Test set: Average loss = 2.30462835, Average acc = 0.1231
+[FedAccum] Test set: Average loss = 2.30773932, Average acc = 0.0705
+[FedRetrain] Test set: Average loss = 2.29679094, Average acc = 0.1262
+[FedAvg] Test set: Average loss = 2.29809563, Average acc = 0.1139
+
+
+[FedEraser] Target set: Average loss = 2.30596456, Average acc = 0.1060
+[FedAccum] Target set: Average loss = 2.30900151, Average acc = 0.0840
+[FedRetrain] Target set: Average loss = 2.29795879, Average acc = 0.1360
+[FedAvg] Target set: Average loss = 2.29873264, Average acc = 0.1260
+============================================================
+Step4. Membership Inference Attack aganist GM...
+
+Epoch  = -1
+Attacking against FL Standard  
+MIA Attacker accuracy = 0.7000
+MIA Attacker precision = 0.9386
+MIA Attacker recall = 0.4280
+Attacking against FL Retrain  
+MIA Attacker accuracy = 0.5740
+MIA Attacker precision = 0.6101
+MIA Attacker recall = 0.4100
+Attacking against FL Unlearn  
+MIA Attacker accuracy = 0.5000
+MIA Attacker precision = 0.5000
+MIA Attacker recall = 1.0000
+Attacking against FL Unlearn without calibration  
+MIA Attacker accuracy = 0.4990
+MIA Attacker precision = 0.4995
+MIA Attacker recall = 0.9960

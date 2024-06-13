@@ -1,0 +1,1467 @@
+[92mINFO [0m:      Starting Flower server, config: num_rounds=4, no round_timeout
+[92mINFO [0m:      Flower ECE: gRPC server running (4 rounds), SSL is disabled
+[92mINFO [0m:      [INIT]
+[92mINFO [0m:      Using initial global parameters provided by strategy
+[92mINFO [0m:      Evaluating initial global parameters
+[92mINFO [0m:      initial parameters (loss, other metrics): 0.1078, {'accuracy': 2.303830846405029}
+[92mINFO [0m:      
+[92mINFO [0m:      [ROUND 1]
+Starting client 0
+Starting client 1
+Starting client 2
+Starting client 3
+Starting client 4
+Starting client 5
+Starting client 6
+Starting client 7
+Starting client 8
+Starting client 9
+[92mINFO [0m:      configure_fit: strategy sampled 2 clients (out of 10)
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 0, ROUND ]
+[92mINFO [0m:      Received: train message a23290b0-25c6-4996-a70c-b3ee36391869
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 0, ROUND ]
+[92mINFO [0m:      Received: train message 9eec11e9-7a68-4c62-bc2e-aede198a4634
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      aggregate_fit: received 2 results and 0 failures
+[92mINFO [0m:      fit progress: (1, 0.1078, {'accuracy': 2.303830846405029}, 230.71928200000002)
+[92mINFO [0m:      configure_evaluate: strategy sampled 10 clients (out of 10)
+[92mINFO [0m:      
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 0, ROUND ]
+[92mINFO [0m:      Received: evaluate message c40daa0a-388a-4e48-9595-2f5971e38617
+[92mINFO [0m:      [RUN 0, ROUND ]
+[92mINFO [0m:      Received: evaluate message b1d7af58-b2b5-4a22-a74d-9d105f46560e
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 0, ROUND ]
+[92mINFO [0m:      Received: evaluate message d15c955a-1654-4a5e-a2c4-9397fa51956c
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 0, ROUND ]
+[92mINFO [0m:      Received: evaluate message 16026d6f-c773-40ff-80a3-a2a5c7068cef
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 0, ROUND ]
+[92mINFO [0m:      Received: evaluate message 3f932f5d-79fd-4468-bc83-bb91d17ca513
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 0, ROUND ]
+[92mINFO [0m:      Received: evaluate message fd422166-8328-4e3a-8e93-d4d94cdcad9c
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 0, ROUND ]
+[92mINFO [0m:      Received: evaluate message 309f1bd6-8584-4278-a827-f7e456f91a93
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 0, ROUND ]
+[92mINFO [0m:      Received: evaluate message 9b8dd76e-5211-4d24-8806-f0c18736cdd0
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 0, ROUND ]
+[92mINFO [0m:      Received: evaluate message 8f86e837-f738-48e1-8071-fa1e4ecdbbea
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 0, ROUND ]
+[92mINFO [0m:      Received: evaluate message 369a126a-a606-4fae-b0fa-2dca14f4f9fb
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      aggregate_evaluate: received 10 results and 0 failures
+[93mWARNING [0m:   No evaluate_metrics_aggregation_fn provided
+[92mINFO [0m:      
+[92mINFO [0m:      [ROUND 2]
+[92mINFO [0m:      configure_fit: strategy sampled 10 clients (out of 10)
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 0, ROUND ]
+[92mINFO [0m:      Received: train message f9457b03-8b2d-4069-8947-0e8fea7818c2
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 0, ROUND ]
+[92mINFO [0m:      Received: train message d162c173-2466-45a4-b515-63c94b085567
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 0, ROUND ]
+[92mINFO [0m:      Received: train message 62efec08-4e68-4a26-8570-e4a4bcde9883
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 0, ROUND ]
+[92mINFO [0m:      Received: train message 0e4884d4-94d3-4d8b-b4d2-3ea69fa6afa3
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 0, ROUND ]
+[92mINFO [0m:      Received: train message 0d585de1-2a5b-4f74-ba5c-a91b94ed3e54
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 0, ROUND ]
+[92mINFO [0m:      Received: train message 7efd5dfe-0774-43f7-aea6-eb2e5fb6ff71
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 0, ROUND ]
+[92mINFO [0m:      Received: train message 11cc5c6a-45ea-41f5-9998-76ee53048f65
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 0, ROUND ]
+[92mINFO [0m:      Received: train message d2813925-54d7-41c9-8df4-95606d857352
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 0, ROUND ]
+[92mINFO [0m:      Received: train message 6e0aec42-9aa9-43cd-b5af-d05eda76ebd4
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 0, ROUND ]
+[92mINFO [0m:      Received: train message 52843bc3-2c8c-4a95-9997-c06784d6ff97
+[91mERROR [0m:     Client raised an exception.
+Traceback (most recent call last):
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 496, in _start_client_internal
+    reply_message = client_app(message=message, context=context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 98, in __call__
+    return self._call(message, context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 81, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/message_handler/message_handler.py", line 130, in handle_legacy_message_from_msgtype
+    fit_res = maybe_call_fit(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client.py", line 234, in maybe_call_fit
+    return client.fit(fit_ins)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/numpy_client.py", line 238, in _fit
+    results = self.numpy_client.fit(parameters, ins.config)  # type: ignore
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 167, in fit
+    unlearn_GMs,train_acc,train_loss,test_acc,test_loss = total_variance.client_level_unlearning(old_GMs, old_CMs, self.client_loaders, self.test_loader, self.FL_params)
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/total_variance.py", line 204, in client_level_unlearning
+    temp.pop(FL_params.forget_client_idx)  # During Unlearn, the model saved by the forgotten user pops up
+IndexError: pop index out of range
+============================================================
+Step1. Federated Learning Settings 
+ We use dataset: cifar10 for our Federated Unlearning experiment.
+
+============================================================
+Step2. Client data loaded, testing data loaded!!!
+       Initial Model loaded!!!
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Test Loss=0.0037, Test accuracy=0.1078
+#####  Federated Learning Start#####
+Global Federated Learning epoch = 0
+Global Federated Learning epoch = 1
+Global Federated Learning epoch = 2
+Global Federated Learning epoch = 3
+Global Federated Learning epoch = 4
+Global Federated Learning epoch = 5
+Global Federated Learning epoch = 6
+Global Federated Learning epoch = 7
+Global Federated Learning epoch = 8
+Global Federated Learning epoch = 9
+Global Federated Learning epoch = 10
+Global Federated Learning epoch = 11
+Global Federated Learning epoch = 12
+Global Federated Learning epoch = 13
+Global Federated Learning epoch = 14
+Global Federated Learning epoch = 15
+Global Federated Learning epoch = 16
+Global Federated Learning epoch = 17
+Global Federated Learning epoch = 18
+Global Federated Learning epoch = 19
+##### FL_Train time consuming:  -279.01831817626953 #####
+#####  Federated Learning End#####
+
+
+#####  Federated Unlearning Start  #####
+#### Client-level Unlearning ####
+Federated Unlearning Global Epoch  = 1
+Federated Unlearning Global Epoch  = 2
+Federated Unlearning Global Epoch  = 3
+Federated Unlearning Global Epoch  = 4
+Federated Unlearning Global Epoch  = 5
+Federated Unlearning Global Epoch  = 6
+Federated Unlearning Global Epoch  = 7
+Federated Unlearning Global Epoch  = 8
+Federated Unlearning Global Epoch  = 9
+Federated Unlearning Global Epoch  = 10
+Federated Unlearning Global Epoch  = 11
+Federated Unlearning Global Epoch  = 12
+Federated Unlearning Global Epoch  = 13
+Federated Unlearning Global Epoch  = 14
+Federated Unlearning Global Epoch  = 15
+Federated Unlearning Global Epoch  = 16
+Federated Unlearning Global Epoch  = 17
+Federated Unlearning Global Epoch  = 18
+Federated Unlearning Global Epoch  = 19
+split_clients [array([0, 1]), array([2, 3]), array([4, 5]), array([6, 7]), array([8, 9])]
+Files already downloaded and verified
+Files already downloaded and verified
+batch_idx 0
+Classes indices:  [14  5]
+selected_client 14
+Pruned sample index here: 14
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 306, in <module>
+    main()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 301, in main
+    fl.client.start_client(server_address="127.0.0.1:8080", client=client)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 291, in start_client
+    _start_client_internal(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 503, in _start_client_internal
+    raise ex
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 496, in _start_client_internal
+    reply_message = client_app(message=message, context=context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 98, in __call__
+    return self._call(message, context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 81, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/message_handler/message_handler.py", line 130, in handle_legacy_message_from_msgtype
+    fit_res = maybe_call_fit(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client.py", line 234, in maybe_call_fit
+    return client.fit(fit_ins)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/numpy_client.py", line 238, in _fit
+    results = self.numpy_client.fit(parameters, ins.config)  # type: ignore
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 167, in fit
+    unlearn_GMs,train_acc,train_loss,test_acc,test_loss = total_variance.client_level_unlearning(old_GMs, old_CMs, self.client_loaders, self.test_loader, self.FL_params)
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/total_variance.py", line 204, in client_level_unlearning
+    temp.pop(FL_params.forget_client_idx)  # During Unlearn, the model saved by the forgotten user pops up
+IndexError: pop index out of range
+[91mERROR [0m:     Client raised an exception.
+Traceback (most recent call last):
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 496, in _start_client_internal
+    reply_message = client_app(message=message, context=context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 98, in __call__
+    return self._call(message, context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 81, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/message_handler/message_handler.py", line 130, in handle_legacy_message_from_msgtype
+    fit_res = maybe_call_fit(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client.py", line 234, in maybe_call_fit
+    return client.fit(fit_ins)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/numpy_client.py", line 238, in _fit
+    results = self.numpy_client.fit(parameters, ins.config)  # type: ignore
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 167, in fit
+    unlearn_GMs,train_acc,train_loss,test_acc,test_loss = total_variance.client_level_unlearning(old_GMs, old_CMs, self.client_loaders, self.test_loader, self.FL_params)
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/total_variance.py", line 204, in client_level_unlearning
+    temp.pop(FL_params.forget_client_idx)  # During Unlearn, the model saved by the forgotten user pops up
+IndexError: pop index out of range
+============================================================
+Step1. Federated Learning Settings 
+ We use dataset: cifar10 for our Federated Unlearning experiment.
+
+============================================================
+Step2. Client data loaded, testing data loaded!!!
+       Initial Model loaded!!!
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Test Loss=0.0037, Test accuracy=0.1078
+#####  Federated Learning Start#####
+Global Federated Learning epoch = 0
+Global Federated Learning epoch = 1
+Global Federated Learning epoch = 2
+Global Federated Learning epoch = 3
+Global Federated Learning epoch = 4
+Global Federated Learning epoch = 5
+Global Federated Learning epoch = 6
+Global Federated Learning epoch = 7
+Global Federated Learning epoch = 8
+Global Federated Learning epoch = 9
+Global Federated Learning epoch = 10
+Global Federated Learning epoch = 11
+Global Federated Learning epoch = 12
+Global Federated Learning epoch = 13
+Global Federated Learning epoch = 14
+Global Federated Learning epoch = 15
+Global Federated Learning epoch = 16
+Global Federated Learning epoch = 17
+Global Federated Learning epoch = 18
+Global Federated Learning epoch = 19
+##### FL_Train time consuming:  -284.0203552246094 #####
+#####  Federated Learning End#####
+
+
+#####  Federated Unlearning Start  #####
+#### Client-level Unlearning ####
+Federated Unlearning Global Epoch  = 1
+Federated Unlearning Global Epoch  = 2
+Federated Unlearning Global Epoch  = 3
+Federated Unlearning Global Epoch  = 4
+Federated Unlearning Global Epoch  = 5
+Federated Unlearning Global Epoch  = 6
+Federated Unlearning Global Epoch  = 7
+Federated Unlearning Global Epoch  = 8
+Federated Unlearning Global Epoch  = 9
+Federated Unlearning Global Epoch  = 10
+Federated Unlearning Global Epoch  = 11
+Federated Unlearning Global Epoch  = 12
+Federated Unlearning Global Epoch  = 13
+Federated Unlearning Global Epoch  = 14
+Federated Unlearning Global Epoch  = 15
+Federated Unlearning Global Epoch  = 16
+Federated Unlearning Global Epoch  = 17
+Federated Unlearning Global Epoch  = 18
+Federated Unlearning Global Epoch  = 19
+split_clients [array([0, 1]), array([2, 3]), array([4, 5]), array([6, 7]), array([8, 9])]
+Files already downloaded and verified
+Files already downloaded and verified
+batch_idx 0
+Classes indices:  [14  5]
+selected_client 14
+Pruned sample index here: 14
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 306, in <module>
+    main()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 301, in main
+    fl.client.start_client(server_address="127.0.0.1:8080", client=client)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 291, in start_client
+    _start_client_internal(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 503, in _start_client_internal
+    raise ex
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 496, in _start_client_internal
+    reply_message = client_app(message=message, context=context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 98, in __call__
+    return self._call(message, context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 81, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/message_handler/message_handler.py", line 130, in handle_legacy_message_from_msgtype
+    fit_res = maybe_call_fit(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client.py", line 234, in maybe_call_fit
+    return client.fit(fit_ins)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/numpy_client.py", line 238, in _fit
+    results = self.numpy_client.fit(parameters, ins.config)  # type: ignore
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 167, in fit
+    unlearn_GMs,train_acc,train_loss,test_acc,test_loss = total_variance.client_level_unlearning(old_GMs, old_CMs, self.client_loaders, self.test_loader, self.FL_params)
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/total_variance.py", line 204, in client_level_unlearning
+    temp.pop(FL_params.forget_client_idx)  # During Unlearn, the model saved by the forgotten user pops up
+IndexError: pop index out of range
+[91mERROR [0m:     Client raised an exception.
+Traceback (most recent call last):
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 496, in _start_client_internal
+    reply_message = client_app(message=message, context=context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 98, in __call__
+    return self._call(message, context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 81, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/message_handler/message_handler.py", line 130, in handle_legacy_message_from_msgtype
+    fit_res = maybe_call_fit(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client.py", line 234, in maybe_call_fit
+    return client.fit(fit_ins)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/numpy_client.py", line 238, in _fit
+    results = self.numpy_client.fit(parameters, ins.config)  # type: ignore
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 167, in fit
+    unlearn_GMs,train_acc,train_loss,test_acc,test_loss = total_variance.client_level_unlearning(old_GMs, old_CMs, self.client_loaders, self.test_loader, self.FL_params)
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/total_variance.py", line 204, in client_level_unlearning
+    temp.pop(FL_params.forget_client_idx)  # During Unlearn, the model saved by the forgotten user pops up
+IndexError: pop index out of range
+============================================================
+Step1. Federated Learning Settings 
+ We use dataset: cifar10 for our Federated Unlearning experiment.
+
+============================================================
+Step2. Client data loaded, testing data loaded!!!
+       Initial Model loaded!!!
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Test Loss=0.0037, Test accuracy=0.1078
+#####  Federated Learning Start#####
+Global Federated Learning epoch = 0
+Global Federated Learning epoch = 1
+Global Federated Learning epoch = 2
+Global Federated Learning epoch = 3
+Global Federated Learning epoch = 4
+Global Federated Learning epoch = 5
+Global Federated Learning epoch = 6
+Global Federated Learning epoch = 7
+Global Federated Learning epoch = 8
+Global Federated Learning epoch = 9
+Global Federated Learning epoch = 10
+Global Federated Learning epoch = 11
+Global Federated Learning epoch = 12
+Global Federated Learning epoch = 13
+Global Federated Learning epoch = 14
+Global Federated Learning epoch = 15
+Global Federated Learning epoch = 16
+Global Federated Learning epoch = 17
+Global Federated Learning epoch = 18
+Global Federated Learning epoch = 19
+##### FL_Train time consuming:  -286.8745279312134 #####
+#####  Federated Learning End#####
+
+
+#####  Federated Unlearning Start  #####
+#### Client-level Unlearning ####
+Federated Unlearning Global Epoch  = 1
+Federated Unlearning Global Epoch  = 2
+Federated Unlearning Global Epoch  = 3
+Federated Unlearning Global Epoch  = 4
+Federated Unlearning Global Epoch  = 5
+Federated Unlearning Global Epoch  = 6
+Federated Unlearning Global Epoch  = 7
+Federated Unlearning Global Epoch  = 8
+Federated Unlearning Global Epoch  = 9
+Federated Unlearning Global Epoch  = 10
+Federated Unlearning Global Epoch  = 11
+Federated Unlearning Global Epoch  = 12
+Federated Unlearning Global Epoch  = 13
+Federated Unlearning Global Epoch  = 14
+Federated Unlearning Global Epoch  = 15
+Federated Unlearning Global Epoch  = 16
+Federated Unlearning Global Epoch  = 17
+Federated Unlearning Global Epoch  = 18
+Federated Unlearning Global Epoch  = 19
+split_clients [array([0, 1]), array([2, 3]), array([4, 5]), array([6, 7]), array([8, 9])]
+Files already downloaded and verified
+Files already downloaded and verified
+batch_idx 0
+Classes indices:  [14  5]
+selected_client 14
+Pruned sample index here: 14
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 306, in <module>
+    main()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 301, in main
+    fl.client.start_client(server_address="127.0.0.1:8080", client=client)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 291, in start_client
+    _start_client_internal(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 503, in _start_client_internal
+    raise ex
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 496, in _start_client_internal
+    reply_message = client_app(message=message, context=context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 98, in __call__
+    return self._call(message, context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 81, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/message_handler/message_handler.py", line 130, in handle_legacy_message_from_msgtype
+    fit_res = maybe_call_fit(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client.py", line 234, in maybe_call_fit
+    return client.fit(fit_ins)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/numpy_client.py", line 238, in _fit
+    results = self.numpy_client.fit(parameters, ins.config)  # type: ignore
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 167, in fit
+    unlearn_GMs,train_acc,train_loss,test_acc,test_loss = total_variance.client_level_unlearning(old_GMs, old_CMs, self.client_loaders, self.test_loader, self.FL_params)
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/total_variance.py", line 204, in client_level_unlearning
+    temp.pop(FL_params.forget_client_idx)  # During Unlearn, the model saved by the forgotten user pops up
+IndexError: pop index out of range
+[91mERROR [0m:     Client raised an exception.
+Traceback (most recent call last):
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 496, in _start_client_internal
+    reply_message = client_app(message=message, context=context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 98, in __call__
+    return self._call(message, context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 81, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/message_handler/message_handler.py", line 130, in handle_legacy_message_from_msgtype
+    fit_res = maybe_call_fit(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client.py", line 234, in maybe_call_fit
+    return client.fit(fit_ins)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/numpy_client.py", line 238, in _fit
+    results = self.numpy_client.fit(parameters, ins.config)  # type: ignore
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 167, in fit
+    unlearn_GMs,train_acc,train_loss,test_acc,test_loss = total_variance.client_level_unlearning(old_GMs, old_CMs, self.client_loaders, self.test_loader, self.FL_params)
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/total_variance.py", line 204, in client_level_unlearning
+    temp.pop(FL_params.forget_client_idx)  # During Unlearn, the model saved by the forgotten user pops up
+IndexError: pop index out of range
+============================================================
+Step1. Federated Learning Settings 
+ We use dataset: cifar10 for our Federated Unlearning experiment.
+
+============================================================
+Step2. Client data loaded, testing data loaded!!!
+       Initial Model loaded!!!
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Test Loss=0.0037, Test accuracy=0.1078
+#####  Federated Learning Start#####
+Global Federated Learning epoch = 0
+Global Federated Learning epoch = 1
+Global Federated Learning epoch = 2
+Global Federated Learning epoch = 3
+Global Federated Learning epoch = 4
+Global Federated Learning epoch = 5
+Global Federated Learning epoch = 6
+Global Federated Learning epoch = 7
+Global Federated Learning epoch = 8
+Global Federated Learning epoch = 9
+Global Federated Learning epoch = 10
+Global Federated Learning epoch = 11
+Global Federated Learning epoch = 12
+Global Federated Learning epoch = 13
+Global Federated Learning epoch = 14
+Global Federated Learning epoch = 15
+Global Federated Learning epoch = 16
+Global Federated Learning epoch = 17
+Global Federated Learning epoch = 18
+Global Federated Learning epoch = 19
+##### FL_Train time consuming:  -288.7242360115051 #####
+#####  Federated Learning End#####
+
+
+#####  Federated Unlearning Start  #####
+#### Client-level Unlearning ####
+Federated Unlearning Global Epoch  = 1
+Federated Unlearning Global Epoch  = 2
+Federated Unlearning Global Epoch  = 3
+Federated Unlearning Global Epoch  = 4
+Federated Unlearning Global Epoch  = 5
+Federated Unlearning Global Epoch  = 6
+Federated Unlearning Global Epoch  = 7
+Federated Unlearning Global Epoch  = 8
+Federated Unlearning Global Epoch  = 9
+Federated Unlearning Global Epoch  = 10
+Federated Unlearning Global Epoch  = 11
+Federated Unlearning Global Epoch  = 12
+Federated Unlearning Global Epoch  = 13
+Federated Unlearning Global Epoch  = 14
+Federated Unlearning Global Epoch  = 15
+Federated Unlearning Global Epoch  = 16
+Federated Unlearning Global Epoch  = 17
+Federated Unlearning Global Epoch  = 18
+Federated Unlearning Global Epoch  = 19
+split_clients [array([0, 1]), array([2, 3]), array([4, 5]), array([6, 7]), array([8, 9])]
+Files already downloaded and verified
+Files already downloaded and verified
+batch_idx 0
+Classes indices:  [14  5]
+selected_client 14
+Pruned sample index here: 14
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 306, in <module>
+    main()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 301, in main
+    fl.client.start_client(server_address="127.0.0.1:8080", client=client)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 291, in start_client
+    _start_client_internal(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 503, in _start_client_internal
+    raise ex
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 496, in _start_client_internal
+    reply_message = client_app(message=message, context=context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 98, in __call__
+    return self._call(message, context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 81, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/message_handler/message_handler.py", line 130, in handle_legacy_message_from_msgtype
+    fit_res = maybe_call_fit(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client.py", line 234, in maybe_call_fit
+    return client.fit(fit_ins)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/numpy_client.py", line 238, in _fit
+    results = self.numpy_client.fit(parameters, ins.config)  # type: ignore
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 167, in fit
+    unlearn_GMs,train_acc,train_loss,test_acc,test_loss = total_variance.client_level_unlearning(old_GMs, old_CMs, self.client_loaders, self.test_loader, self.FL_params)
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/total_variance.py", line 204, in client_level_unlearning
+    temp.pop(FL_params.forget_client_idx)  # During Unlearn, the model saved by the forgotten user pops up
+IndexError: pop index out of range
+[91mERROR [0m:     Client raised an exception.
+Traceback (most recent call last):
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 496, in _start_client_internal
+    reply_message = client_app(message=message, context=context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 98, in __call__
+    return self._call(message, context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 81, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/message_handler/message_handler.py", line 130, in handle_legacy_message_from_msgtype
+    fit_res = maybe_call_fit(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client.py", line 234, in maybe_call_fit
+    return client.fit(fit_ins)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/numpy_client.py", line 238, in _fit
+    results = self.numpy_client.fit(parameters, ins.config)  # type: ignore
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 167, in fit
+    unlearn_GMs,train_acc,train_loss,test_acc,test_loss = total_variance.client_level_unlearning(old_GMs, old_CMs, self.client_loaders, self.test_loader, self.FL_params)
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/total_variance.py", line 204, in client_level_unlearning
+    temp.pop(FL_params.forget_client_idx)  # During Unlearn, the model saved by the forgotten user pops up
+IndexError: pop index out of range
+============================================================
+Step1. Federated Learning Settings 
+ We use dataset: cifar10 for our Federated Unlearning experiment.
+
+============================================================
+Step2. Client data loaded, testing data loaded!!!
+       Initial Model loaded!!!
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Test Loss=0.0037, Test accuracy=0.1078
+#####  Federated Learning Start#####
+Global Federated Learning epoch = 0
+Global Federated Learning epoch = 1
+Global Federated Learning epoch = 2
+Global Federated Learning epoch = 3
+Global Federated Learning epoch = 4
+Global Federated Learning epoch = 5
+Global Federated Learning epoch = 6
+Global Federated Learning epoch = 7
+Global Federated Learning epoch = 8
+Global Federated Learning epoch = 9
+Global Federated Learning epoch = 10
+Global Federated Learning epoch = 11
+Global Federated Learning epoch = 12
+Global Federated Learning epoch = 13
+Global Federated Learning epoch = 14
+Global Federated Learning epoch = 15
+Global Federated Learning epoch = 16
+Global Federated Learning epoch = 17
+Global Federated Learning epoch = 18
+Global Federated Learning epoch = 19
+##### FL_Train time consuming:  -291.98795795440674 #####
+#####  Federated Learning End#####
+
+
+#####  Federated Unlearning Start  #####
+#### Client-level Unlearning ####
+Federated Unlearning Global Epoch  = 1
+Federated Unlearning Global Epoch  = 2
+Federated Unlearning Global Epoch  = 3
+Federated Unlearning Global Epoch  = 4
+Federated Unlearning Global Epoch  = 5
+Federated Unlearning Global Epoch  = 6
+Federated Unlearning Global Epoch  = 7
+Federated Unlearning Global Epoch  = 8
+Federated Unlearning Global Epoch  = 9
+Federated Unlearning Global Epoch  = 10
+Federated Unlearning Global Epoch  = 11
+Federated Unlearning Global Epoch  = 12
+Federated Unlearning Global Epoch  = 13
+Federated Unlearning Global Epoch  = 14
+Federated Unlearning Global Epoch  = 15
+Federated Unlearning Global Epoch  = 16
+Federated Unlearning Global Epoch  = 17
+Federated Unlearning Global Epoch  = 18
+Federated Unlearning Global Epoch  = 19
+split_clients [array([0, 1]), array([2, 3]), array([4, 5]), array([6, 7]), array([8, 9])]
+Files already downloaded and verified
+Files already downloaded and verified
+batch_idx 0
+Classes indices:  [14  5]
+selected_client 14
+Pruned sample index here: 14
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 306, in <module>
+    main()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 301, in main
+    fl.client.start_client(server_address="127.0.0.1:8080", client=client)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 291, in start_client
+    _start_client_internal(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 503, in _start_client_internal
+    raise ex
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 496, in _start_client_internal
+    reply_message = client_app(message=message, context=context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 98, in __call__
+    return self._call(message, context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 81, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/message_handler/message_handler.py", line 130, in handle_legacy_message_from_msgtype
+    fit_res = maybe_call_fit(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client.py", line 234, in maybe_call_fit
+    return client.fit(fit_ins)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/numpy_client.py", line 238, in _fit
+    results = self.numpy_client.fit(parameters, ins.config)  # type: ignore
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 167, in fit
+    unlearn_GMs,train_acc,train_loss,test_acc,test_loss = total_variance.client_level_unlearning(old_GMs, old_CMs, self.client_loaders, self.test_loader, self.FL_params)
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/total_variance.py", line 204, in client_level_unlearning
+    temp.pop(FL_params.forget_client_idx)  # During Unlearn, the model saved by the forgotten user pops up
+IndexError: pop index out of range
+[91mERROR [0m:     Client raised an exception.
+Traceback (most recent call last):
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 496, in _start_client_internal
+    reply_message = client_app(message=message, context=context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 98, in __call__
+    return self._call(message, context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 81, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/message_handler/message_handler.py", line 130, in handle_legacy_message_from_msgtype
+    fit_res = maybe_call_fit(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client.py", line 234, in maybe_call_fit
+    return client.fit(fit_ins)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/numpy_client.py", line 238, in _fit
+    results = self.numpy_client.fit(parameters, ins.config)  # type: ignore
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 167, in fit
+    unlearn_GMs,train_acc,train_loss,test_acc,test_loss = total_variance.client_level_unlearning(old_GMs, old_CMs, self.client_loaders, self.test_loader, self.FL_params)
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/total_variance.py", line 204, in client_level_unlearning
+    temp.pop(FL_params.forget_client_idx)  # During Unlearn, the model saved by the forgotten user pops up
+IndexError: pop index out of range
+============================================================
+Step1. Federated Learning Settings 
+ We use dataset: cifar10 for our Federated Unlearning experiment.
+
+============================================================
+Step2. Client data loaded, testing data loaded!!!
+       Initial Model loaded!!!
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Test Loss=0.0037, Test accuracy=0.1078
+#####  Federated Learning Start#####
+Global Federated Learning epoch = 0
+Global Federated Learning epoch = 1
+Global Federated Learning epoch = 2
+Global Federated Learning epoch = 3
+Global Federated Learning epoch = 4
+Global Federated Learning epoch = 5
+Global Federated Learning epoch = 6
+Global Federated Learning epoch = 7
+Global Federated Learning epoch = 8
+Global Federated Learning epoch = 9
+Global Federated Learning epoch = 10
+Global Federated Learning epoch = 11
+Global Federated Learning epoch = 12
+Global Federated Learning epoch = 13
+Global Federated Learning epoch = 14
+Global Federated Learning epoch = 15
+Global Federated Learning epoch = 16
+Global Federated Learning epoch = 17
+Global Federated Learning epoch = 18
+Global Federated Learning epoch = 19
+##### FL_Train time consuming:  -293.2196080684662 #####
+#####  Federated Learning End#####
+
+
+#####  Federated Unlearning Start  #####
+#### Client-level Unlearning ####
+Federated Unlearning Global Epoch  = 1
+Federated Unlearning Global Epoch  = 2
+Federated Unlearning Global Epoch  = 3
+Federated Unlearning Global Epoch  = 4
+Federated Unlearning Global Epoch  = 5
+Federated Unlearning Global Epoch  = 6
+Federated Unlearning Global Epoch  = 7
+Federated Unlearning Global Epoch  = 8
+Federated Unlearning Global Epoch  = 9
+Federated Unlearning Global Epoch  = 10
+Federated Unlearning Global Epoch  = 11
+Federated Unlearning Global Epoch  = 12
+Federated Unlearning Global Epoch  = 13
+Federated Unlearning Global Epoch  = 14
+Federated Unlearning Global Epoch  = 15
+Federated Unlearning Global Epoch  = 16
+Federated Unlearning Global Epoch  = 17
+Federated Unlearning Global Epoch  = 18
+Federated Unlearning Global Epoch  = 19
+split_clients [array([0, 1]), array([2, 3]), array([4, 5]), array([6, 7]), array([8, 9])]
+Files already downloaded and verified
+Files already downloaded and verified
+batch_idx 0
+Classes indices:  [14  5]
+selected_client 14
+Pruned sample index here: 14
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 306, in <module>
+    main()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 301, in main
+    fl.client.start_client(server_address="127.0.0.1:8080", client=client)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 291, in start_client
+    _start_client_internal(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 503, in _start_client_internal
+    raise ex
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 496, in _start_client_internal
+    reply_message = client_app(message=message, context=context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 98, in __call__
+    return self._call(message, context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 81, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/message_handler/message_handler.py", line 130, in handle_legacy_message_from_msgtype
+    fit_res = maybe_call_fit(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client.py", line 234, in maybe_call_fit
+    return client.fit(fit_ins)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/numpy_client.py", line 238, in _fit
+    results = self.numpy_client.fit(parameters, ins.config)  # type: ignore
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 167, in fit
+    unlearn_GMs,train_acc,train_loss,test_acc,test_loss = total_variance.client_level_unlearning(old_GMs, old_CMs, self.client_loaders, self.test_loader, self.FL_params)
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/total_variance.py", line 204, in client_level_unlearning
+    temp.pop(FL_params.forget_client_idx)  # During Unlearn, the model saved by the forgotten user pops up
+IndexError: pop index out of range
+[91mERROR [0m:     Client raised an exception.
+Traceback (most recent call last):
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 496, in _start_client_internal
+    reply_message = client_app(message=message, context=context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 98, in __call__
+    return self._call(message, context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 81, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/message_handler/message_handler.py", line 130, in handle_legacy_message_from_msgtype
+    fit_res = maybe_call_fit(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client.py", line 234, in maybe_call_fit
+    return client.fit(fit_ins)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/numpy_client.py", line 238, in _fit
+    results = self.numpy_client.fit(parameters, ins.config)  # type: ignore
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 167, in fit
+    unlearn_GMs,train_acc,train_loss,test_acc,test_loss = total_variance.client_level_unlearning(old_GMs, old_CMs, self.client_loaders, self.test_loader, self.FL_params)
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/total_variance.py", line 204, in client_level_unlearning
+    temp.pop(FL_params.forget_client_idx)  # During Unlearn, the model saved by the forgotten user pops up
+IndexError: pop index out of range
+============================================================
+Step1. Federated Learning Settings 
+ We use dataset: cifar10 for our Federated Unlearning experiment.
+
+============================================================
+Step2. Client data loaded, testing data loaded!!!
+       Initial Model loaded!!!
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Test Loss=0.0037, Test accuracy=0.1078
+#####  Federated Learning Start#####
+Global Federated Learning epoch = 0
+Global Federated Learning epoch = 1
+Global Federated Learning epoch = 2
+Global Federated Learning epoch = 3
+Global Federated Learning epoch = 4
+Global Federated Learning epoch = 5
+Global Federated Learning epoch = 6
+Global Federated Learning epoch = 7
+Global Federated Learning epoch = 8
+Global Federated Learning epoch = 9
+Global Federated Learning epoch = 10
+Global Federated Learning epoch = 11
+Global Federated Learning epoch = 12
+Global Federated Learning epoch = 13
+Global Federated Learning epoch = 14
+Global Federated Learning epoch = 15
+Global Federated Learning epoch = 16
+Global Federated Learning epoch = 17
+Global Federated Learning epoch = 18
+Global Federated Learning epoch = 19
+##### FL_Train time consuming:  -297.6866297721863 #####
+#####  Federated Learning End#####
+
+
+#####  Federated Unlearning Start  #####
+#### Client-level Unlearning ####
+Federated Unlearning Global Epoch  = 1
+Federated Unlearning Global Epoch  = 2
+Federated Unlearning Global Epoch  = 3
+Federated Unlearning Global Epoch  = 4
+Federated Unlearning Global Epoch  = 5
+Federated Unlearning Global Epoch  = 6
+Federated Unlearning Global Epoch  = 7
+Federated Unlearning Global Epoch  = 8
+Federated Unlearning Global Epoch  = 9
+Federated Unlearning Global Epoch  = 10
+Federated Unlearning Global Epoch  = 11
+Federated Unlearning Global Epoch  = 12
+Federated Unlearning Global Epoch  = 13
+Federated Unlearning Global Epoch  = 14
+Federated Unlearning Global Epoch  = 15
+Federated Unlearning Global Epoch  = 16
+Federated Unlearning Global Epoch  = 17
+Federated Unlearning Global Epoch  = 18
+Federated Unlearning Global Epoch  = 19
+split_clients [array([0, 1]), array([2, 3]), array([4, 5]), array([6, 7]), array([8, 9])]
+Files already downloaded and verified
+Files already downloaded and verified
+batch_idx 0
+Classes indices:  [14  5]
+selected_client 14
+Pruned sample index here: 14
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 306, in <module>
+    main()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 301, in main
+    fl.client.start_client(server_address="127.0.0.1:8080", client=client)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 291, in start_client
+    _start_client_internal(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 503, in _start_client_internal
+    raise ex
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 496, in _start_client_internal
+    reply_message = client_app(message=message, context=context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 98, in __call__
+    return self._call(message, context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 81, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/message_handler/message_handler.py", line 130, in handle_legacy_message_from_msgtype
+    fit_res = maybe_call_fit(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client.py", line 234, in maybe_call_fit
+    return client.fit(fit_ins)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/numpy_client.py", line 238, in _fit
+    results = self.numpy_client.fit(parameters, ins.config)  # type: ignore
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 167, in fit
+    unlearn_GMs,train_acc,train_loss,test_acc,test_loss = total_variance.client_level_unlearning(old_GMs, old_CMs, self.client_loaders, self.test_loader, self.FL_params)
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/total_variance.py", line 204, in client_level_unlearning
+    temp.pop(FL_params.forget_client_idx)  # During Unlearn, the model saved by the forgotten user pops up
+IndexError: pop index out of range
+[91mERROR [0m:     Client raised an exception.
+Traceback (most recent call last):
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 496, in _start_client_internal
+    reply_message = client_app(message=message, context=context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 98, in __call__
+    return self._call(message, context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 81, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/message_handler/message_handler.py", line 130, in handle_legacy_message_from_msgtype
+    fit_res = maybe_call_fit(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client.py", line 234, in maybe_call_fit
+    return client.fit(fit_ins)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/numpy_client.py", line 238, in _fit
+    results = self.numpy_client.fit(parameters, ins.config)  # type: ignore
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 167, in fit
+    unlearn_GMs,train_acc,train_loss,test_acc,test_loss = total_variance.client_level_unlearning(old_GMs, old_CMs, self.client_loaders, self.test_loader, self.FL_params)
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/total_variance.py", line 204, in client_level_unlearning
+    temp.pop(FL_params.forget_client_idx)  # During Unlearn, the model saved by the forgotten user pops up
+IndexError: pop index out of range
+============================================================
+Step1. Federated Learning Settings 
+ We use dataset: cifar10 for our Federated Unlearning experiment.
+
+============================================================
+Step2. Client data loaded, testing data loaded!!!
+       Initial Model loaded!!!
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Test Loss=0.0037, Test accuracy=0.1078
+#####  Federated Learning Start#####
+Global Federated Learning epoch = 0
+Global Federated Learning epoch = 1
+Global Federated Learning epoch = 2
+Global Federated Learning epoch = 3
+Global Federated Learning epoch = 4
+Global Federated Learning epoch = 5
+Global Federated Learning epoch = 6
+Global Federated Learning epoch = 7
+Global Federated Learning epoch = 8
+Global Federated Learning epoch = 9
+Global Federated Learning epoch = 10
+Global Federated Learning epoch = 11
+Global Federated Learning epoch = 12
+Global Federated Learning epoch = 13
+Global Federated Learning epoch = 14
+Global Federated Learning epoch = 15
+Global Federated Learning epoch = 16
+Global Federated Learning epoch = 17
+Global Federated Learning epoch = 18
+Global Federated Learning epoch = 19
+##### FL_Train time consuming:  -299.3759460449219 #####
+#####  Federated Learning End#####
+
+
+#####  Federated Unlearning Start  #####
+#### Client-level Unlearning ####
+Federated Unlearning Global Epoch  = 1
+Federated Unlearning Global Epoch  = 2
+Federated Unlearning Global Epoch  = 3
+Federated Unlearning Global Epoch  = 4
+Federated Unlearning Global Epoch  = 5
+Federated Unlearning Global Epoch  = 6
+Federated Unlearning Global Epoch  = 7
+Federated Unlearning Global Epoch  = 8
+Federated Unlearning Global Epoch  = 9
+Federated Unlearning Global Epoch  = 10
+Federated Unlearning Global Epoch  = 11
+Federated Unlearning Global Epoch  = 12
+Federated Unlearning Global Epoch  = 13
+Federated Unlearning Global Epoch  = 14
+Federated Unlearning Global Epoch  = 15
+Federated Unlearning Global Epoch  = 16
+Federated Unlearning Global Epoch  = 17
+Federated Unlearning Global Epoch  = 18
+Federated Unlearning Global Epoch  = 19
+split_clients [array([0, 1]), array([2, 3]), array([4, 5]), array([6, 7]), array([8, 9])]
+Files already downloaded and verified
+Files already downloaded and verified
+batch_idx 0
+Classes indices:  [14  5]
+selected_client 14
+Pruned sample index here: 14
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 306, in <module>
+    main()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 301, in main
+    fl.client.start_client(server_address="127.0.0.1:8080", client=client)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 291, in start_client
+    _start_client_internal(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 503, in _start_client_internal
+    raise ex
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 496, in _start_client_internal
+    reply_message = client_app(message=message, context=context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 98, in __call__
+    return self._call(message, context)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client_app.py", line 81, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/message_handler/message_handler.py", line 130, in handle_legacy_message_from_msgtype
+    fit_res = maybe_call_fit(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/client.py", line 234, in maybe_call_fit
+    return client.fit(fit_ins)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/numpy_client.py", line 238, in _fit
+    results = self.numpy_client.fit(parameters, ins.config)  # type: ignore
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 167, in fit
+    unlearn_GMs,train_acc,train_loss,test_acc,test_loss = total_variance.client_level_unlearning(old_GMs, old_CMs, self.client_loaders, self.test_loader, self.FL_params)
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/total_variance.py", line 204, in client_level_unlearning
+    temp.pop(FL_params.forget_client_idx)  # During Unlearn, the model saved by the forgotten user pops up
+IndexError: pop index out of range
+============================================================
+Step1. Federated Learning Settings 
+ We use dataset: cifar10 for our Federated Unlearning experiment.
+
+============================================================
+Step2. Client data loaded, testing data loaded!!!
+       Initial Model loaded!!!
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+#####  Federated Learning Start#####
+Global Federated Learning epoch = 0
+Global Federated Learning epoch = 1
+Global Federated Learning epoch = 2
+Global Federated Learning epoch = 3
+Global Federated Learning epoch = 4
+Global Federated Learning epoch = 5
+Global Federated Learning epoch = 6
+Global Federated Learning epoch = 7
+Global Federated Learning epoch = 8
+Global Federated Learning epoch = 9
+Global Federated Learning epoch = 10
+Global Federated Learning epoch = 11
+Global Federated Learning epoch = 12
+Global Federated Learning epoch = 13
+Global Federated Learning epoch = 14
+Global Federated Learning epoch = 15
+Global Federated Learning epoch = 16
+Global Federated Learning epoch = 17
+Global Federated Learning epoch = 18
+Global Federated Learning epoch = 19
+##### FL_Train time consuming:  -72.5900559425354 #####
+#####  Federated Learning End#####
+
+
+#####  Federated Unlearning Start  #####
+#### Client-level Unlearning ####
+Federated Unlearning Global Epoch  = 1
+Federated Unlearning Global Epoch  = 2
+Federated Unlearning Global Epoch  = 3
+Federated Unlearning Global Epoch  = 4
+Federated Unlearning Global Epoch  = 5
+Federated Unlearning Global Epoch  = 6
+Federated Unlearning Global Epoch  = 7
+Federated Unlearning Global Epoch  = 8
+Federated Unlearning Global Epoch  = 9
+Federated Unlearning Global Epoch  = 10
+Federated Unlearning Global Epoch  = 11
+Federated Unlearning Global Epoch  = 12
+Federated Unlearning Global Epoch  = 13
+Federated Unlearning Global Epoch  = 14
+Federated Unlearning Global Epoch  = 15
+Federated Unlearning Global Epoch  = 16
+Federated Unlearning Global Epoch  = 17
+Federated Unlearning Global Epoch  = 18
+Federated Unlearning Global Epoch  = 19
+split_clients [array([0, 1]), array([2, 3]), array([4, 5]), array([6, 7]), array([8, 9])]
+Files already downloaded and verified
+Files already downloaded and verified
+batch_idx 0
+Classes indices:  [4 5]
+selected_client 5
+Pruned sample index here: 5
+Updated global <class 'list'> 1 <class 'list'>
+#####  Federated Fine-tuning Start#####
+Unlearn a client
+Global Federated Learning epoch = 0
+Test Loss=0.0228, Test accuracy=0.1800
+Test Loss=0.0228, Test accuracy=0.1700
+Unlearn a client
+Global Federated Learning epoch = 1
+Test Loss=0.0224, Test accuracy=0.1760
+Test Loss=0.0224, Test accuracy=0.1740
+Unlearn a client
+Global Federated Learning epoch = 2
+Test Loss=0.0220, Test accuracy=0.1960
+Test Loss=0.0220, Test accuracy=0.2100
+Unlearn a client
+Global Federated Learning epoch = 3
+Test Loss=0.0216, Test accuracy=0.2260
+Test Loss=0.0216, Test accuracy=0.2260
+Unlearn a client
+Global Federated Learning epoch = 4
+Test Loss=0.0211, Test accuracy=0.2100
+Test Loss=0.0212, Test accuracy=0.2300
+Unlearn a client
+Global Federated Learning epoch = 5
+Test Loss=0.0207, Test accuracy=0.2280
+Test Loss=0.0207, Test accuracy=0.2380
+Unlearn a client
+Global Federated Learning epoch = 6
+Test Loss=0.0204, Test accuracy=0.2560
+Test Loss=0.0206, Test accuracy=0.2360
+Unlearn a client
+Global Federated Learning epoch = 7
+Test Loss=0.0202, Test accuracy=0.2720
+Test Loss=0.0202, Test accuracy=0.2560
+Unlearn a client
+Global Federated Learning epoch = 8
+Test Loss=0.0201, Test accuracy=0.2500
+Test Loss=0.0200, Test accuracy=0.2540
+Unlearn a client
+Global Federated Learning epoch = 9
+Test Loss=0.0201, Test accuracy=0.2620
+Test Loss=0.0200, Test accuracy=0.2400
+Unlearn a client
+Global Federated Learning epoch = 10
+Test Loss=0.0199, Test accuracy=0.2640
+Test Loss=0.0197, Test accuracy=0.2660
+Unlearn a client
+Global Federated Learning epoch = 11
+Test Loss=0.0196, Test accuracy=0.2860
+Test Loss=0.0195, Test accuracy=0.2980
+Unlearn a client
+Global Federated Learning epoch = 12
+Test Loss=0.0193, Test accuracy=0.3040
+Test Loss=0.0193, Test accuracy=0.3020
+Unlearn a client
+Global Federated Learning epoch = 13
+Test Loss=0.0191, Test accuracy=0.3120
+Test Loss=0.0191, Test accuracy=0.2900
+Unlearn a client
+Global Federated Learning epoch = 14
+Test Loss=0.0189, Test accuracy=0.3060
+Test Loss=0.0190, Test accuracy=0.3180
+Unlearn a client
+Global Federated Learning epoch = 15
+Test Loss=0.0187, Test accuracy=0.3200
+Test Loss=0.0185, Test accuracy=0.3060
+Unlearn a client
+Global Federated Learning epoch = 16
+Test Loss=0.0182, Test accuracy=0.3280
+Test Loss=0.0185, Test accuracy=0.3240
+Unlearn a client
+Global Federated Learning epoch = 17
+Test Loss=0.0182, Test accuracy=0.3040
+Test Loss=0.0183, Test accuracy=0.3420
+Unlearn a client
+Global Federated Learning epoch = 18
+Test Loss=0.0180, Test accuracy=0.3200
+Test Loss=0.0180, Test accuracy=0.3140
+Unlearn a client
+Global Federated Learning epoch = 19
+Test Loss=0.0180, Test accuracy=0.3400
+Test Loss=0.0178, Test accuracy=0.3500
+Fine-tuning train acc:0.3500
+Fine-tuning train epoch:19
+#####  Federated Fine-tuning End#####
+##### Total_variance time consuming:  -131.11169624328613 #####
+#####  Federated Unlearning End  #####
+Test Loss=0.0114, Test accuracy=0.3473
+FL_params.unlearn_client:  5
+Test Loss=0.2227, Test accuracy=0.3475
+*****  Result Summary  *****
+[FedEraser] Test set: Average loss = 1.78507767, Average acc = 0.3473
+============================================================
+Step4. Membership Inference Attack aganist GM...
+Attacking against FL Unlearn without calibration  
+MIA Attacker accuracy = 0.5000
+MIA Attacker precision = 0.0000
+MIA Attacker recall = 0.0000
+Test Loss=0.0037, Test accuracy=0.1078
+#####  Federated Learning Start#####
+Unlearn a client
+Global Federated Learning epoch = 0
+Unlearn a client
+Global Federated Learning epoch = 1
+Unlearn a client
+Global Federated Learning epoch = 2
+Unlearn a client
+Global Federated Learning epoch = 3
+Unlearn a client
+Global Federated Learning epoch = 4
+Unlearn a client
+Global Federated Learning epoch = 5
+Unlearn a client
+Global Federated Learning epoch = 6
+Unlearn a client
+Global Federated Learning epoch = 7
+Unlearn a client
+Global Federated Learning epoch = 8
+Unlearn a client
+Global Federated Learning epoch = 9
+Unlearn a client
+Global Federated Learning epoch = 10
+Unlearn a client
+Global Federated Learning epoch = 11
+Unlearn a client
+Global Federated Learning epoch = 12
+Unlearn a client
+Global Federated Learning epoch = 13
+Unlearn a client
+Global Federated Learning epoch = 14
+Unlearn a client
+Global Federated Learning epoch = 15
+Unlearn a client
+Global Federated Learning epoch = 16
+Unlearn a client
+Global Federated Learning epoch = 17
+Unlearn a client
+Global Federated Learning epoch = 18
+Unlearn a client
+Global Federated Learning epoch = 19
+##### FL_Train time consuming:  -289.22526478767395 #####
+#####  Federated Learning End#####
+
+
+#####  Federated Unlearning Start  #####
+#### Client-level Unlearning ####
+Federated Unlearning Global Epoch  = 1
+Federated Unlearning Global Epoch  = 2
+Federated Unlearning Global Epoch  = 3
+Federated Unlearning Global Epoch  = 4
+Federated Unlearning Global Epoch  = 5
+Federated Unlearning Global Epoch  = 6
+Federated Unlearning Global Epoch  = 7
+Federated Unlearning Global Epoch  = 8
+Federated Unlearning Global Epoch  = 9
+Federated Unlearning Global Epoch  = 10
+Federated Unlearning Global Epoch  = 11
+Federated Unlearning Global Epoch  = 12
+Federated Unlearning Global Epoch  = 13
+Federated Unlearning Global Epoch  = 14
+Federated Unlearning Global Epoch  = 15
+Federated Unlearning Global Epoch  = 16
+Federated Unlearning Global Epoch  = 17
+Federated Unlearning Global Epoch  = 18
+Federated Unlearning Global Epoch  = 19
+split_clients [array([0, 1]), array([2, 3]), array([4, 5]), array([6, 7]), array([8, 9])]
+Files already downloaded and verified
+Files already downloaded and verified
+batch_idx 0
+Classes indices:  [4 5]
+selected_client 5
+Pruned sample index here: 5
+Updated global <class 'list'> 1 <class 'list'>
+#####  Federated Fine-tuning Start#####
+Unlearn a client
+Global Federated Learning epoch = 0============================================================
+Step1. Federated Learning Settings 
+ We use dataset: cifar10 for our Federated Unlearning experiment.
+
+============================================================
+Step2. Client data loaded, testing data loaded!!!
+       Initial Model loaded!!!
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+#####  Federated Learning Start#####
+Global Federated Learning epoch = 0
+Global Federated Learning epoch = 1
+Global Federated Learning epoch = 2
+Global Federated Learning epoch = 3
+Global Federated Learning epoch = 4
+Global Federated Learning epoch = 5
+Global Federated Learning epoch = 6
+Global Federated Learning epoch = 7
+Global Federated Learning epoch = 8
+Global Federated Learning epoch = 9
+Global Federated Learning epoch = 10
+Global Federated Learning epoch = 11
+Global Federated Learning epoch = 12
+Global Federated Learning epoch = 13
+Global Federated Learning epoch = 14
+Global Federated Learning epoch = 15
+Global Federated Learning epoch = 16
+Global Federated Learning epoch = 17
+Global Federated Learning epoch = 18
+Global Federated Learning epoch = 19
+##### FL_Train time consuming:  -72.64410710334778 #####
+#####  Federated Learning End#####
+
+
+#####  Federated Unlearning Start  #####
+#### Client-level Unlearning ####
+Federated Unlearning Global Epoch  = 1
+Federated Unlearning Global Epoch  = 2
+Federated Unlearning Global Epoch  = 3
+Federated Unlearning Global Epoch  = 4
+Federated Unlearning Global Epoch  = 5
+Federated Unlearning Global Epoch  = 6
+Federated Unlearning Global Epoch  = 7
+Federated Unlearning Global Epoch  = 8
+Federated Unlearning Global Epoch  = 9
+Federated Unlearning Global Epoch  = 10
+Federated Unlearning Global Epoch  = 11
+Federated Unlearning Global Epoch  = 12
+Federated Unlearning Global Epoch  = 13
+Federated Unlearning Global Epoch  = 14
+Federated Unlearning Global Epoch  = 15
+Federated Unlearning Global Epoch  = 16
+Federated Unlearning Global Epoch  = 17
+Federated Unlearning Global Epoch  = 18
+Federated Unlearning Global Epoch  = 19
+split_clients [array([0, 1]), array([2, 3]), array([4, 5]), array([6, 7]), array([8, 9])]
+Files already downloaded and verified
+Files already downloaded and verified
+batch_idx 0
+Classes indices:  [4 5]
+selected_client 5
+Pruned sample index here: 5
+Updated global <class 'list'> 1 <class 'list'>
+#####  Federated Fine-tuning Start#####
+Unlearn a client
+Global Federated Learning epoch = 0
+Test Loss=0.0228, Test accuracy=0.1460
+Test Loss=0.0228, Test accuracy=0.1340
+Unlearn a client
+Global Federated Learning epoch = 1
+Test Loss=0.0226, Test accuracy=0.1500
+Test Loss=0.0226, Test accuracy=0.1400
+Unlearn a client
+Global Federated Learning epoch = 2
+Test Loss=0.0224, Test accuracy=0.1660
+Test Loss=0.0224, Test accuracy=0.1780
+Unlearn a client
+Global Federated Learning epoch = 3
+Test Loss=0.0220, Test accuracy=0.1940
+Test Loss=0.0220, Test accuracy=0.2000
+Unlearn a client
+Global Federated Learning epoch = 4
+Test Loss=0.0215, Test accuracy=0.2060
+Test Loss=0.0216, Test accuracy=0.2100
+Unlearn a client
+Global Federated Learning epoch = 5
+Test Loss=0.0211, Test accuracy=0.2380
+Test Loss=0.0211, Test accuracy=0.2240
+Unlearn a client
+Global Federated Learning epoch = 6
+Test Loss=0.0207, Test accuracy=0.2720
+Test Loss=0.0207, Test accuracy=0.2680
+Unlearn a client
+Global Federated Learning epoch = 7
+Test Loss=0.0206, Test accuracy=0.2680
+Test Loss=0.0206, Test accuracy=0.2720
+Unlearn a client
+Global Federated Learning epoch = 8
+Test Loss=0.0206, Test accuracy=0.2520
+Test Loss=0.0205, Test accuracy=0.2920
+Unlearn a client
+Global Federated Learning epoch = 9
+Test Loss=0.0201, Test accuracy=0.2640
+Test Loss=0.0204, Test accuracy=0.2880
+Unlearn a client
+Global Federated Learning epoch = 10
+Test Loss=0.0200, Test accuracy=0.2740
+Test Loss=0.0200, Test accuracy=0.2740
+Unlearn a client
+Global Federated Learning epoch = 11
+Test Loss=0.0198, Test accuracy=0.3060
+Test Loss=0.0199, Test accuracy=0.2580
+Unlearn a client
+Global Federated Learning epoch = 12
+Test Loss=0.0199, Test accuracy=0.2960
+Test Loss=0.0196, Test accuracy=0.3000
+Unlearn a client
+Global Federated Learning epoch = 13
+Test Loss=0.0197, Test accuracy=0.2920
+Test Loss=0.0195, Test accuracy=0.2980
+Unlearn a client
+Global Federated Learning epoch = 14
+Test Loss=0.0194, Test accuracy=0.2980
+Test Loss=0.0194, Test accuracy=0.2880
+Unlearn a client
+Global Federated Learning epoch = 15
+Test Loss=0.0193, Test accuracy=0.3140
+Test Loss=0.0194, Test accuracy=0.3000
+Unlearn a client
+Global Federated Learning epoch = 16
+Test Loss=0.0191, Test accuracy=0.3160
+Test Loss=0.0192, Test accuracy=0.3020
+Unlearn a client
+Global Federated Learning epoch = 17
+Test Loss=0.0190, Test accuracy=0.2740
+Test Loss=0.0189, Test accuracy=0.3380
+Unlearn a client
+Global Federated Learning epoch = 18
+Test Loss=0.0186, Test accuracy=0.3380
+Test Loss=0.0187, Test accuracy=0.3400
+Unlearn a client
+Global Federated Learning epoch = 19
+Test Loss=0.0184, Test accuracy=0.3240
+Test Loss=0.0184, Test accuracy=0.3520
+Fine-tuning train acc:0.3520
+Fine-tuning train epoch:19
+#####  Federated Fine-tuning End#####
+##### Total_variance time consuming:  -132.3338761329651 #####
+#####  Federated Unlearning End  #####
+Test Loss=0.0113, Test accuracy=0.3577
+FL_params.unlearn_client:  5
+Test Loss=0.2261, Test accuracy=0.3139
+*****  Result Summary  *****
+[FedEraser] Test set: Average loss = 1.76808435, Average acc = 0.3577
+============================================================
+Step4. Membership Inference Attack aganist GM...
+Attacking against FL Unlearn without calibration  
+MIA Attacker accuracy = 0.4900
+MIA Attacker precision = 0.4874
+MIA Attacker recall = 0.3880
+Test Loss=0.0037, Test accuracy=0.1078
+#####  Federated Learning Start#####
+Unlearn a client
+Global Federated Learning epoch = 0
+Unlearn a client
+Global Federated Learning epoch = 1
+Unlearn a client
+Global Federated Learning epoch = 2
+Unlearn a client
+Global Federated Learning epoch = 3
+Unlearn a client
+Global Federated Learning epoch = 4
+Unlearn a client
+Global Federated Learning epoch = 5
+Unlearn a client
+Global Federated Learning epoch = 6
+Unlearn a client
+Global Federated Learning epoch = 7
+Unlearn a client
+Global Federated Learning epoch = 8
+Unlearn a client
+Global Federated Learning epoch = 9
+Unlearn a client
+Global Federated Learning epoch = 10
+Unlearn a client
+Global Federated Learning epoch = 11
+Unlearn a client
+Global Federated Learning epoch = 12
+Unlearn a client
+Global Federated Learning epoch = 13
+Unlearn a client
+Global Federated Learning epoch = 14
+Unlearn a client
+Global Federated Learning epoch = 15
+Unlearn a client
+Global Federated Learning epoch = 16
+Unlearn a client
+Global Federated Learning epoch = 17
+Unlearn a client
+Global Federated Learning epoch = 18
+Unlearn a client
+Global Federated Learning epoch = 19
+##### FL_Train time consuming:  -297.6954128742218 #####
+#####  Federated Learning End#####
+
+
+#####  Federated Unlearning Start  #####
+#### Client-level Unlearning ####
+Federated Unlearning Global Epoch  = 1
+Federated Unlearning Global Epoch  = 2
+Federated Unlearning Global Epoch  = 3
+Federated Unlearning Global Epoch  = 4
+Federated Unlearning Global Epoch  = 5
+Federated Unlearning Global Epoch  = 6
+Federated Unlearning Global Epoch  = 7
+Federated Unlearning Global Epoch  = 8
+Federated Unlearning Global Epoch  = 9
+Federated Unlearning Global Epoch  = 10
+Federated Unlearning Global Epoch  = 11
+Federated Unlearning Global Epoch  = 12
+Federated Unlearning Global Epoch  = 13
+Federated Unlearning Global Epoch  = 14
+Federated Unlearning Global Epoch  = 15
+Federated Unlearning Global Epoch  = 16
+Federated Unlearning Global Epoch  = 17
+Federated Unlearning Global Epoch  = 18
+Federated Unlearning Global Epoch  = 19
+split_clients [array([0, 1]), array([2, 3]), array([4, 5]), array([6, 7]), array([8, 9])]
+Files already downloaded and verified
+Files already downloaded and verified
+batch_idx 0
+Classes indices:  [4 5]
+selected_client 5
+Pruned sample index here: 5
+Updated global <class 'list'> 1 <class 'list'>
+#####  Federated Fine-tuning Start#####
+Unlearn a client
+Global Federated Learning epoch = 0[92mINFO [0m:      Sent reply
+[92mINFO [0m:      Sent reply
+[92mINFO [0m:      aggregate_fit: received 2 results and 8 failures
+[92mINFO [0m:      fit progress: (2, 0.1078, {'accuracy': 2.303830846405029}, 683.1005009999999)

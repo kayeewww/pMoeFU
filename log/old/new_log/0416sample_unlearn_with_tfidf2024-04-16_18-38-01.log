@@ -1,0 +1,225 @@
+Files already downloaded and verified
+============================================================
+Step1. Federated Learning Settings 
+ We use dataset: cifar10 for our Federated Unlearning experiment.
+
+============================================================
+Step2. Client data loaded, testing data loaded!!!
+       Initial Model loaded!!!
+Files already downloaded and verified
+Files already downloaded and verified
+============================================================
+Step3. Fedearated Learning and Unlearning Training...
+len of selected client loader, 12
+#####  Federated Learning Start#####
+Global Federated Learning epoch = 0
+Global Federated Learning epoch = 1
+Global Federated Learning epoch = 2
+Global Federated Learning epoch = 3
+Global Federated Learning epoch = 4
+Global Federated Learning epoch = 5
+Global Federated Learning epoch = 6
+Global Federated Learning epoch = 7
+Global Federated Learning epoch = 8
+Global Federated Learning epoch = 9
+Global Federated Learning epoch = 10
+Global Federated Learning epoch = 11
+Global Federated Learning epoch = 12
+Global Federated Learning epoch = 13
+Global Federated Learning epoch = 14
+Global Federated Learning epoch = 15
+Global Federated Learning epoch = 16
+Global Federated Learning epoch = 17
+Global Federated Learning epoch = 18
+Global Federated Learning epoch = 19
+#####  Federated Learning End#####
+
+
+#####  Federated Unlearning Start  #####
+#### Client-level Unlearning ####
+Federated Unlearning Global Epoch  = 1
+Federated Unlearning Global Epoch  = 2
+Federated Unlearning Global Epoch  = 3
+Federated Unlearning Global Epoch  = 4
+Federated Unlearning Global Epoch  = 5
+Federated Unlearning Global Epoch  = 6
+Federated Unlearning Global Epoch  = 7
+Federated Unlearning Global Epoch  = 8
+Federated Unlearning Global Epoch  = 9
+Federated Unlearning Global Epoch  = 10
+Federated Unlearning Global Epoch  = 11
+Federated Unlearning Global Epoch  = 12
+Federated Unlearning Global Epoch  = 13
+Federated Unlearning Global Epoch  = 14
+Federated Unlearning Global Epoch  = 15
+Federated Unlearning Global Epoch  = 16
+Federated Unlearning Global Epoch  = 17
+Federated Unlearning Global Epoch  = 18
+Federated Unlearning Global Epoch  = 19
+split_clients [array([0, 1])]
+Files already downloaded and verified
+Files already downloaded and verified
+batch_idx 0
+Classes indices:  [ 0  5  8  1 10 14 11  4  3  7]
+tf_idf {'conv1': tensor([0.1323, 0.1255, 0.0593, 0.0591, 0.1246, 0.1165]), 'conv2': tensor([0.0131, 0.0312, 0.0011, 0.1184, 0.0553, 0.0296, 0.0002, 0.1267, 0.0308,
+        0.0000, 0.0331, 0.0526, 0.0051, 0.0003, 0.0390, 0.0042])}
+tf_idf_array.shape:  torch.Size([16])
+threshold 0.00018988558440469205
+all_classes ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
+Class to be removed:  ['dog']
+#Remain classes:  9
+Pruned sample index here: 5
+Updated global <class 'list'> 1 <class 'model_initiation.Net_cifar10'>
+#####  Federated Unlearning End  #####
+
+
+#####  Federated Unlearning without Calibration Start  #####
+FL_params.forget_client_idx:  5
+Federated Unlearning without Clibration Global Epoch  = 0
+Federated Unlearning without Clibration Global Epoch  = 1
+Federated Unlearning without Clibration Global Epoch  = 2
+Federated Unlearning without Clibration Global Epoch  = 3
+Federated Unlearning without Clibration Global Epoch  = 4
+Federated Unlearning without Clibration Global Epoch  = 5
+Federated Unlearning without Clibration Global Epoch  = 6
+Federated Unlearning without Clibration Global Epoch  = 7
+Federated Unlearning without Clibration Global Epoch  = 8
+Federated Unlearning without Clibration Global Epoch  = 9
+Federated Unlearning without Clibration Global Epoch  = 10
+Federated Unlearning without Clibration Global Epoch  = 11
+Federated Unlearning without Clibration Global Epoch  = 12
+Federated Unlearning without Clibration Global Epoch  = 13
+Federated Unlearning without Clibration Global Epoch  = 14
+Federated Unlearning without Clibration Global Epoch  = 15
+Federated Unlearning without Clibration Global Epoch  = 16
+Federated Unlearning without Clibration Global Epoch  = 17
+Federated Unlearning without Clibration Global Epoch  = 18
+Federated Unlearning without Clibration Global Epoch  = 19
+Federated Unlearning Global Epoch  = 1
+Federated Unlearning Global Epoch  = 2
+Federated Unlearning Global Epoch  = 3
+Federated Unlearning Global Epoch  = 4
+Federated Unlearning Global Epoch  = 5
+Federated Unlearning Global Epoch  = 6
+Federated Unlearning Global Epoch  = 7
+Federated Unlearning Global Epoch  = 8
+Federated Unlearning Global Epoch  = 9
+Federated Unlearning Global Epoch  = 10
+Federated Unlearning Global Epoch  = 11
+Federated Unlearning Global Epoch  = 12
+Federated Unlearning Global Epoch  = 13
+Federated Unlearning Global Epoch  = 14
+Federated Unlearning Global Epoch  = 15
+Federated Unlearning Global Epoch  = 16
+Federated Unlearning Global Epoch  = 17
+Federated Unlearning Global Epoch  = 18
+Federated Unlearning Global Epoch  = 19
+#####  Federated Unlearning without Calibration End  #####
+ Learning time consuming = 43.54095196723938 secods
+ Unlearning time consuming = 1.8254899978637695 secods
+ Unlearning no Cali time consuming = 0.047411203384399414 secods
+
+
+#####  【Federated Retraining Start】  #####
+here了吧
+Global Federated Learning epoch = 0
+Test Loss=0.0147, Test accuracy=0.1036
+here了吧
+Global Federated Learning epoch = 1
+Test Loss=0.0147, Test accuracy=0.1080
+here了吧
+Global Federated Learning epoch = 2
+Test Loss=0.0147, Test accuracy=0.1115
+here了吧
+Global Federated Learning epoch = 3
+Test Loss=0.0146, Test accuracy=0.1141
+here了吧
+Global Federated Learning epoch = 4
+Test Loss=0.0146, Test accuracy=0.1201
+here了吧
+Global Federated Learning epoch = 5
+Test Loss=0.0146, Test accuracy=0.1298
+here了吧
+Global Federated Learning epoch = 6
+Test Loss=0.0146, Test accuracy=0.1567
+here了吧
+Global Federated Learning epoch = 7
+Test Loss=0.0146, Test accuracy=0.1913
+here了吧
+Global Federated Learning epoch = 8
+Test Loss=0.0145, Test accuracy=0.2029
+here了吧
+Global Federated Learning epoch = 9
+Test Loss=0.0145, Test accuracy=0.1897
+here了吧
+Global Federated Learning epoch = 10
+Test Loss=0.0144, Test accuracy=0.1763
+here了吧
+Global Federated Learning epoch = 11
+Test Loss=0.0143, Test accuracy=0.1652
+here了吧
+Global Federated Learning epoch = 12
+Test Loss=0.0142, Test accuracy=0.1716
+here了吧
+Global Federated Learning epoch = 13
+Test Loss=0.0141, Test accuracy=0.1903
+here了吧
+Global Federated Learning epoch = 14
+Test Loss=0.0139, Test accuracy=0.2088
+here了吧
+Global Federated Learning epoch = 15
+Test Loss=0.0138, Test accuracy=0.2218
+here了吧
+Global Federated Learning epoch = 16
+Test Loss=0.0136, Test accuracy=0.2388
+here了吧
+Global Federated Learning epoch = 17
+Test Loss=0.0134, Test accuracy=0.2475
+here了吧
+Global Federated Learning epoch = 18
+Test Loss=0.0132, Test accuracy=0.2591
+here了吧
+Global Federated Learning epoch = 19
+Test Loss=0.0131, Test accuracy=0.2669
+#####  Federated Retraining End  #####
+Retrain Time using = 63.26675796508789 seconds 3
+Test Loss=0.0134, Test accuracy=0.2488
+Test Loss=0.0136, Test accuracy=0.2035
+Test Loss=0.0131, Test accuracy=0.2657
+Test Loss=0.0135, Test accuracy=0.2362
+FL_params.unlearn_client:  5
+Test Loss=0.2623, Test accuracy=0.2563
+Test Loss=0.2719, Test accuracy=0.1584
+Test Loss=0.2566, Test accuracy=0.2306
+Test Loss=0.2608, Test accuracy=0.2306
+*****  Result Summary  *****
+[FedEraser] Test set: Average loss = 2.12245371, Average acc = 0.2362
+[FedAccum] Test set: Average loss = 2.13862688, Average acc = 0.2035
+[FedRetrain] Test set: Average loss = 2.05402163, Average acc = 0.2657
+[FedAvg] Test set: Average loss = 2.09726162, Average acc = 0.2488
+
+
+[FedEraser] Target set: Average loss = 2.09810248, Average acc = 0.2563
+[FedAccum] Target set: Average loss = 2.17550257, Average acc = 0.1584
+[FedRetrain] Target set: Average loss = 2.05243804, Average acc = 0.2306
+[FedAvg] Target set: Average loss = 2.08643804, Average acc = 0.2306
+============================================================
+Step4. Membership Inference Attack aganist GM...
+
+Epoch  = -1
+Attacking against FL Standard  
+MIA Attacker accuracy = 0.6840
+MIA Attacker precision = 0.9220
+MIA Attacker recall = 0.4020
+Attacking against FL Retrain  
+MIA Attacker accuracy = 0.5270
+MIA Attacker precision = 0.5324
+MIA Attacker recall = 0.4440
+Attacking against FL Unlearn  
+MIA Attacker accuracy = 0.5240
+MIA Attacker precision = 0.5566
+MIA Attacker recall = 0.2360
+Attacking against FL Unlearn without calibration  
+MIA Attacker accuracy = 0.5250
+MIA Attacker precision = 0.5352
+MIA Attacker recall = 0.3800

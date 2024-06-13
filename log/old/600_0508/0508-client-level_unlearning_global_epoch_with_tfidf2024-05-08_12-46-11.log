@@ -1,0 +1,37 @@
+============================================================
+Step1. Federated Learning Settings 
+ We use dataset: cifar10 for our Federated Unlearning experiment.
+
+============================================================
+Step2. Client data loaded, testing data loaded!!!
+       Initial Model loaded!!!
+Using downloaded and verified file: ./data/cifar-10-python.tar.gz
+Extracting ./data/cifar-10-python.tar.gz to ./data
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/Fed_Unlearn_main.py", line 278, in <module>
+    Federated_Unlearning()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/Fed_Unlearn_main.py", line 123, in Federated_Unlearning
+    client_all_loaders, test_loader = data_init(FL_params)
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/data_preprocess.py", line 21, in data_init
+    trainset, testset = data_set(FL_params.data_name)
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/data_preprocess.py", line 141, in data_set
+    trainset = datasets.CIFAR10(root='./data',
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/cifar.py", line 66, in __init__
+    self.download()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/cifar.py", line 140, in download
+    download_and_extract_archive(self.url, self.root, filename=self.filename, md5=self.tgz_md5)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 399, in download_and_extract_archive
+    extract_archive(archive, extract_root, remove_finished)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 374, in extract_archive
+    extractor(from_path, to_path, compression)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 220, in _extract_tar
+    tar.extractall(to_path)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2034, in extractall
+    self.extract(tarinfo, path, set_attrs=not tarinfo.isdir(),
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2075, in extract
+    self._extract_member(tarinfo, os.path.join(path, tarinfo.name),
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2147, in _extract_member
+    self.makefile(tarinfo, targetpath)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/tarfile.py", line 2188, in makefile
+    with bltn_open(targetpath, "wb") as target:
+OSError: [Errno 89] Operation canceled: './data/cifar-10-batches-py/data_batch_4'

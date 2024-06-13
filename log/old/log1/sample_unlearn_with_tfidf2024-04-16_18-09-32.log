@@ -1,0 +1,189 @@
+Files already downloaded and verified
+============================================================
+Step1. Federated Learning Settings 
+ We use dataset: cifar10 for our Federated Unlearning experiment.
+
+============================================================
+Step2. Client data loaded, testing data loaded!!!
+       Initial Model loaded!!!
+Files already downloaded and verified
+Files already downloaded and verified
+============================================================
+Step3. Fedearated Learning and Unlearning Training...
+len of selected client loader, 12
+#####  Federated Learning Start#####
+Global Federated Learning epoch = 0
+Global Federated Learning epoch = 1
+Global Federated Learning epoch = 2
+Global Federated Learning epoch = 3
+Global Federated Learning epoch = 4
+Global Federated Learning epoch = 5
+Global Federated Learning epoch = 6
+Global Federated Learning epoch = 7
+Global Federated Learning epoch = 8
+Global Federated Learning epoch = 9
+Global Federated Learning epoch = 10
+Global Federated Learning epoch = 11
+Global Federated Learning epoch = 12
+Global Federated Learning epoch = 13
+Global Federated Learning epoch = 14
+Global Federated Learning epoch = 15
+Global Federated Learning epoch = 16
+Global Federated Learning epoch = 17
+Global Federated Learning epoch = 18
+Global Federated Learning epoch = 19
+#####  Federated Learning End#####
+
+
+#####  Federated Unlearning Start  #####
+#### Sample-level Unlearning ####
+split_clients [array([0, 1]), array([2, 3]), array([4, 5]), array([6, 7]), array([8, 9])]
+Files already downloaded and verified
+Files already downloaded and verified
+batch_idx 0
+Classes indices:  [ 0  8  5 10 14 11  1  4  3  7]
+tf_idf {'conv1': tensor([0.1333, 0.1379, 0.0794, 0.0531, 0.1169, 0.1287]), 'conv2': tensor([0.0225, 0.0633, 0.0013, 0.1234, 0.0754, 0.0284, 0.0001, 0.1323, 0.0269,
+        0.0000, 0.0315, 0.0325, 0.0050, 0.0003, 0.0322, 0.0046])}
+tf_idf_array.shape:  torch.Size([16])
+threshold 0.00013778952416032553
+all_classes ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
+Class to be removed:  ['deer']
+#Remain classes:  9
+Pruned sample index here: 4
+K client_models [Net_cifar10(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+)]
+K client_models [Net_cifar10(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+), Net_cifar10(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+)]
+here
+here
+Sample-level Unlearning Local Calibration Training epoch  = 1
+Sample-level Unlearning Local Calibration Training epoch  = 2
+Sample-level Unlearning Local Calibration Training epoch  = 3
+Sample-level Unlearning Local Calibration Training epoch  = 4
+Sample-level Unlearning Local Calibration Training epoch  = 5
+Sample-level Unlearning Local Calibration Training epoch  = 6
+Sample-level Unlearning Local Calibration Training epoch  = 7
+Sample-level Unlearning Local Calibration Training epoch  = 8
+Sample-level Unlearning Local Calibration Training epoch  = 9
+Sample-level Unlearning Local Calibration Training epoch  = 10
+#####  Federated Unlearning End  #####
+
+
+#####  Federated Unlearning without Calibration Start  #####
+FL_params.forget_client_idx:  4
+Federated Unlearning without Clibration Global Epoch  = 0
+Federated Unlearning without Clibration Global Epoch  = 1
+Federated Unlearning without Clibration Global Epoch  = 2
+Federated Unlearning without Clibration Global Epoch  = 3
+Federated Unlearning without Clibration Global Epoch  = 4
+Federated Unlearning without Clibration Global Epoch  = 5
+Federated Unlearning without Clibration Global Epoch  = 6
+Federated Unlearning without Clibration Global Epoch  = 7
+Federated Unlearning without Clibration Global Epoch  = 8
+Federated Unlearning without Clibration Global Epoch  = 9
+Federated Unlearning without Clibration Global Epoch  = 10
+Federated Unlearning without Clibration Global Epoch  = 11
+Federated Unlearning without Clibration Global Epoch  = 12
+Federated Unlearning without Clibration Global Epoch  = 13
+Federated Unlearning without Clibration Global Epoch  = 14
+Federated Unlearning without Clibration Global Epoch  = 15
+Federated Unlearning without Clibration Global Epoch  = 16
+Federated Unlearning without Clibration Global Epoch  = 17
+Federated Unlearning without Clibration Global Epoch  = 18
+Federated Unlearning without Clibration Global Epoch  = 19
+Federated Unlearning Global Epoch  = 1
+Federated Unlearning Global Epoch  = 2
+Federated Unlearning Global Epoch  = 3
+Federated Unlearning Global Epoch  = 4
+Federated Unlearning Global Epoch  = 5
+Federated Unlearning Global Epoch  = 6
+Federated Unlearning Global Epoch  = 7
+Federated Unlearning Global Epoch  = 8
+Federated Unlearning Global Epoch  = 9
+Federated Unlearning Global Epoch  = 10
+Federated Unlearning Global Epoch  = 11
+Federated Unlearning Global Epoch  = 12
+Federated Unlearning Global Epoch  = 13
+Federated Unlearning Global Epoch  = 14
+Federated Unlearning Global Epoch  = 15
+Federated Unlearning Global Epoch  = 16
+Federated Unlearning Global Epoch  = 17
+Federated Unlearning Global Epoch  = 18
+Federated Unlearning Global Epoch  = 19
+#####  Federated Unlearning without Calibration End  #####
+ Learning time consuming = 59.340803146362305 secods
+ Unlearning time consuming = 295.50113916397095 secods
+ Unlearning no Cali time consuming = 0.05022621154785156 secods
+
+
+#####  【Federated Retraining Start】  #####
+Global Federated Learning epoch = 0
+Test Loss=0.0147, Test accuracy=0.0995
+Global Federated Learning epoch = 1
+Test Loss=0.0147, Test accuracy=0.0960
+Global Federated Learning epoch = 2
+Test Loss=0.0147, Test accuracy=0.0962
+Global Federated Learning epoch = 3
+Test Loss=0.0147, Test accuracy=0.0957
+Global Federated Learning epoch = 4
+Test Loss=0.0147, Test accuracy=0.0935
+Global Federated Learning epoch = 5
+Test Loss=0.0147, Test accuracy=0.0935
+Global Federated Learning epoch = 6
+Test Loss=0.0147, Test accuracy=0.0930
+Global Federated Learning epoch = 7
+Test Loss=0.0147, Test accuracy=0.0910
+Global Federated Learning epoch = 8
+Test Loss=0.0147, Test accuracy=0.0899
+Global Federated Learning epoch = 9
+Test Loss=0.0147, Test accuracy=0.0890
+Global Federated Learning epoch = 10
+Test Loss=0.0147, Test accuracy=0.0893
+Global Federated Learning epoch = 11
+Test Loss=0.0147, Test accuracy=0.0887
+Global Federated Learning epoch = 12
+Test Loss=0.0147, Test accuracy=0.0894
+Global Federated Learning epoch = 13
+Test Loss=0.0147, Test accuracy=0.0894
+Global Federated Learning epoch = 14
+Test Loss=0.0147, Test accuracy=0.0893
+Global Federated Learning epoch = 15
+Test Loss=0.0147, Test accuracy=0.0890
+Global Federated Learning epoch = 16
+Test Loss=0.0147, Test accuracy=0.0900
+Global Federated Learning epoch = 17
+Test Loss=0.0147, Test accuracy=0.0896
+Global Federated Learning epoch = 18
+Test Loss=0.0147, Test accuracy=0.0907
+Global Federated Learning epoch = 19
+Test Loss=0.0147, Test accuracy=0.0915
+#####  Federated Retraining End  #####
+Retrain Time using = 65.44725704193115 seconds 3
+Test Loss=0.0135, Test accuracy=0.2220
+Test Loss=0.0136, Test accuracy=0.1856
+Test Loss=0.0147, Test accuracy=0.0924
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/FedEraser-Code/Fed_Unlearn_main.py", line 221, in <module>
+    Federated_Unlearning()
+  File "/Users/wangjiayi/Desktop/FedEraser-Code/Fed_Unlearn_main.py", line 148, in Federated_Unlearning
+    federaser_test_acc, federaser_test_loss = test(unlearn_GMs[-1], test_loader)
+IndexError: list index out of range

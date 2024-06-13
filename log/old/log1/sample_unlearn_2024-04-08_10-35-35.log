@@ -1,0 +1,182 @@
+Files already downloaded and verified
+============================================================
+Step1. Federated Learning Settings 
+ We use dataset: cifar10 for our Federated Unlearning experiment.
+
+============================================================
+Step2. Client data loaded, testing data loaded!!!
+       Initial Model loaded!!!
+Files already downloaded and verified
+Files already downloaded and verified
+============================================================
+Step3. Fedearated Learning and Unlearning Training...
+#####  Federated Learning Start#####
+Global Federated Learning epoch = 0
+Global Federated Learning epoch = 1
+Global Federated Learning epoch = 2
+Global Federated Learning epoch = 3
+Global Federated Learning epoch = 4
+Global Federated Learning epoch = 5
+Global Federated Learning epoch = 6
+Global Federated Learning epoch = 7
+Global Federated Learning epoch = 8
+Global Federated Learning epoch = 9
+Global Federated Learning epoch = 10
+Global Federated Learning epoch = 11
+Global Federated Learning epoch = 12
+Global Federated Learning epoch = 13
+Global Federated Learning epoch = 14
+Global Federated Learning epoch = 15
+Global Federated Learning epoch = 16
+Global Federated Learning epoch = 17
+Global Federated Learning epoch = 18
+Global Federated Learning epoch = 19
+#####  Federated Learning End#####
+
+
+#####  Federated Unlearning Start  #####
+#### Sample-level Unlearning ####
+selected_clients2 [2, 7, 3, 7]
+P:  [2, 7, 3, 7]
+X_u <torch.utils.data.dataloader.DataLoader object at 0x16defa7f0>
+data_loader_ku <torch.utils.data.dataloader.DataLoader object at 0x16defa7f0>
+here
+client_data_loaders:  <torch.utils.data.dataloader.DataLoader object at 0x17c7c6940>
+Federated Unlearning Global Epoch  = 1
+Federated Unlearning Global Epoch  = 2
+Federated Unlearning Global Epoch  = 3
+Federated Unlearning Global Epoch  = 4
+Federated Unlearning Global Epoch  = 5
+Federated Unlearning Global Epoch  = 6
+Federated Unlearning Global Epoch  = 7
+Federated Unlearning Global Epoch  = 8
+Federated Unlearning Global Epoch  = 9
+Federated Unlearning Global Epoch  = 10
+Federated Unlearning Global Epoch  = 11
+Federated Unlearning Global Epoch  = 12
+Federated Unlearning Global Epoch  = 13
+Federated Unlearning Global Epoch  = 14
+Federated Unlearning Global Epoch  = 15
+Federated Unlearning Global Epoch  = 16
+Federated Unlearning Global Epoch  = 17
+Federated Unlearning Global Epoch  = 18
+Federated Unlearning Global Epoch  = 19
+N, =P=selected_clients_k [2, 7, 3, 7]
+cc 0.4
+ss 1.0666666666666667
+rouc:  0.4  rous:  0.32
+IE:  {1, 3, 5, 7, 9, 11, 13, 15, 17}
+tr:  5
+selected_clients:      [1 4 7 6]
+client_models 10
+selected_clients:      [4 2 6 7]
+client_models 10
+selected_clients:      [8 8 9 8]
+client_models 10
+selected_clients:      [5 1 3 3]
+client_models 10
+selected_clients:      [9 3 9 2]
+client_models 10
+selected_clients:      [3 3 3 5]
+client_models 10
+selected_clients:      [6 7 3 4]
+client_models 10
+GGGlobal <class 'model_initiation.Net_cifar10'>
+#####  Federated Unlearning End  #####
+
+
+#####  Federated Unlearning without Calibration Start  #####
+FL_params.forget_client_idx:  [2, 7, 3, 7]
+Federated Unlearning without Clibration Global Epoch  = 0
+Federated Unlearning Global Epoch  = 1
+#####  Federated Unlearning without Calibration End  #####
+ Learning time consuming = 43.34482288360596 secods
+ Unlearning time consuming = 12.765058040618896 secods
+ Unlearning no Cali time consuming = 0.006201744079589844 secods
+FL_params.forget_client_idx [2, 7, 3, 7]
+
+
+#####  Federated Retraining Start  #####
+Federated Retrain with Forget Client NO.[2, 7, 3, 7]
+Global Retraining epoch = 0
+Global Retraining epoch = 1
+Global Retraining epoch = 2
+Global Retraining epoch = 3
+Global Retraining epoch = 4
+Global Retraining epoch = 5
+Global Retraining epoch = 6
+Global Retraining epoch = 7
+Global Retraining epoch = 8
+Global Retraining epoch = 9
+Global Retraining epoch = 10
+Global Retraining epoch = 11
+Global Retraining epoch = 12
+Global Retraining epoch = 13
+Global Retraining epoch = 14
+Global Retraining epoch = 15
+Global Retraining epoch = 16
+Global Retraining epoch = 17
+Global Retraining epoch = 18
+Global Retraining epoch = 19
+#####  Federated Retraining End  #####
+Retrain Time using = 64.05730295181274 seconds
+unlearned GMs:  <class 'model_initiation.Net_cifar10'> [Net_cifar10(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+)]
+unlearned accum GMs:  <class 'list'> <class 'model_initiation.Net_cifar10'> 3 [Net_cifar10(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+), Net_cifar10(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+), Net_cifar10(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+)]
+teset olader 2
+[<torch.utils.data.dataloader.DataLoader object at 0x16df000d0>, <torch.utils.data.dataloader.DataLoader object at 0x16df05e50>, <torch.utils.data.dataloader.DataLoader object at 0x16defa7f0>, <torch.utils.data.dataloader.DataLoader object at 0x16defa9d0>, <torch.utils.data.dataloader.DataLoader object at 0x16defdeb0>, <torch.utils.data.dataloader.DataLoader object at 0x16df02c40>, <torch.utils.data.dataloader.DataLoader object at 0x16df05220>, <torch.utils.data.dataloader.DataLoader object at 0x16defd550>, <torch.utils.data.dataloader.DataLoader object at 0x16def6e50>, <torch.utils.data.dataloader.DataLoader object at 0x16df05f40>, <torch.utils.data.dataloader.DataLoader object at 0x16def66d0>]
+*****  Result Summary  *****
+[FedEraser] Test set: Average loss = 514.15753174, Average acc = 0.0998
+[FedAccum] Test set: Average loss = 0.03616025, Average acc = 0.1072
+[FedRetrain] Test set: Average loss = 0.03583233, Average acc = 0.2105
+[FedAvg] Test set: Average loss = 0.03593046, Average acc = 0.1901
+
+
+[FedEraser] Target set: Average loss = 467.20611572, Average acc = 0.1188
+[FedAccum] Target set: Average loss = 0.03680081, Average acc = 0.1127
+[FedRetrain] Target set: Average loss = 0.03654426, Average acc = 0.2009
+[FedAvg] Target set: Average loss = 0.03666446, Average acc = 0.1761
+============================================================
+Step4. Membership Inference Attack aganist GM...
+
+Epoch  = -1
+Attacking against FL Standard  
+MIA Attacker precision = 0.9647
+MIA Attacker recall = 0.9280
+Attacking against FL Retrain  
+MIA Attacker precision = 0.5063
+MIA Attacker recall = 0.3200
+Attacking against FL Unlearn  
+len of sample GM 1
+MIA Attacker precision = 0.5000
+MIA Attacker recall = 1.0000
+Attacking against FL Unlearn without calibration  
+MIA Attacker precision = 0.5106
+MIA Attacker recall = 0.5280

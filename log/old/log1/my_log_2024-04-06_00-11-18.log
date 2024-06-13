@@ -1,0 +1,48 @@
+Files already downloaded and verified
+============================================================
+Step1. Federated Learning Settings 
+ We use dataset: cifar10 for our Federated Unlearning experiment.
+
+============================================================
+Step2. Client data loaded, testing data loaded!!!
+       Initial Model loaded!!!
+Files already downloaded and verified
+Files already downloaded and verified
+============================================================
+Step3. Fedearated Learning and Unlearning Training...
+#####  Federated Learning Start#####
+Global Federated Learning epoch = 0
+Global Federated Learning epoch = 1
+Global Federated Learning epoch = 2
+Global Federated Learning epoch = 3
+Global Federated Learning epoch = 4
+Global Federated Learning epoch = 5
+Global Federated Learning epoch = 6
+Global Federated Learning epoch = 7
+Global Federated Learning epoch = 8
+Global Federated Learning epoch = 9
+Global Federated Learning epoch = 10
+Global Federated Learning epoch = 11
+Global Federated Learning epoch = 12
+Global Federated Learning epoch = 13
+Global Federated Learning epoch = 14
+Global Federated Learning epoch = 15
+Global Federated Learning epoch = 16
+Global Federated Learning epoch = 17
+Global Federated Learning epoch = 18
+Global Federated Learning epoch = 19
+#####  Federated Learning End#####
+
+
+#####  Federated Unlearning Start  #####
+#### Client-level Unlearning ####
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/FedEraser-Code/Fed_Unlearn_main.py", line 185, in <module>
+    Federated_Unlearning()
+  File "/Users/wangjiayi/Desktop/FedEraser-Code/Fed_Unlearn_main.py", line 106, in Federated_Unlearning
+    old_GMs, unlearn_GMs, uncali_unlearn_GMs, _ = federated_learning_unlearning(init_global_model,
+  File "/Users/wangjiayi/Desktop/FedEraser-Code/Fed_Unlearn_base.py", line 109, in federated_learning_unlearning
+    unlearn_GMs = total_variance.client_level_unlearning(old_GMs, old_CMs, client_loaders, t_u, k_u, FL_params)
+  File "/Users/wangjiayi/Desktop/FedEraser-Code/total_variance.py", line 219, in client_level_unlearning
+    if k_u < client_index_temp :
+ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()

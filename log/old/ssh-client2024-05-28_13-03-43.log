@@ -1,0 +1,455 @@
+[92mINFO [0m:      Starting Flower server, config: num_rounds=4, no round_timeout
+E0528 13:03:58.136130000 8554969792 chttp2_server.cc:1097]             UNKNOWN:No address added out of total 1 resolved for '10.3.242.104:22' {created_time:"2024-05-28T13:03:58.135188+08:00", children:[UNKNOWN:Unable to configure socket {created_time:"2024-05-28T13:03:58.131457+08:00", fd:10, children:[UNKNOWN:Can't assign requested address {created_time:"2024-05-28T13:03:58.131062+08:00", errno:49, os_error:"Can\'t assign requested address", syscall:"bind"}]}]}
+============================================================
+Step1. Federated Learning Settings 
+ We use dataset: cifar10 for our Federated Unlearning experiment.
+
+============================================================
+Step2. Client data loaded, testing data loaded!!!
+       Initial Model loaded!!!
+Server.py: First batch: T
+Server.py: model typr:  <class 'model_initiation.Net_cifar10'> Net_cifar10(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+)
+Files already downloaded and verified
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/server.py", line 317, in <module>
+    main()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/server.py", line 309, in main
+    fl.server.start_server(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/server/app.py", line 157, in start_server
+    grpc_server = start_grpc_server(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/server/superlink/fleet/grpc_bidi/grpc_server.py", line 140, in start_grpc_server
+    server = generic_create_grpc_server(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/server/superlink/fleet/grpc_bidi/grpc_server.py", line 273, in generic_create_grpc_server
+    server.add_insecure_port(server_address)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/grpc/_server.py", line 1329, in add_insecure_port
+    return _common.validate_port_binding_result(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/grpc/_common.py", line 181, in validate_port_binding_result
+    raise RuntimeError(_ERROR_MESSAGE_PORT_BINDING_FAILED % address)
+RuntimeError: Failed to bind to address 10.3.242.104:22; set GRPC_VERBOSITY=debug environment variable to see detailed error message.
+Starting client 0 on port 8081
+Starting client 1 on port 8082
+Starting client 2 on port 8083
+Starting client 3 on port 8084
+Starting client 4 on port 8085
+Starting client 5 on port 8086
+Starting client 6 on port 8087
+Starting client 7 on port 8088
+Starting client 8 on port 8089
+Starting client 9 on port 8090
+Files already downloaded and verified
+Files already downloaded and verified
+select_clients:  [2 2 7 0 3 6 2 8 5 3 6 4]
+Files already downloaded and verified
+Files already downloaded and verified
+batch_idx 0
+Feature: conv1, TF-IDF: tensor([0.0675, 0.0863, 0.0193, 0.1249, 0.1188, 0.0976])
+Feature: conv2, TF-IDF: tensor([5.1833e-02, 5.4977e-02, 6.2890e-02, 3.6617e-03, 1.9687e-02, 7.1263e-02,
+        3.0917e-05, 7.1163e-03, 2.3378e-02, 5.0315e-02, 3.5924e-02, 3.8184e-02,
+        4.6873e-03, 1.8158e-02, 3.8553e-02, 6.3809e-02])
+Feature: conv1, Score length: 6, Scores: tensor([0.0675, 0.0863, 0.0193, 0.1249, 0.1188, 0.0976])
+Max score index for feature conv1: 3
+Chosen index for feature conv1: 3
+Feature: conv2, Score length: 16, Scores: tensor([5.1833e-02, 5.4977e-02, 6.2890e-02, 3.6617e-03, 1.9687e-02, 7.1263e-02,
+        3.0917e-05, 7.1163e-03, 2.3378e-02, 5.0315e-02, 3.5924e-02, 3.8184e-02,
+        4.6873e-03, 1.8158e-02, 3.8553e-02, 6.3809e-02])
+Max score index for feature conv2: 5
+Chosen index for feature conv2: 5
+Classes indices:  [3, 3, 5, 5]
+Max index:  5
+select_clients pruner:  [2 2 7 0 3 6 2 8 5 3 6 4]
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 265, in <module>
+    main()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 260, in main
+    fl.client.start_client(server_address="10.3.242.104:22", client=client)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 291, in start_client
+    _start_client_internal(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 453, in _start_client_internal
+    message = receive()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/grpc_client/connection.py", line 138, in receive
+Files already downloaded and verified
+Files already downloaded and verified
+select_clients:  [7 2 1 0 4 1 2 6 4 2 1 7]
+Files already downloaded and verified
+Files already downloaded and verified
+batch_idx 0
+Feature: conv1, TF-IDF: tensor([0.0675, 0.0863, 0.0193, 0.1249, 0.1188, 0.0976])
+Feature: conv2, TF-IDF: tensor([5.1833e-02, 5.4977e-02, 6.2890e-02, 3.6617e-03, 1.9687e-02, 7.1263e-02,
+        3.0917e-05, 7.1163e-03, 2.3378e-02, 5.0315e-02, 3.5924e-02, 3.8184e-02,
+        4.6873e-03, 1.8158e-02, 3.8553e-02, 6.3809e-02])
+Feature: conv1, Score length: 6, Scores: tensor([0.0675, 0.0863, 0.0193, 0.1249, 0.1188, 0.0976])
+Max score index for feature conv1: 3
+Chosen index for feature conv1: 3
+Feature: conv2, Score length: 16, Scores: tensor([5.1833e-02, 5.4977e-02, 6.2890e-02, 3.6617e-03, 1.9687e-02, 7.1263e-02,
+        3.0917e-05, 7.1163e-03, 2.3378e-02, 5.0315e-02, 3.5924e-02, 3.8184e-02,
+        4.6873e-03, 1.8158e-02, 3.8553e-02, 6.3809e-02])
+Max score index for feature conv2: 5
+Chosen index for feature conv2: 5
+Classes indices:  [3, 3, 5, 5]
+Max index:  5
+select_clients pruner:  [7 2 1 0 4 1 2 6 4 2 1 7]
+    proto = next(server_message_iterator)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/grpc/_channel.py", line 543, in __next__
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 265, in <module>
+    main()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 260, in main
+    fl.client.start_client(server_address="10.3.242.104:22", client=client)
+    return self._next()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/grpc/_channel.py", line 969, in _next
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 291, in start_client
+    _start_client_internal(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 453, in _start_client_internal
+    raise self
+    message = receive()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/grpc_client/connection.py", line 138, in receive
+grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "failed to connect to all addresses; last error: UNKNOWN: ipv4:10.3.242.104:22: tcp handshaker shutdown"
+	debug_error_string = "UNKNOWN:Error received from peer  {grpc_message:"failed to connect to all addresses; last error: UNKNOWN: ipv4:10.3.242.104:22: tcp handshaker shutdown", grpc_status:14, created_time:"2024-05-28T13:04:48.377309+08:00"}"
+>    proto = next(server_message_iterator)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/grpc/_channel.py", line 543, in __next__
+
+Files already downloaded and verified
+Files already downloaded and verified
+select_clients:  [6 1 8 1 7 9 8 2 3 9 0 4]
+Files already downloaded and verified
+Files already downloaded and verified
+batch_idx 0
+Feature: conv1, TF-IDF: tensor([0.0675, 0.0863, 0.0193, 0.1249, 0.1188, 0.0976])
+Feature: conv2, TF-IDF: tensor([5.1833e-02, 5.4977e-02, 6.2890e-02, 3.6617e-03, 1.9687e-02, 7.1263e-02,
+        3.0917e-05, 7.1163e-03, 2.3378e-02, 5.0315e-02, 3.5924e-02, 3.8184e-02,
+        4.6873e-03, 1.8158e-02, 3.8553e-02, 6.3809e-02])
+Feature: conv1, Score length: 6, Scores: tensor([0.0675, 0.0863, 0.0193, 0.1249, 0.1188, 0.0976])
+Max score index for feature conv1: 3
+Chosen index for feature conv1: 3
+Feature: conv2, Score length: 16, Scores: tensor([5.1833e-02, 5.4977e-02, 6.2890e-02, 3.6617e-03, 1.9687e-02, 7.1263e-02,
+        3.0917e-05, 7.1163e-03, 2.3378e-02, 5.0315e-02, 3.5924e-02, 3.8184e-02,
+        4.6873e-03, 1.8158e-02, 3.8553e-02, 6.3809e-02])
+Max score index for feature conv2: 5
+Chosen index for feature conv2: 5
+Classes indices:  [3, 3, 5, 5]
+Max index:  5
+select_clients pruner:  [6 1 8 1 7 9 8 2 3 9 0 4]
+    return self._next()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/grpc/_channel.py", line 969, in _next
+    raise self
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 265, in <module>
+grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "failed to connect to all addresses; last error: UNKNOWN: ipv4:10.3.242.104:22: tcp handshaker shutdown"
+	debug_error_string = "UNKNOWN:Error received from peer  {grpc_message:"failed to connect to all addresses; last error: UNKNOWN: ipv4:10.3.242.104:22: tcp handshaker shutdown", grpc_status:14, created_time:"2024-05-28T13:04:48.376797+08:00"}"
+>
+    main()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 260, in main
+    fl.client.start_client(server_address="10.3.242.104:22", client=client)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 291, in start_client
+    _start_client_internal(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 453, in _start_client_internal
+    message = receive()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/grpc_client/connection.py", line 138, in receive
+    proto = next(server_message_iterator)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/grpc/_channel.py", line 543, in __next__
+    return self._next()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/grpc/_channel.py", line 969, in _next
+    raise self
+grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "failed to connect to all addresses; last error: UNKNOWN: ipv4:10.3.242.104:22: tcp handshaker shutdown"
+	debug_error_string = "UNKNOWN:Error received from peer  {created_time:"2024-05-28T13:04:48.376832+08:00", grpc_status:14, grpc_message:"failed to connect to all addresses; last error: UNKNOWN: ipv4:10.3.242.104:22: tcp handshaker shutdown"}"
+>
+Files already downloaded and verified
+Files already downloaded and verified
+select_clients:  [6 0 1 2 7 1 9 6 7 5 4 5]
+Files already downloaded and verified
+Files already downloaded and verified
+batch_idx 0
+Feature: conv1, TF-IDF: tensor([0.0675, 0.0863, 0.0193, 0.1249, 0.1188, 0.0976])
+Feature: conv2, TF-IDF: tensor([5.1833e-02, 5.4977e-02, 6.2890e-02, 3.6617e-03, 1.9687e-02, 7.1263e-02,
+        3.0917e-05, 7.1163e-03, 2.3378e-02, 5.0315e-02, 3.5924e-02, 3.8184e-02,
+        4.6873e-03, 1.8158e-02, 3.8553e-02, 6.3809e-02])
+Feature: conv1, Score length: 6, Scores: tensor([0.0675, 0.0863, 0.0193, 0.1249, 0.1188, 0.0976])
+Max score index for feature conv1: 3
+Chosen index for feature conv1: 3
+Feature: conv2, Score length: 16, Scores: tensor([5.1833e-02, 5.4977e-02, 6.2890e-02, 3.6617e-03, 1.9687e-02, 7.1263e-02,
+        3.0917e-05, 7.1163e-03, 2.3378e-02, 5.0315e-02, 3.5924e-02, 3.8184e-02,
+        4.6873e-03, 1.8158e-02, 3.8553e-02, 6.3809e-02])
+Max score index for feature conv2: 5
+Chosen index for feature conv2: 5
+Classes indices:  [3, 3, 5, 5]
+Max index:  5
+select_clients pruner:  [6 0 1 2 7 1 9 6 7 5 4 5]
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 265, in <module>
+    main()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 260, in main
+    fl.client.start_client(server_address="10.3.242.104:22", client=client)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 291, in start_client
+    _start_client_internal(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 453, in _start_client_internal
+    message = receive()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/grpc_client/connection.py", line 138, in receive
+    proto = next(server_message_iterator)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/grpc/_channel.py", line 543, in __next__
+    return self._next()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/grpc/_channel.py", line 969, in _next
+    raise self
+grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "failed to connect to all addresses; last error: UNAVAILABLE: ipv4:10.3.242.104:22: Failed to connect to remote host: FD shutdown"
+	debug_error_string = "UNKNOWN:Error received from peer  {created_time:"2024-05-28T13:04:48.481381+08:00", grpc_status:14, grpc_message:"failed to connect to all addresses; last error: UNAVAILABLE: ipv4:10.3.242.104:22: Failed to connect to remote host: FD shutdown"}"
+>
+Files already downloaded and verified
+Files already downloaded and verified
+select_clients:  [7 2 9 2 9 6 5 0 5 2 6 7]
+Files already downloaded and verified
+Files already downloaded and verified
+batch_idx 0
+Feature: conv1, TF-IDF: tensor([0.0675, 0.0863, 0.0193, 0.1249, 0.1188, 0.0976])
+Feature: conv2, TF-IDF: tensor([5.1833e-02, 5.4977e-02, 6.2890e-02, 3.6617e-03, 1.9687e-02, 7.1263e-02,
+        3.0917e-05, 7.1163e-03, 2.3378e-02, 5.0315e-02, 3.5924e-02, 3.8184e-02,
+        4.6873e-03, 1.8158e-02, 3.8553e-02, 6.3809e-02])
+Feature: conv1, Score length: 6, Scores: tensor([0.0675, 0.0863, 0.0193, 0.1249, 0.1188, 0.0976])
+Max score index for feature conv1: 3
+Chosen index for feature conv1: 3
+Feature: conv2, Score length: 16, Scores: tensor([5.1833e-02, 5.4977e-02, 6.2890e-02, 3.6617e-03, 1.9687e-02, 7.1263e-02,
+        3.0917e-05, 7.1163e-03, 2.3378e-02, 5.0315e-02, 3.5924e-02, 3.8184e-02,
+        4.6873e-03, 1.8158e-02, 3.8553e-02, 6.3809e-02])
+Max score index for feature conv2: 5
+Chosen index for feature conv2: 5
+Classes indices:  [3, 3, 5, 5]
+Max index:  5
+select_clients pruner:  [7 2 9 2 9 6 5 0 5 2 6 7]
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 265, in <module>
+    main()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 260, in main
+    fl.client.start_client(server_address="10.3.242.104:22", client=client)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 291, in start_client
+    _start_client_internal(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 453, in _start_client_internal
+    message = receive()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/grpc_client/connection.py", line 138, in receive
+    proto = next(server_message_iterator)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/grpc/_channel.py", line 543, in __next__
+    return self._next()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/grpc/_channel.py", line 969, in _next
+    raise self
+grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "failed to connect to all addresses; last error: UNAVAILABLE: ipv4:10.3.242.104:22: Failed to connect to remote host: FD shutdown"
+	debug_error_string = "UNKNOWN:Error received from peer  {created_time:"2024-05-28T13:04:48.404738+08:00", grpc_status:14, grpc_message:"failed to connect to all addresses; last error: UNAVAILABLE: ipv4:10.3.242.104:22: Failed to connect to remote host: FD shutdown"}"
+>
+Files already downloaded and verified
+Files already downloaded and verified
+select_clients:  [2 1 2 4 8 4 8 7 1 1 3 1]
+Files already downloaded and verified
+Files already downloaded and verified
+batch_idx 0
+Feature: conv1, TF-IDF: tensor([0.0675, 0.0863, 0.0193, 0.1249, 0.1188, 0.0976])
+Feature: conv2, TF-IDF: tensor([5.1833e-02, 5.4977e-02, 6.2890e-02, 3.6617e-03, 1.9687e-02, 7.1263e-02,
+        3.0917e-05, 7.1163e-03, 2.3378e-02, 5.0315e-02, 3.5924e-02, 3.8184e-02,
+        4.6873e-03, 1.8158e-02, 3.8553e-02, 6.3809e-02])
+Feature: conv1, Score length: 6, Scores: tensor([0.0675, 0.0863, 0.0193, 0.1249, 0.1188, 0.0976])
+Max score index for feature conv1: 3
+Chosen index for feature conv1: 3
+Feature: conv2, Score length: 16, Scores: tensor([5.1833e-02, 5.4977e-02, 6.2890e-02, 3.6617e-03, 1.9687e-02, 7.1263e-02,
+        3.0917e-05, 7.1163e-03, 2.3378e-02, 5.0315e-02, 3.5924e-02, 3.8184e-02,
+        4.6873e-03, 1.8158e-02, 3.8553e-02, 6.3809e-02])
+Max score index for feature conv2: 5
+Chosen index for feature conv2: 5
+Classes indices:  [3, 3, 5, 5]
+Max index:  5
+select_clients pruner:  [2 1 2 4 8 4 8 7 1 1 3 1]
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 265, in <module>
+    main()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 260, in main
+    fl.client.start_client(server_address="10.3.242.104:22", client=client)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 291, in start_client
+    _start_client_internal(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 453, in _start_client_internal
+    message = receive()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/grpc_client/connection.py", line 138, in receive
+    proto = next(server_message_iterator)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/grpc/_channel.py", line 543, in __next__
+    return self._next()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/grpc/_channel.py", line 969, in _next
+    raise self
+grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "failed to connect to all addresses; last error: UNKNOWN: ipv4:10.3.242.104:22: tcp handshaker shutdown"
+	debug_error_string = "UNKNOWN:Error received from peer  {created_time:"2024-05-28T13:04:48.755746+08:00", grpc_status:14, grpc_message:"failed to connect to all addresses; last error: UNKNOWN: ipv4:10.3.242.104:22: tcp handshaker shutdown"}"
+>
+Files already downloaded and verified
+Files already downloaded and verified
+select_clients:  [4 1 9 2 6 2 2 2 7 4 5 5]
+Files already downloaded and verified
+Files already downloaded and verified
+batch_idx 0
+Feature: conv1, TF-IDF: tensor([0.0675, 0.0863, 0.0193, 0.1249, 0.1188, 0.0976])
+Feature: conv2, TF-IDF: tensor([5.1833e-02, 5.4977e-02, 6.2890e-02, 3.6617e-03, 1.9687e-02, 7.1263e-02,
+        3.0917e-05, 7.1163e-03, 2.3378e-02, 5.0315e-02, 3.5924e-02, 3.8184e-02,
+        4.6873e-03, 1.8158e-02, 3.8553e-02, 6.3809e-02])
+Feature: conv1, Score length: 6, Scores: tensor([0.0675, 0.0863, 0.0193, 0.1249, 0.1188, 0.0976])
+Max score index for feature conv1: 3
+Chosen index for feature conv1: 3
+Feature: conv2, Score length: 16, Scores: tensor([5.1833e-02, 5.4977e-02, 6.2890e-02, 3.6617e-03, 1.9687e-02, 7.1263e-02,
+        3.0917e-05, 7.1163e-03, 2.3378e-02, 5.0315e-02, 3.5924e-02, 3.8184e-02,
+        4.6873e-03, 1.8158e-02, 3.8553e-02, 6.3809e-02])
+Max score index for feature conv2: 5
+Chosen index for feature conv2: 5
+Classes indices:  [3, 3, 5, 5]
+Max index:  5
+select_clients pruner:  [4 1 9 2 6 2 2 2 7 4 5 5]
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 265, in <module>
+    main()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 260, in main
+    fl.client.start_client(server_address="10.3.242.104:22", client=client)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 291, in start_client
+    _start_client_internal(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 453, in _start_client_internal
+    message = receive()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/grpc_client/connection.py", line 138, in receive
+    proto = next(server_message_iterator)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/grpc/_channel.py", line 543, in __next__
+    return self._next()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/grpc/_channel.py", line 969, in _next
+    raise self
+grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "failed to connect to all addresses; last error: UNAVAILABLE: ipv4:10.3.242.104:22: Failed to connect to remote host: FD shutdown"
+	debug_error_string = "UNKNOWN:Error received from peer  {created_time:"2024-05-28T13:04:48.75962+08:00", grpc_status:14, grpc_message:"failed to connect to all addresses; last error: UNAVAILABLE: ipv4:10.3.242.104:22: Failed to connect to remote host: FD shutdown"}"
+>
+Files already downloaded and verified
+Files already downloaded and verified
+select_clients:  [2 2 4 1 2 8 1 5 5 3 1 5]
+Files already downloaded and verified
+Files already downloaded and verified
+batch_idx 0
+Feature: conv1, TF-IDF: tensor([0.0675, 0.0863, 0.0193, 0.1249, 0.1188, 0.0976])
+Feature: conv2, TF-IDF: tensor([5.1833e-02, 5.4977e-02, 6.2890e-02, 3.6617e-03, 1.9687e-02, 7.1263e-02,
+        3.0917e-05, 7.1163e-03, 2.3378e-02, 5.0315e-02, 3.5924e-02, 3.8184e-02,
+        4.6873e-03, 1.8158e-02, 3.8553e-02, 6.3809e-02])
+Feature: conv1, Score length: 6, Scores: tensor([0.0675, 0.0863, 0.0193, 0.1249, 0.1188, 0.0976])
+Max score index for feature conv1: 3
+Chosen index for feature conv1: 3
+Feature: conv2, Score length: 16, Scores: tensor([5.1833e-02, 5.4977e-02, 6.2890e-02, 3.6617e-03, 1.9687e-02, 7.1263e-02,
+        3.0917e-05, 7.1163e-03, 2.3378e-02, 5.0315e-02, 3.5924e-02, 3.8184e-02,
+        4.6873e-03, 1.8158e-02, 3.8553e-02, 6.3809e-02])
+Max score index for feature conv2: 5
+Chosen index for feature conv2: 5
+Classes indices:  [3, 3, 5, 5]
+Max index:  5
+select_clients pruner:  [2 2 4 1 2 8 1 5 5 3 1 5]
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 265, in <module>
+    main()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 260, in main
+    fl.client.start_client(server_address="10.3.242.104:22", client=client)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 291, in start_client
+Files already downloaded and verified
+Files already downloaded and verified
+select_clients:  [1 3 6 5 5 1 0 0 1 1 7 2]
+Files already downloaded and verified
+Files already downloaded and verified
+batch_idx 0
+Feature: conv1, TF-IDF: tensor([0.0675, 0.0863, 0.0193, 0.1249, 0.1188, 0.0976])
+Feature: conv2, TF-IDF: tensor([5.1833e-02, 5.4977e-02, 6.2890e-02, 3.6617e-03, 1.9687e-02, 7.1263e-02,
+        3.0917e-05, 7.1163e-03, 2.3378e-02, 5.0315e-02, 3.5924e-02, 3.8184e-02,
+        4.6873e-03, 1.8158e-02, 3.8553e-02, 6.3809e-02])
+Feature: conv1, Score length: 6, Scores: tensor([0.0675, 0.0863, 0.0193, 0.1249, 0.1188, 0.0976])
+Max score index for feature conv1: 3
+Chosen index for feature conv1: 3
+Feature: conv2, Score length: 16, Scores: tensor([5.1833e-02, 5.4977e-02, 6.2890e-02, 3.6617e-03, 1.9687e-02, 7.1263e-02,
+        3.0917e-05, 7.1163e-03, 2.3378e-02, 5.0315e-02, 3.5924e-02, 3.8184e-02,
+        4.6873e-03, 1.8158e-02, 3.8553e-02, 6.3809e-02])
+Max score index for feature conv2: 5
+Chosen index for feature conv2: 5
+Classes indices:  [3, 3, 5, 5]
+Max index:  5
+select_clients pruner:  [1 3 6 5 5 1 0 0 1 1 7 2]
+    _start_client_internal(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 453, in _start_client_internal
+    message = receive()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/grpc_client/connection.py", line 138, in receive
+    proto = next(server_message_iterator)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/grpc/_channel.py", line 543, in __next__
+    return self._next()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/grpc/_channel.py", line 969, in _next
+    raise self
+grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "failed to connect to all addresses; last error: UNAVAILABLE: ipv4:10.3.242.104:22: Failed to connect to remote host: FD shutdown"
+	debug_error_string = "UNKNOWN:Error received from peer  {created_time:"2024-05-28T13:04:48.770711+08:00", grpc_status:14, grpc_message:"failed to connect to all addresses; last error: UNAVAILABLE: ipv4:10.3.242.104:22: Failed to connect to remote host: FD shutdown"}"
+>
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 265, in <module>
+    main()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 260, in main
+    fl.client.start_client(server_address="10.3.242.104:22", client=client)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 291, in start_client
+    _start_client_internal(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 453, in _start_client_internal
+    message = receive()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/grpc_client/connection.py", line 138, in receive
+    proto = next(server_message_iterator)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/grpc/_channel.py", line 543, in __next__
+    return self._next()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/grpc/_channel.py", line 969, in _next
+    raise self
+grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "failed to connect to all addresses; last error: UNKNOWN: ipv4:10.3.242.104:22: tcp handshaker shutdown"
+	debug_error_string = "UNKNOWN:Error received from peer  {created_time:"2024-05-28T13:04:48.780216+08:00", grpc_status:14, grpc_message:"failed to connect to all addresses; last error: UNKNOWN: ipv4:10.3.242.104:22: tcp handshaker shutdown"}"
+>
+Files already downloaded and verified
+Files already downloaded and verified
+select_clients:  [0 6 4 7 4 4 0 7 2 0 7 2]
+Files already downloaded and verified
+Files already downloaded and verified
+batch_idx 0
+Feature: conv1, TF-IDF: tensor([0.0675, 0.0863, 0.0193, 0.1249, 0.1188, 0.0976])
+Feature: conv2, TF-IDF: tensor([5.1833e-02, 5.4977e-02, 6.2890e-02, 3.6617e-03, 1.9687e-02, 7.1263e-02,
+        3.0917e-05, 7.1163e-03, 2.3378e-02, 5.0315e-02, 3.5924e-02, 3.8184e-02,
+        4.6873e-03, 1.8158e-02, 3.8553e-02, 6.3809e-02])
+Feature: conv1, Score length: 6, Scores: tensor([0.0675, 0.0863, 0.0193, 0.1249, 0.1188, 0.0976])
+Max score index for feature conv1: 3
+Chosen index for feature conv1: 3
+Feature: conv2, Score length: 16, Scores: tensor([5.1833e-02, 5.4977e-02, 6.2890e-02, 3.6617e-03, 1.9687e-02, 7.1263e-02,
+        3.0917e-05, 7.1163e-03, 2.3378e-02, 5.0315e-02, 3.5924e-02, 3.8184e-02,
+        4.6873e-03, 1.8158e-02, 3.8553e-02, 6.3809e-02])
+Max score index for feature conv2: 5
+Chosen index for feature conv2: 5
+Classes indices:  [3, 3, 5, 5]
+Max index:  5
+select_clients pruner:  [0 6 4 7 4 4 0 7 2 0 7 2]
+Traceback (most recent call last):
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 265, in <module>
+    main()
+  File "/Users/wangjiayi/Desktop/fededgepruneeraser/fedEdgePruneEraser/client.py", line 260, in main
+    fl.client.start_client(server_address="10.3.242.104:22", client=client)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 291, in start_client
+    _start_client_internal(
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/app.py", line 453, in _start_client_internal
+    message = receive()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/flwr/client/grpc_client/connection.py", line 138, in receive
+    proto = next(server_message_iterator)
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/grpc/_channel.py", line 543, in __next__
+    return self._next()
+  File "/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/grpc/_channel.py", line 969, in _next
+    raise self
+grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "failed to connect to all addresses; last error: UNAVAILABLE: ipv4:10.3.242.104:22: Failed to connect to remote host: FD shutdown"
+	debug_error_string = "UNKNOWN:Error received from peer  {created_time:"2024-05-28T13:04:48.789597+08:00", grpc_status:14, grpc_message:"failed to connect to all addresses; last error: UNAVAILABLE: ipv4:10.3.242.104:22: Failed to connect to remote host: FD shutdown"}"
+>
