@@ -82,6 +82,7 @@ class Arguments():
         self.if_sample_unlearning = False
         self.selected_K_group = []
         self.sparsity = 0.05
+        self.tv_stability_threshold=0.01
 
     def parse_args(self):
         parser = argparse.ArgumentParser(description='Federated Unlearning Arguments')

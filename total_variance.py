@@ -8,6 +8,7 @@ from FL_base import FL_Finetuned,fedavg, global_train_once, unlearning_step_once
 from class_pruner import Class_pruner
 from moe import MoE
 import data_preprocess
+from sklearn.metrics import accuracy_score
 
 from fedbabygpt import load_data, split_data, train_model, generate_text, BabyGPTmodel, GPTConfig, get_client_batch
 
@@ -327,33 +328,7 @@ def client_level_unlearning(global_model, old_client_models, client_data_loaders
     for client in remain_client_list:
         # data_loader = new_client_data_loaders[client]
         local_model = client_models  # old_client_models[client]
-        # Performing local SGD - mini-batch
-        # for epoch in range(FL_params.local_epoch):
-            # train_data = ShakespeareDataset('./data/shakespeare_train.txt', TEXT, LABEL)
-            # test_data = ShakespeareDataset('./data/shakespeare_test.txt', TEXT, LABEL)
-            # train_loader, test_loader = BucketIterator.splits(
-            #     (train_data, test_data),
-            #     batch_size=32,
-            #     sort_key=lambda x: len(x.text),
-            #     sort_within_batch=True,
-            #     device=torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-            # )
-            #
-            # criterion = nn.BCEWithLogitsLoss()
-            # optimizer = optim.Adam(local_model.parameters(), lr=0.001)
 
-            # local_model.train()
-            # for batch in new_client_data_loaders[epoch]:
-            #     texts = batch.text.to(device)
-            #     labels = batch.label.to(device, dtype=torch.float)
-            #
-            #     outputs = local_model(texts)
-            #     loss = criterion(outputs.squeeze(), labels)
-            #
-            #     optimizer.zero_grad()
-            #     loss.backward()
-            #     optimizer.step()
-        #TODO
         for itr in range(FL_params.local_epoch):
             # local_model = local_model1[itr]
             # sampled_dataloader = np.random.choice(list(data_loader), FL_params.b, replace=True)
@@ -377,10 +352,10 @@ def client_level_unlearning(global_model, old_client_models, client_data_loaders
 
     print("Updated global", updated_global_models, type(updated_global_models), len(updated_global_models),
           type(updated_global_models[0]))
+
     CONST_local_epoch = copy.deepcopy(FL_params.local_epoch)
     FL_params.local_epoch = np.ceil(FL_params.local_epoch * FL_params.forget_local_epoch_ratio)
     FL_params.local_epoch = np.int16(FL_params.local_epoch)
-
     CONST_global_epoch = copy.deepcopy(FL_params.global_epoch)
     # FL_params.global_epoch = CM_intv.shape[0]
 
@@ -402,13 +377,64 @@ def client_level_unlearning(global_model, old_client_models, client_data_loaders
     FL_params.global_epoch = CONST_global_epoch
 
     '''fine tuning'''
-    print(5 * "#" + "  Federated Fine-tuning Start" + 5 * "#")
+
     finetuned_global_models = updated_global_models[-1]
-    finetuned_global_model, test_acc, train_epoch, test_loss, train_acc, train_loss = FL_Finetuned(
-        finetuned_global_models[-1], new_client_data_loaders, test_loader, FL_params)
+    tv_stability = calculate_total_variance_stability(global_model, finetuned_global_models[-1],remain_client_list,
+                                                      new_client_data_loaders, test_loader)
+
+    print('TV stability: ', tv_stability)
+    if tv_stability > FL_params.tv_stability_threshold:
+        print(5 * "#" + "  Federated Fine-tuning Start" + 5 * "#")
+        while tv_stability > FL_params.tv_stability_threshold and FL_params.rouc < 1.0:
+            FL_params.rouc += 0.05  # 增加rouc比例
+            finetuned_global_model, test_acc, train_epoch, test_loss, train_acc, train_loss = FL_Finetuned(
+                finetuned_global_models[-1], new_client_data_loaders, test_loader, FL_params)
+            tv_stability = calculate_total_variance_stability(global_model, finetuned_global_models[-1],remain_client_list,
+                                                              new_client_data_loaders, test_loader)
+
+    print(f"Final rouc value: {FL_params.rouc}")
+    print(f"Final TV stability: {tv_stability}")
     print("Fine-tuning train acc:%.4f" % train_acc)
     print("Fine-tuning train epoch:%d" % train_epoch)
     print(5 * "#" + "  Federated Fine-tuning End" + 5 * "#")
     updated_global_models.append(finetuned_global_model)
 
     return updated_global_models, train_acc, train_loss, test_acc, test_loss
+
+def calculate_total_variance_stability(global_model, new_global_model, remain_client_list, new_client_data_loaders, test_loader):
+    # 实现总方差稳定性的计算
+    # 通过比较模型在遗忘前后在测试集上的性能变化来计算总方差稳定性
+    old_model_performance = evaluate_model(global_model, remain_client_list, new_client_data_loaders, test_loader)
+    new_model_performance = evaluate_model(new_global_model, remain_client_list, new_client_data_loaders, test_loader)
+    tv_stability = np.abs(old_model_performance - new_model_performance)
+    return tv_stability
+
+def evaluate_model(model, remain_client_list, new_client_data_loaders, test_loader):
+    model.eval()
+    performance = 0
+    with torch.no_grad():
+        for client in remain_client_list:
+            for inputs, targets in new_client_data_loaders[client]:
+                outputs = model(inputs)
+                performance += accuracy_score(targets, outputs.argmax(dim=1))
+    performance /= len(remain_client_list)
+    performance /=100
+    return performance
+# def calculate_total_variance_stability(old_model, new_model, data_loaders, device):
+#     old_model_performance = evaluate_model(old_model, data_loaders, device)
+#     new_model_performance = evaluate_model(new_model, data_loaders, device)
+#     tv_stability = abs(old_model_performance - new_model_performance)
+#     return tv_stability
+#
+# def evaluate_model(model, data_loaders, device):
+#     model.eval()
+#     performance = 0
+#     total_samples = 0
+#     with torch.no_grad():
+#         for inputs, targets in data_loaders:
+#             inputs, targets = inputs.to(device), targets.to(device)
+#             outputs = model(inputs)
+#             _, predicted = outputs.max(1)
+#             performance += (predicted == targets).sum().item()
+#             total_samples += targets.size(0)
+#     return performance / total_samples
