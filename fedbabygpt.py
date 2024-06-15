@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from typing import Optional
 import copy
 from torch.utils.data import Dataset, DataLoader
+from moe import MoE
 
 @dataclass
 class GPTConfig:
@@ -213,7 +214,13 @@ def train_model(chars, clients_data, train_data, val_data):
         n_layer=4,
         n_embd=16
     )
-
+    # config = GPTConfig(
+    #     block_size=64,
+    #     vocab_size=len(chars),
+    #     n_head=16,
+    #     n_layer=64,
+    #     n_embd=16
+    # )
     global_model = BabyGPTmodel(config)
     global_model.to(device)
 
@@ -270,6 +277,38 @@ def get_dataloaders(train_data, val_data, block_size, batch_size):
     val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
 
     return train_loader, val_loader
+
+def train_moe_model(chars, clients_data, train_data, val_data, tf_idf_scores, forget_client_idx, forget_clients_num):
+    config = GPTConfig(block_size=4, vocab_size=len(chars), n_head=4, n_layer=4, n_embd=16)
+    num_experts = len(clients_data)
+    experts = nn.ModuleList([BabyGPTmodel(config) for _ in range(num_experts)])
+
+    moe_model = MoE(input_size=config.block_size, output_size=config.vocab_size, experts=experts, num_experts=num_experts,
+                    hidden_size=100, tf_idf_scores=tf_idf_scores, forget_client_idx=forget_client_idx, k=forget_clients_num, noisy_gating=True)
+
+    moe_model = moe_model.to(device)
+    optimizer = torch.optim.AdamW(moe_model.parameters(), lr=0.005)
+
+    for iter in range(global_max_iters):
+        local_weights = []
+        for client in clients_data.keys():
+            for local_iter in range(local_max_iters):
+                xb, yb = get_client_batch(client, 'train', config, clients_data)
+                logits, loss = moe_model(xb, yb)
+                optimizer.zero_grad(set_to_none=True)
+                loss.backward()
+                optimizer.step()
+            local_weights.append(moe_model.state_dict())
+        global_weights = average_weights(local_weights)
+        moe_model.load_state_dict(global_weights)
+
+        if iter % eval_interval == 0 or iter == global_max_iters - 1:
+            losses = estimate_loss(moe_model, config, train_data, val_data)
+            print(f"Global step {iter}: train loss {losses['train']:.4f}, val loss {losses['val']:.4f}")
+
+    return moe_model
+
+
 
 if __name__ == "__main__":
 # def do_shake():

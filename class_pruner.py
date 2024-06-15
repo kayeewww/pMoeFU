@@ -29,61 +29,108 @@ def acculumate_feature(model, loader, stop: int):
     all_classes = []
 
     def hook_func(m, x, y, name, feature_iit):
-        # print(name, y.shape) # ([256, 64, 8, 8])
-        '''ReLU'''
         f = F.relu(y)
         if f.size()[3] != 0:
             feature = F.avg_pool2d(f, f.size()[3])
-            # print(f"Shape after avg_pool2d: {feature.shape}")  # Print the shape after avg_pool2d
-
             feature = feature.view(f.size()[0], -1)
-            # print(f"Shape after view: {feature.shape}")  # Print the shape after view
-
             feature = feature.transpose(0, 1)
-            # print(f"Shape after transpose: {feature.shape}")  # Print the shape after transpose
-
             if name not in feature_iit:
                 feature_iit[name] = feature.cpu()
             else:
                 feature_iit[name] = torch.cat([feature_iit[name], feature.cpu()], 1)
-        else:
-            print(f"Skipping layer {name} due to zero dimension size.")
+
     hook = functools.partial(hook_func, feature_iit=features)
 
     handler_list = []
-    # 遍历模型的所有模块，对于每一个卷积层，注册一个前向钩子，用于在模型前向传播时提取特征，并将这些钩子的句柄存储在handler_list列表中。
     for name, m in model.named_modules():
         if isinstance(m, nn.Conv2d):
-            # if not isinstance(m, nn.Linear):
             handler = m.register_forward_hook(functools.partial(hook, name=name))
             handler_list.append(handler)
 
-    # 在此循环中，对数据加载器进行迭代，获取每个批次的输入数据和目标标签，并通过模型进行前向传播以提取特征。当达到指定的stop批次时，停止迭代。
     for batch_idx, (inputs, targets) in enumerate(loader):
         if batch_idx >= stop:
             break
         model.eval()
         classes.extend(targets.numpy())
-
         with torch.no_grad():
-            for i, (data, target) in enumerate(loader):
-                if i >= stop:
-                    break
-                data, target = data.to('cpu'), target.to('cpu')
-                # print(f"Data shape: {data.shape}, Target shape: {target.shape}")
-                output = model(data)
-                if isinstance(output, tuple):  # 如果outputs是一个元组，选择第一个元素
-                    output = output[0]
-                all_features.append(output)
-                all_classes.append(target)
+            inputs = inputs.to('cpu')
+            outputs = model(inputs)
+            if isinstance(outputs, tuple):
+                outputs = outputs[0]
+            all_features.append(outputs)
+            all_classes.append(targets)
 
     all_features = torch.cat(all_features, dim=0)
     all_classes = torch.cat(all_classes, dim=0)
-    # print(f"Accumulated Features shape: {all_features.shape}, Accumulated Classes shape: {all_classes.shape}")
-
     [k.remove() for k in handler_list]
-    '''Image-wise Activation'''
+
     return features, classes
+
+
+# def acculumate_feature(model, loader, stop: int):
+#     if torch.cuda.is_available():
+#         model = model.cuda()
+#     features = {}
+#     classes = []
+#     all_features = []
+#     all_classes = []
+#
+#     def hook_func(m, x, y, name, feature_iit):
+#         # print(name, y.shape) # ([256, 64, 8, 8])
+#         '''ReLU'''
+#         f = F.relu(y)
+#         if f.size()[3] != 0:
+#             feature = F.avg_pool2d(f, f.size()[3])
+#             # print(f"Shape after avg_pool2d: {feature.shape}")  # Print the shape after avg_pool2d
+#
+#             feature = feature.view(f.size()[0], -1)
+#             # print(f"Shape after view: {feature.shape}")  # Print the shape after view
+#
+#             feature = feature.transpose(0, 1)
+#             # print(f"Shape after transpose: {feature.shape}")  # Print the shape after transpose
+#
+#             if name not in feature_iit:
+#                 feature_iit[name] = feature.cpu()
+#             else:
+#                 feature_iit[name] = torch.cat([feature_iit[name], feature.cpu()], 1)
+#         else:
+#             print(f"Skipping layer {name} due to zero dimension size.")
+#     hook = functools.partial(hook_func, feature_iit=features)
+#
+#     handler_list = []
+#     # 遍历模型的所有模块，对于每一个卷积层，注册一个前向钩子，用于在模型前向传播时提取特征，并将这些钩子的句柄存储在handler_list列表中。
+#     for name, m in model.named_modules():
+#         if isinstance(m, nn.Conv2d):
+#             # if not isinstance(m, nn.Linear):
+#             handler = m.register_forward_hook(functools.partial(hook, name=name))
+#             handler_list.append(handler)
+#
+#     # 在此循环中，对数据加载器进行迭代，获取每个批次的输入数据和目标标签，并通过模型进行前向传播以提取特征。当达到指定的stop批次时，停止迭代。
+#     for batch_idx, (inputs, targets) in enumerate(loader):
+#         if batch_idx >= stop:
+#             break
+#         model.eval()
+#         classes.extend(targets.numpy())
+#
+#         with torch.no_grad():
+#             for i, (data, target) in enumerate(loader):
+#                 if i >= stop:
+#                     break
+#                 data, target = data.to('cpu'), target.to('cpu')
+#                 # print(f"Data shape: {data.shape}, Target shape: {target.shape}")
+#                 output = model(data)
+#                 if isinstance(output, tuple):  # 如果outputs是一个元组，选择第一个元素
+#                     output = output[0]
+#                 all_features.append(output)
+#                 all_classes.append(target)
+#
+#     all_features = torch.cat(all_features, dim=0)
+#     all_classes = torch.cat(all_classes, dim=0)
+#     # print(f"Accumulated Features shape: {all_features.shape}, Accumulated Classes shape: {all_classes.shape}")
+#
+#     [k.remove() for k in handler_list]
+#     '''Image-wise Activation'''
+#     return features, classes
 
 
 # 计算特征的TF-IDF（Term Frequency-Inverse Document Frequency），并将结果存储在tf_idf_map字典中

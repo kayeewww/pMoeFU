@@ -23,14 +23,25 @@ warnings.filterwarnings("ignore", category=UserWarning, module="torchtext")
 
 """Step 0. Initialize Federated Unlearning parameters"""
 
-
 class Arguments():
     def __init__(self):
         # Federated Learning Settings
         self.N_total_client = 100
         self.N_client = 10  ## Total number of clients N.
-        self.data_name = 'cifar10'# purchase, cifar10, mnist, adult
-        self.model_name = Net_cifar10#Net_mnist  # cifar10
+        self.data_name = 'cifar10'
+        # self.data_name = 'shakespeare'# purchase, cifar10, mnist, adult
+
+        self.pretrained = True#False
+        self.pretrained_gms_file = 'cifar_global.pth'#'shake20_global.pth'
+        self.pretrained_cms_file = 'cifar_client.pth'#'shake20_client.pth'
+        # self.pretrained_gms_file = 'shake20_global.pth'
+        # self.pretrained_cms_file = 'shake20_client.pth'
+        self.save_pretrained = False#False
+
+        # Federated Unlearning Settings
+        self.unlearn_interval = 1  # Used to control how many rounds the model parameters are saved.1 represents the parameter saved once per round  N_itv in our paper.
+        self.forget_client_idx = -1  # If want to forget, change None to the client index
+        self.forget_clients_num=1 #1-10
 
         self.global_epoch = 20  # 600#20#600  # T
         self.local_epoch = 2  # 10#2#10 # E
@@ -47,17 +58,6 @@ class Arguments():
         self.save_acc = 80
         self.save_re_acc = 75
 
-        self.model_file = 'seed_acc80.06_epoch125_2024-03-02 15-08-23.pth'
-        self.pretrained = True#False
-        self.pretrained_gms_file = 'shake20_old_global_model_parameters.pth' #m_
-        self.pretrained_cms_file = 'shake20_old_client_model_parameters.pth'
-        self.save_pretrained = False#False
-
-        # Federated Unlearning Settings
-        self.unlearn_interval = 1  # Used to control how many rounds the model parameters are saved.1 represents the parameter saved once per round  N_itv in our paper.
-        self.forget_client_idx = -1  # If want to forget, change None to the client index
-        self.forget_clients_num = 4 #1-10
-
         # If this parameter is set to False, only the global model after the final training is completed is output
         self.if_retrain = True  # If set to True, the global model is retrained using the FL-Retrain function, and data corresponding to the user for the forget_client_IDx number is discarded.
 
@@ -67,7 +67,7 @@ class Arguments():
         self.client_fraction = 10  # Fraction of clients selected per round.
 
         self.fats_method = 'client'
-        self.rouc = 0.2
+        self.rouc = 0.5#0.2
         self.rous = 0.1
         self.k_u = -1
         self.unlearn_client = -1
@@ -75,7 +75,7 @@ class Arguments():
         self.class_flag = False
         self.rest_data_loader = None  # torchvision.datasets.CIFAR10(root='../data', train=True, download=True)
         self.rest_testdata = None
-        self.K = 2
+        self.K = 5
         self.b = 1
         self.N_datapoint = 20  # 80 #16
         self.M = 3000#100  # 600
@@ -105,14 +105,17 @@ class Arguments():
 def Federated_Unlearning():
     """Step 1.Set the parameters for Federated Unlearning"""
     FL_params = Arguments()
+    FL_params.parse_args()
     torch.manual_seed(FL_params.seed)
 
     # kwargs for data loader
     print(60 * '=')
     print("Step1. Federated Learning Settings \n We use dataset: " + FL_params.data_name + (
         " for our Federated Unlearning experiment.\n"))
-    print('We set rouc = ',FL_params.rouc,', K = ',FL_params.K,' and M = ',FL_params.M,' with ',FL_params.global_epoch,'epochs fine tuning ')
-
+    print('We set rouc = ',FL_params.rouc,', K = ', FL_params.K,' and M = ',FL_params.M,' with ',FL_params.global_epoch,'epochs fine tuning ')
+    print('We are going to forget ',FL_params.forget_clients_num, 'client')
+    if FL_params.pretrained:
+        print('We use pretrained model: ',FL_params.pretrained_gms_file)
     """Step 2. construct the necessary user private data set required for federated learning, as well as a common test set"""
     print(60 * '=')
     print("Step2. Client data loaded, testing data loaded!!!\n       Initial Model loaded!!!")

@@ -65,6 +65,7 @@ def dataloader_init(FL_params):
         client_loaders = []
         for ii in range(FL_params.N_total_client):
             client_loaders.append(train_loader)#DataLoader(train_loader[ii], FL_params.local_batch_size, shuffle=True, **kwargs))
+        # print('222',len(client_loaders),type(client_loaders[0]))
 
     else:
         trainset, testset = data_set(FL_params.data_name)
@@ -266,12 +267,7 @@ def model_init(data_name, device):
         )
 
         model = BabyGPTmodel(config)
-        model.to(device)
-        # clients_data, train_data, val_data = split_data(data, num_clients=3)
-        # model = train_model(chars, clients_data, train_data, val_data)
-        # decode = lambda l: ''.join([integer2string[i] for i in l])
-        # generated_text = generate_text(model, decode)
-        # print(generated_text)
+        # model.to(device)
     return model
 
 

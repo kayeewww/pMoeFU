@@ -185,7 +185,7 @@ def client_level_unlearning(global_model, old_client_models, client_data_loaders
     # ))
     # # print(FL_params.rouc,' ' ,FL_params.local_epoch,' ' ,FL_params.M,' ' ,FL_params.global_epoch)
     # FL_params.b = int((FL_params.rous * FL_params.N_datapoint) / (FL_params.rouc * FL_params.local_epoch))
-    print('K, b: ', FL_params.K, FL_params.b)
+    # print('K, b: ', FL_params.K, FL_params.b)
 
     # Time steps
     client_states = {k: {'model': copy.deepcopy(global_model).to(device)} for k in range(FL_params.N_client)}
@@ -210,6 +210,7 @@ def client_level_unlearning(global_model, old_client_models, client_data_loaders
 
         # 将 CIFAR-10 数据集的图像转换为模型输入格式
         images = images.to(device)
+        # outputs = moe_model(images)
         outputs = moe_model(images.view(-1, 3 * 32 * 32))
     elif FL_params.data_name=='mnist':
         num_experts = FL_params.N_client
@@ -226,42 +227,36 @@ def client_level_unlearning(global_model, old_client_models, client_data_loaders
         # 将 MNIST 数据集的图像转换为模型输入格式
         images = images.to(device)
         outputs = moe_model(images.view(-1, 1 * 28 * 28))
-        # for images, labels in client_data_loaders[-1]:
-        # images = images.view(images.size(0), 1, 28, 28)  # 确保输入展平
-        # images = images.to(device)
-        # outputs = moe_model(images)
-        # break  # 仅打印一个批次以验证
+
     elif FL_params.data_name == 'shakespeare':
         text, data, string2integer, integer2string, vocab_size, chars = load_data("data/shakespeare.txt")
 
         num_experts = FL_params.N_client
-        block_size = 64
+        block_size = 4
         experts = nn.ModuleList([data_preprocess.model_init('shakespeare', 'cpu') for i in range(num_experts)])
-        moe_model = MoE(input_size=block_size, output_size=10, experts=experts, num_experts=10, hidden_size=100,
+        moe_model = MoE(input_size=block_size, output_size=block_size, experts=experts, num_experts=num_experts, hidden_size=100,
                         tf_idf_scores=tf_idf_scores, forget_client_idx=FL_params.forget_client_idx,
-                        k=3, noisy_gating=True)
+                        k=FL_params.forget_clients_num, noisy_gating=True)
         # print(tf_idf_scores)
         moe_model = moe_model.to(device)
-        # FL_params.forget_client_idx = [1,2]
-        config = GPTConfig(
-            block_size=4,
-            vocab_size=len(chars),
-            n_head=4,
-            n_layer=4,
-            n_embd=16
-        )
+        # config = GPTConfig(
+        #     block_size=block_size,
+        #     vocab_size=len(chars),
+        #     n_head=4,
+        #     n_layer=4,
+        #     n_embd=16
+        # )
 
-
-        text, data, string2integer, integer2string, vocab_size, chars = load_data("data/shakespeare.txt")
-        clients_data, train_data, val_data = split_data(data, num_clients=3)
-        model = train_model(chars, clients_data, train_data, val_data)
-        for client in clients_data.keys():
-            optimizer = torch.optim.AdamW(moe_model.parameters(), lr=0.005)
-            xb, yb = get_client_batch(client, 'train', config, clients_data)
-            logits, loss = moe_model(xb, yb)
-            optimizer.zero_grad(set_to_none=True)
-            loss.backward()
-            optimizer.step()
+        # dataiter = iter(client_data_loaders[-1])
+        # x, y = next(dataiter)
+        #
+        # images = x.to(device)
+        #
+        # outputs = moe_model(-1,images)
+        for images, labels in client_data_loaders:
+            # 确保传入图像张量，而不是整数 -1
+            outputs = moe_model(images)
+            # 其他逻辑
 
 
 
@@ -390,11 +385,12 @@ def client_level_unlearning(global_model, old_client_models, client_data_loaders
     # FL_params.global_epoch = CM_intv.shape[0]
 
     # print('Local Calibration Training epoch = {}'.format(FL_params.local_epoch))
-    for epoch in range(0, FL_params.K - 1):  # global_epoch):
+    for epoch in range(0, 1):  # global_epoch):
         if (epoch == 0):
             continue
         print("Client-level Unlearning Local Calibration Training epoch  = {}".format(epoch))
-        global_model = updated_global_models[epoch]
+        global_model = updated_global_models[epoch][0].experts
+        # global_model = updated_global_models[epoch]
 
         new_client_models = global_train_once(global_model, new_client_data_loaders, test_loader, FL_params)
 

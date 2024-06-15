@@ -310,8 +310,8 @@ class MoE(nn.Module):
         dispatcher = SparseDispatcher(self.num_experts, gates)
         expert_inputs = dispatcher.dispatch(x)
         gates = dispatcher.expert_to_gates()
-        # expert_outputs = [self.experts[i](expert_inputs[i]) for i in range(self.num_experts)]
-        expert_outputs = [self.experts[i](expert_inputs[i].view(-1, 3, 32, 32)) for i in range(self.num_experts)]
+        expert_outputs = [self.experts[i](expert_inputs[i]) for i in range(self.num_experts)]
+        # expert_outputs = [self.experts[i](expert_inputs[i].view(-1, 3, 32, 32)) for i in range(self.num_experts)]
         # expert_outputs = [self.experts[i](expert_inputs[i].view(-1, 1, 28, 28)) for i in range(self.num_experts)]
 
         y = dispatcher.combine(expert_outputs)
