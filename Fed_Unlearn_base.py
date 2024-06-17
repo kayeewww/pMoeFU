@@ -102,8 +102,9 @@ def federated_learning_unlearning(init_global_model, client_loaders, test_loader
         print('-------Using pre-trained model------')
         old_GMs = []
         old_CMs = []
-        old_GM=model_init(FL_params.data_name,'cpu')
-        old_CM=model_init(FL_params.data_name,'cpu')
+        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        old_GM=model_init(FL_params.data_name,device)
+        old_CM=model_init(FL_params.data_name,device)
         gm_checkpoint = torch.load(FL_params.pretrained_gms_file)
         old_GM.load_state_dict(gm_checkpoint, strict=False)
         # print(old_GM)

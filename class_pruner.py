@@ -21,8 +21,10 @@ def compute_client_tfidf(clients_data, block_size):
 
 # %%
 def acculumate_feature(model, loader, stop: int):
-    if torch.cuda.is_available():
-        model = model.cuda()
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model.to(device)
+    # if torch.cuda.is_available():
+    #     model = model.cuda()
     features = {}
     classes = []
     all_features = []
@@ -31,13 +33,15 @@ def acculumate_feature(model, loader, stop: int):
     def hook_func(m, x, y, name, feature_iit):
         f = F.relu(y)
         if f.size()[3] != 0:
+            # feature.to(device)
             feature = F.avg_pool2d(f, f.size()[3])
             feature = feature.view(f.size()[0], -1)
             feature = feature.transpose(0, 1)
+
             if name not in feature_iit:
-                feature_iit[name] = feature.cpu()
+                feature_iit[name] = feature.to(device)#.cpu()
             else:
-                feature_iit[name] = torch.cat([feature_iit[name], feature.cpu()], 1)
+                feature_iit[name] = torch.cat([feature_iit[name], feature.to(device)], 1)#.cpu()], 1)
 
     hook = functools.partial(hook_func, feature_iit=features)
 
@@ -51,9 +55,9 @@ def acculumate_feature(model, loader, stop: int):
         if batch_idx >= stop:
             break
         model.eval()
+        inputs, labels = inputs.to(device), targets.to(device)
         classes.extend(targets.numpy())
         with torch.no_grad():
-            inputs = inputs.to('cpu')
             outputs = model(inputs)
             if isinstance(outputs, tuple):
                 outputs = outputs[0]
@@ -135,7 +139,7 @@ def acculumate_feature(model, loader, stop: int):
 
 # 计算特征的TF-IDF（Term Frequency-Inverse Document Frequency），并将结果存储在tf_idf_map字典中
 #tf_idf_map = calculate_cp(feature_iit, client_list, FL_params.data_name, 0, FL_params.forget_client_idx)
-def calculate_cp(features: dict, classes: list, dataset: str, coe: int, unlearn_client: int):
+def calculate_cp(features: dict, classes: list, dataset: str, coe: int, unlearn_client: int,device):
     # print('lens+++',len(classes)) #64
     features_class_wise = {}
     tf_idf_map = {}
@@ -153,11 +157,13 @@ def calculate_cp(features: dict, classes: list, dataset: str, coe: int, unlearn_
         address_index = [x for x in range(len(classes)) if classes[x] == z]
         list_classes_address.append([z, address_index])
     dict_address = dict(list_classes_address) #类别和对应的样本索引进行映射
+    # features.to(device)
     for fea in features:
+        print('fea',fea)
         '''Class-wise Activation'''
         #创建了一个全零的张量，class_num是类别数量，features[fea].shape[0]是特征的维度大小。
-        class_wise_features = torch.zeros(class_num, features[fea].shape[0])
-        image_wise_features = features[fea].transpose(0, 1)
+        class_wise_features = torch.zeros(class_num, features[fea].to(device).shape[0])
+        image_wise_features = features[fea].to(device).transpose(0, 1).to(device)
 
         for i, v in dict_address.items():
             for j in v:
@@ -239,6 +245,7 @@ def Class_pruner(net, FL_params):
     models = []
     trainset, testset = data_set(FL_params.data_name)
     loaders = []
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     if FL_params.data_name=='shakespeare':
         data,_,_,_,_,_ = load_data("data/shakespeare.txt")
         num_clients = 3
@@ -287,13 +294,16 @@ def Class_pruner(net, FL_params):
     else:
         train_loader = torch.utils.data.DataLoader(trainset, batch_size=FL_params.local_batch_size, shuffle=False)
         for _ in range(FL_params.N_client):
+            device=torch.device("cuda" if torch.cuda.is_available() else "cpu")
+            net.to(device)
             models.append(net)
             loaders.append(train_loader)
         tf_idf = []
         for m, l in zip(models, loaders):
             features, classes = acculumate_feature(m, l, stop=10)
+            device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
             # 计算TF-IDF
-            tf_idf_map = calculate_cp(features, classes, dataset='cifar10', coe=1, unlearn_client=0)
+            tf_idf_map = calculate_cp(features, classes, dataset='cifar10', coe=1, unlearn_client=0,device=device)
             tf_idf.append(tf_idf_map)
     # cp_config = {"threshold": threshold, "map": tf_idf_map}
     #     print('Here tf_idf: ', tf_idf)

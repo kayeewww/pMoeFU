@@ -248,8 +248,8 @@ def model_init(data_name, device):
     if (data_name == 'mnist'):
         model = Net_mnist()
     elif (data_name == 'cifar10'):
-        # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        model = Net_cifar10(device=device)
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        model = Net_cifar10(device)
     elif (data_name == 'purchase'):
         model = Net_purchase()
     elif (data_name == 'adult'):
@@ -272,8 +272,9 @@ def model_init(data_name, device):
 
 
 class Net(nn.Module):
-    def __init__(self, num_classes: int = 10) -> None:
+    def __init__(self, device, num_classes: int = 10) -> None:
         super(Net, self).__init__()
+        self.device = device
         self.conv1 = nn.Conv2d(1, 6, 5)
         self.pool = nn.MaxPool2d(2, 2)
         self.conv2 = nn.Conv2d(6, 16, 5)
@@ -282,6 +283,7 @@ class Net(nn.Module):
         self.fc3 = nn.Linear(84, num_classes)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
+        x = x.to(self.device)
         x = self.pool(F.relu(self.conv1(x)))
         x = self.pool(F.relu(self.conv2(x)))
         x = x.view(-1, 16 * 4 * 4)
@@ -339,8 +341,10 @@ class Net_adult(nn.Module):
 
 
 class Net_cifar10(nn.Module):
-    def __init__(self, device='cpu'):
+
+    def __init__(self, device):
         super(Net_cifar10, self).__init__()
+        self.device = device
         self.conv1 = nn.Conv2d(3, 6, 5)
         self.pool = nn.MaxPool2d(2, 2)
         self.conv2 = nn.Conv2d(6, 16, 5)
@@ -348,9 +352,10 @@ class Net_cifar10(nn.Module):
         self.fc2 = nn.Linear(120, 84)
         self.fc3 = nn.Linear(84, 10)
         # self.flatten = nn.Flatten()
-        # self.to(device)
+        self.to(device)
 
     def forward(self, x):
+        x = x.to(self.device)
         x = self.pool(F.relu(self.conv1(x)))
         x = self.pool(F.relu(self.conv2(x)))
         # x = self.flatten(x)

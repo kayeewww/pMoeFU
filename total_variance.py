@@ -13,8 +13,8 @@ from sklearn.metrics import accuracy_score
 from fedbabygpt import load_data, split_data, train_model, generate_text, BabyGPTmodel, GPTConfig, get_client_batch
 
 import torch
-from torchtext.data.utils import get_tokenizer
-from torchtext.vocab import build_vocab_from_iterator
+# from torchtext.data.utils import get_tokenizer
+# from torchtext.vocab import build_vocab_from_iterator
 # from torchtext.data import Dataset, Example, Field, BucketIterator
 
 #
@@ -161,7 +161,7 @@ from torchtext.vocab import build_vocab_from_iterator
 
 
 # Algorithm 2: Client-level Unlearning for FATS
-def client_level_unlearning(global_model, old_client_models, client_data_loaders, test_loader, FL_params, device='cpu'):
+def client_level_unlearning(global_model, old_client_models, client_data_loaders, test_loader, FL_params):
     """
     Unlearn an entire client from the federated learning process.
     t_u: unlearning time step
@@ -171,6 +171,7 @@ def client_level_unlearning(global_model, old_client_models, client_data_loaders
     old_global_models = copy.deepcopy(global_model)
     old_client_models = copy.deepcopy(old_client_models)
     new_GMs = list()
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     for epoch in range(FL_params.global_epoch):
         if (epoch == 0):
@@ -200,7 +201,10 @@ def client_level_unlearning(global_model, old_client_models, client_data_loaders
     selected_client, tf_idf_scores = Class_pruner(global_model, FL_params)
     if FL_params.data_name=='cifar10':
         num_experts = FL_params.N_client
-        experts = nn.ModuleList([data_preprocess.model_init('cifar10', 'cpu') for i in range(num_experts)])
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+        # device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        experts = nn.ModuleList([data_preprocess.model_init('cifar10', device) for i in range(num_experts)])
         moe_model = MoE(input_size=3 * 32 * 32, output_size=10, experts=experts, num_experts=num_experts, hidden_size=100,
                         tf_idf_scores=tf_idf_scores, forget_client_idx=FL_params.forget_client_idx,
                         k=FL_params.forget_clients_num, noisy_gating=True)
@@ -215,7 +219,7 @@ def client_level_unlearning(global_model, old_client_models, client_data_loaders
         outputs = moe_model(images.view(-1, 3 * 32 * 32))
     elif FL_params.data_name=='mnist':
         num_experts = FL_params.N_client
-        experts = nn.ModuleList([data_preprocess.model_init('mnist', 'cpu') for i in range(num_experts)])
+        experts = nn.ModuleList([data_preprocess.model_init('mnist', device) for i in range(num_experts)])
         moe_model = MoE(input_size=1 * 28 * 28, output_size=10, experts=experts, num_experts=10, hidden_size=100,
                         tf_idf_scores=tf_idf_scores, forget_client_idx=FL_params.forget_client_idx,
                         k=FL_params.forget_clients_num, noisy_gating=True)
@@ -234,7 +238,7 @@ def client_level_unlearning(global_model, old_client_models, client_data_loaders
 
         num_experts = FL_params.N_client
         block_size = 4
-        experts = nn.ModuleList([data_preprocess.model_init('shakespeare', 'cpu') for i in range(num_experts)])
+        experts = nn.ModuleList([data_preprocess.model_init('shakespeare', device) for i in range(num_experts)])
         moe_model = MoE(input_size=block_size, output_size=block_size, experts=experts, num_experts=num_experts, hidden_size=100,
                         tf_idf_scores=tf_idf_scores, forget_client_idx=FL_params.forget_client_idx,
                         k=FL_params.forget_clients_num, noisy_gating=True)
@@ -391,12 +395,16 @@ def client_level_unlearning(global_model, old_client_models, client_data_loaders
                 finetuned_global_models[-1], new_client_data_loaders, test_loader, FL_params)
             tv_stability = calculate_total_variance_stability(global_model, finetuned_global_models[-1],remain_client_list,
                                                               new_client_data_loaders, test_loader)
+        print(f"Final rouc value: {FL_params.rouc}")
+        print(f"Final TV stability: {tv_stability}")
+    else:
+        print('Here basic finetuning:')
+        finetuned_global_model, test_acc, train_epoch, test_loss, train_acc, train_loss = FL_Finetuned(
+            finetuned_global_models[-1], new_client_data_loaders, test_loader, FL_params)
 
-    print(f"Final rouc value: {FL_params.rouc}")
-    print(f"Final TV stability: {tv_stability}")
-    print("Fine-tuning train acc:%.4f" % train_acc)
-    print("Fine-tuning train epoch:%d" % train_epoch)
-    print(5 * "#" + "  Federated Fine-tuning End" + 5 * "#")
+        print("Fine-tuning train acc:%.4f" % train_acc)
+        print("Fine-tuning train epoch:%d" % train_epoch)
+        print(5 * "#" + "  Federated Fine-tuning End" + 5 * "#")
     updated_global_models.append(finetuned_global_model)
 
     return updated_global_models, train_acc, train_loss, test_acc, test_loss

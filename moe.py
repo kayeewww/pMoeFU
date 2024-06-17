@@ -223,6 +223,12 @@ class MoE(nn.Module):
         normal = Normal(self.mean, self.std)
         prob_if_in = normal.cdf((clean_values - threshold_if_in)/noise_stddev)
         prob_if_out = normal.cdf((clean_values - threshold_if_out)/noise_stddev)
+        if torch.isnan(prob_if_in).any() or torch.isnan(prob_if_out).any():
+            print("NaN detected in prob_if_in or prob_if_out")
+            print(f"clean_values: {clean_values}")
+            print(f"threshold_if_in: {threshold_if_in}")
+            print(f"threshold_if_out: {threshold_if_out}")
+            print(f"noise_stddev: {noise_stddev}")
         prob = torch.where(is_in, prob_if_in, prob_if_out)
         return prob
 

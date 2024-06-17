@@ -1,11 +1,11 @@
 #!/bin/bash
 #
-## 定义输出日志文件的路径
-##LOG_FILE="./log/cifar10_600G_2K_dif_M/9clients_$(date +%Y-%m-%d_%H-%M-%S).log"
-##python Fed_Unlearn_main.py  >> $LOG_FILE 2>&1
-#
-#
-#params=(7 8 9)
+# 定义输出日志文件的路径
+#LOG_FILE="./log/cifar10_600G_2K_dif_M/9clients_$(date +%Y-%m-%d_%H-%M-%S).log"
+#python Fed_Unlearn_main.py  >> $LOG_FILE 2>&1
+
+
+#params=(9)
 #
 #for param in "${params[@]}"
 #do
@@ -17,9 +17,9 @@
 # 定义参数列表
 params=(2 3 4 5 6 7 8 9)
 
-rouc_list_1=(0.5 0.6 0.7 0.8 0.9 1)
-K_list_1=(5 6 7 8 9 10)
-M_list_1=(3000 3000 3000 3000 3000 3000)
+rouc_list_1=(0.6 0.7 0.8 0.9 1)
+K_list_1=(6 7 8 9 10)
+M_list_1=(3000 3000 3000 3000 3000)
 
 rouc_list_2=(0.3 0.4 0.5 0.6 0.7 0.8 0.9 1)
 K_list_2=(2 2 2 2 2 2 2 2)

@@ -32,7 +32,8 @@ def FL_Train(init_global_model, client_data_loaders, test_loader, FL_params):
 
     all_global_models = list()
     all_client_models = list()
-    global_model = init_global_model
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    global_model = init_global_model.to(device)
     
     all_global_models.append(copy.deepcopy(global_model))
     
@@ -107,7 +108,7 @@ def global_train_once(global_model, client_data_loader, test_loader, FL_params):
     #Note: It is important to Note that global_train_once is only a global update to the parameters of the model
     # update_client_models = list()
     device = torch.device("cuda" if FL_params.use_gpu*FL_params.cuda_state else "cpu")
-    device_cpu = torch.device("cpu")
+    # device_cpu = torch.device("cpu")
     if (FL_params.data_name == "shakespeare"):
         text, data, string2integer, integer2string, vocab_size, chars = load_data("data/shakespeare.txt")
         clients_data, train_data, val_data = split_data(data, num_clients=3)
@@ -167,7 +168,7 @@ def global_train_once(global_model, client_data_loader, test_loader, FL_params):
         #         model.to(device_cpu)
         #         client_models[client_idx] = model
         # else:
-        model.to(device_cpu)
+        model.to(device)
         client_models[client_idx] = model
 
 
@@ -302,6 +303,7 @@ def test(net, testloader, FL_params):
 
         # 训练循环
         for epoch in range(FL_params.local_epoch):
+            net.to(device)
             net.eval()
             correct, total = 0, 0
             with torch.no_grad():
@@ -316,8 +318,9 @@ def test(net, testloader, FL_params):
 
             print(f'Epoch [{epoch + 1}/{FL_params.local_epoch}], Accuracy: {100 * correct / total:.2f}%')
     else:
-        device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         criterion = nn.CrossEntropyLoss()
+        net.to(device)
 
         net.eval()
         test_loss = 0

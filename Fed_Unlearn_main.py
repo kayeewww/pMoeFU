@@ -13,11 +13,9 @@ import argparse
 # ourself libs
 # from model_initiation import model_init
 from data_preprocess import data_set, dataloader_init, model_init, Net_cifar10, Net_mnist
-from FL_base import test, FL_Retrain
-
 from Fed_Unlearn_base import federated_learning_unlearning
 from membership_inference import train_attack_model, attack
-
+from FL_base import test, FL_Retrain
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning, module="torchtext")
 
@@ -32,8 +30,8 @@ class Arguments():
         # self.data_name = 'shakespeare'# purchase, cifar10, mnist, adult
 
         self.pretrained = True#False
-        self.pretrained_gms_file = 'cifar_global.pth'#'shake20_global.pth'
-        self.pretrained_cms_file = 'cifar_client.pth'#'shake20_client.pth'
+        self.pretrained_gms_file = 'cifar_global.pth'#'ssh20_cifar_global.pth'#'shake20_global.pth'
+        self.pretrained_cms_file = 'cifar_client.pth'#'ssh20_cifar_client.pth'#'shake20_client.pth'
         # self.pretrained_gms_file = 'shake20_global.pth'
         # self.pretrained_cms_file = 'shake20_client.pth'
         self.save_pretrained = False#False
@@ -82,7 +80,7 @@ class Arguments():
         self.if_sample_unlearning = False
         self.selected_K_group = []
         self.sparsity = 0.05
-        self.tv_stability_threshold=0.01
+        self.tv_stability_threshold=2#0.01
 
     def parse_args(self):
         parser = argparse.ArgumentParser(description='Federated Unlearning Arguments')
@@ -153,7 +151,7 @@ def Federated_Unlearning():
 
     print('len of selected client loader,', len(client_loaders))
 
-    old_GMs, unlearn_GMs, old_CMs = federated_learning_unlearning(init_global_model,
+    old_GMs, unlearn_GMs, old_CMs = federated_learning_unlearning(init_global_model.to(device),
                                                                   client_loaders,
                                                                   test_loader,
                                                                   FL_params)

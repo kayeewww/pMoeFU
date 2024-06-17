@@ -183,8 +183,9 @@ def attack(target_model, attack_model, client_loaders, test_loader, FL_params):
                     
     unlearn_X = unlearn_X[1:,:]
     unlearn_X = softmax(unlearn_X,dim = 1)
-    unlearn_X = unlearn_X.cpu().detach().numpy()
-    
+    # unlearn_X = unlearn_X.cpu().detach().numpy()
+    unlearn_X = unlearn_X.to(device).detach().numpy()
+
     unlearn_X.sort(axis=1)
     unlearn_y = np.ones(unlearn_X.shape[0])
     unlearn_y = unlearn_y.astype(np.int16)
@@ -204,7 +205,8 @@ def attack(target_model, attack_model, client_loaders, test_loader, FL_params):
                 break
     test_X = test_X[1:N_unlearn_sample+1,:]
     test_X = softmax(test_X,dim = 1)
-    test_X = test_X.cpu().detach().numpy()
+    # test_X = test_X.cpu().detach().numpy()
+    test_X = test_X.to(device).detach().numpy()
     
     test_X.sort(axis=1)
     test_y = np.zeros(test_X.shape[0])
@@ -260,7 +262,7 @@ def train_attack_model(shadow_old_GM, shadow_client_loaders, shadow_test_loader,
                     pred_4_mem = torch.cat([pred_4_mem, out])
     pred_4_mem = pred_4_mem[1:,:]
     pred_4_mem = softmax(pred_4_mem,dim = 1)
-    pred_4_mem = pred_4_mem.cpu()
+    pred_4_mem = pred_4_mem.to(device)#.cpu()
     pred_4_mem = pred_4_mem.detach().numpy()
     
     ####
@@ -273,7 +275,7 @@ def train_attack_model(shadow_old_GM, shadow_client_loaders, shadow_test_loader,
             pred_4_nonmem = torch.cat([pred_4_nonmem, out])
     pred_4_nonmem = pred_4_nonmem[1:,:]
     pred_4_nonmem = softmax(pred_4_nonmem,dim = 1)
-    pred_4_nonmem = pred_4_nonmem.cpu()
+    pred_4_nonmem = pred_4_nonmem.to(device)#.cpu()
     pred_4_nonmem = pred_4_nonmem.detach().numpy()
     
     
