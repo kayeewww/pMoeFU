@@ -120,7 +120,7 @@ def Federated_Unlearning():
     print("Step2. Client data loaded, testing data loaded!!!\n       Initial Model loaded!!!")
     # 加载数据
 
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
 
     init_global_model = model_init(FL_params.data_name, device)
     client_all_loaders, test_loader = dataloader_init(FL_params)
@@ -151,7 +151,7 @@ def Federated_Unlearning():
 
     print('len of selected client loader,', len(client_loaders))
 
-    old_GMs, unlearn_GMs, old_CMs = federated_learning_unlearning(init_global_model.to(device),
+    old_GMs, unlearn_GMs, old_CMs = federated_learning_unlearning(init_global_model,
                                                                   client_loaders,
                                                                   test_loader,
                                                                   FL_params)
@@ -159,8 +159,8 @@ def Federated_Unlearning():
 
         t1 = time.time()
 
-        unlearn_GMs = unlearn_GMs[-1]
-        retrain_GMs = FL_Retrain(unlearn_GMs, client_loaders, test_loader, FL_params)
+        unlearn_GMs = unlearn_GMs[-1].to(device)
+        retrain_GMs = FL_Retrain(unlearn_GMs, client_loaders, test_loader, FL_params)#.to(device)
 
         t2 = time.time()
         print("Retrain Time using = {} seconds".format(t2 - t1), 3)

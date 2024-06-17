@@ -156,7 +156,7 @@ def attack(target_model, attack_model, client_loaders, test_loader, FL_params):
     n_class_dict['cifar10'] = 10
     
     N_class = n_class_dict[FL_params.data_name]
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
     
     
     target_model.to(device)
@@ -243,7 +243,7 @@ def train_attack_model(shadow_old_GM, shadow_client_loaders, shadow_test_loader,
     
     N_class = n_class_dict[FL_params.data_name]
     
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
     shadow_model.to(device)
         
     shadow_model.eval()

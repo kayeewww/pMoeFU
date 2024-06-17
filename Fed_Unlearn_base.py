@@ -19,7 +19,10 @@ from class_pruner import acculumate_feature, calculate_cp, get_threshold_by_spar
 
 def load_model_pytorch(model, load_model, model_name):
     # print("=> loading checkpoint '{}'".format(load_model))
-    checkpoint = torch.load(load_model)
+
+    # checkpoint = torch.load(load_model)
+    device=torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
+    checkpoint = torch.load(load_model, map_location=device)
 
     if 'state_dict' in checkpoint.keys():
         load_from = checkpoint['state_dict']
@@ -71,12 +74,14 @@ def load_model_pytorch(model, load_model, model_name):
     model.load_state_dict(load_from, False)
 
 def federated_learning_unlearning(init_global_model, client_loaders, test_loader, FL_params):
+    device=torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
 
     print(5*"#"+"  Federated Learning Start"+5*"#")
     std_time = time.time()
     if FL_params.pretrained==True:
         if FL_params.save_pretrained:
             print('-------Saving pre-trained model------')
+            init_global_model.to(device)
             old_GMs, old_CMs = FL_Train(init_global_model, client_loaders, test_loader, FL_params)
             torch.save(old_GMs[-1].state_dict(), FL_params.pretrained_gms_file)
             torch.save(old_CMs[-1].state_dict(), FL_params.pretrained_cms_file)
@@ -102,14 +107,15 @@ def federated_learning_unlearning(init_global_model, client_loaders, test_loader
         print('-------Using pre-trained model------')
         old_GMs = []
         old_CMs = []
-        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        old_GM=model_init(FL_params.data_name,device)
-        old_CM=model_init(FL_params.data_name,device)
-        gm_checkpoint = torch.load(FL_params.pretrained_gms_file)
+        device = torch.device('cuda:2' if torch.cuda.is_available() else 'cpu')
+        old_GM=model_init(FL_params.data_name,'cpu')
+        old_CM=model_init(FL_params.data_name,'cpu')
+        gm_checkpoint = torch.load(FL_params.pretrained_gms_file, map_location='cpu')
         old_GM.load_state_dict(gm_checkpoint, strict=False)
-        # print(old_GM)
-        cm_checkpoint = torch.load(FL_params.pretrained_cms_file)
+        old_GM.to(device)
+        cm_checkpoint = torch.load(FL_params.pretrained_cms_file, map_location='cpu')
         old_CM.load_state_dict(cm_checkpoint, strict=False)
+        old_CM.to(device)
         # incompatible_keys = old_GM.load_state_dict(gm_checkpoint, strict=False)
 
         for i in range(FL_params.global_epoch):

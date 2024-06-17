@@ -32,8 +32,8 @@ def FL_Train(init_global_model, client_data_loaders, test_loader, FL_params):
 
     all_global_models = list()
     all_client_models = list()
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    global_model = init_global_model.to(device)
+    device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
+    global_model = init_global_model
     
     all_global_models.append(copy.deepcopy(global_model))
     
@@ -71,14 +71,14 @@ def FL_Retrain(init_global_model, client_data_loaders, test_loader, FL_params):
     retrain_GMs = list()
     all_client_models = list()
     retrain_GMs.append(copy.deepcopy(init_global_model))
-    global_model = init_global_model
+    global_model = init_global_model.to(device)
     for epoch in range(FL_params.global_epoch):
         client_models = global_train_once(global_model, client_data_loaders, test_loader, FL_params)
         #IMPORTANT：这里有一点要注意，就是global_train_once在训练过程中，是直接在input的client_models上进行训练，因此output的client_models与input的client_models是同一组模型，只不过input没有经过训练，而output经过了训练。
         #IMPORTANT：这里有一点要注意，就是global_train_once在训练过程中，是直接在input的client_models上进行训练，因此output的client_models与input的client_models是同一组模型，只不过input没有经过训练，而output经过了训练。：It is important to note that global_train_once is trained directly on the input client_models during training, so the output's client_models are the same set of models as the input's client_models, except that the input is untrained while the output is trained.
 #   IMPORTANT：因此，为了实现Federated unlearning，我们需要在global train之前就将client——models中的模型进行保存。可以使用deepcopy，或者硬盘io方式。
 #IMPORTANT: Therefore, in order to implement Federated Unlearning, we need to save the models in Client -- Models before global Train.You can use DeepCopy, or hard disk IO.
-        global_model = fedavg(client_models)
+        global_model = fedavg(client_models).to(device)
         # print(30*'^')
         print("Global Retraining epoch = {}".format(epoch))
         # test(global_model, test_loader)
@@ -107,12 +107,13 @@ def global_train_once(global_model, client_data_loader, test_loader, FL_params):
     #Using the model, optimizer, and data of each client, training the initial model with client_models, updating the UPODate -- client_models using the client user's local data and optimizer
     #Note: It is important to Note that global_train_once is only a global update to the parameters of the model
     # update_client_models = list()
-    device = torch.device("cuda" if FL_params.use_gpu*FL_params.cuda_state else "cpu")
+    device = torch.device("cuda:2" if FL_params.use_gpu*FL_params.cuda_state else "cpu")
+    global_model.to(device)
     # device_cpu = torch.device("cpu")
     if (FL_params.data_name == "shakespeare"):
         text, data, string2integer, integer2string, vocab_size, chars = load_data("data/shakespeare.txt")
         clients_data, train_data, val_data = split_data(data, num_clients=3)
-        model = train_model(chars, clients_data, train_data, val_data)
+        model = train_model(chars, clients_data, train_data, val_data).to(device)
         decode = lambda l: ''.join([integer2string[i] for i in l])
         generated_text = generate_text(model, decode)
         # print(generated_text)
@@ -129,7 +130,7 @@ def global_train_once(global_model, client_data_loader, test_loader, FL_params):
             client_sgds.append(optim.SGD(client_models[ii].parameters(), lr=FL_params.local_lr, momentum=0.9))
 
         for client_idx in range(FL_params.N_client):
-            model = client_models[client_idx]
+            model = client_models[client_idx]#.to(device)
 
             if(((FL_params.if_retrain) and (FL_params.forget_client_idx == client_idx)) or ((FL_params.if_unlearning) and (FL_params.forget_client_idx == client_idx))):
 
@@ -143,7 +144,7 @@ def global_train_once(global_model, client_data_loader, test_loader, FL_params):
             optimizer = client_sgds[client_idx]
 
 
-            model.to(device)
+            # model
             model.train()
 
             #local training
@@ -151,12 +152,13 @@ def global_train_once(global_model, client_data_loader, test_loader, FL_params):
                 for batch_idx, (data, target) in enumerate(client_data_loader[client_idx]):
                     data = data.to(device)
                     target = target.to(device)
-                    # optimizer = optim.SGD(model.parameters(), lr=FL_params.local_lr)
+                    optimizer = optim.SGD(model.parameters(), lr=FL_params.local_lr)
 
                     optimizer.zero_grad()
                     pred = model(data)
                     criteria = nn.CrossEntropyLoss()
                     loss = criteria(pred, target)
+                    # loss = F.cross_entropy(pred, target)  # 计算交叉熵损失
                     loss.backward()
                     optimizer.step()
             if(FL_params.train_with_test):
@@ -294,6 +296,7 @@ Test the performance of the model on the test set
 
 
 def test(net, testloader, FL_params):
+    device = 'cuda:2' if torch.cuda.is_available() else 'cpu'
     if FL_params.data_name=="shakespeare":
         criterion = nn.BCEWithLogitsLoss()
         optimizer = optim.Adam(net.parameters(), lr=0.001)
@@ -318,7 +321,7 @@ def test(net, testloader, FL_params):
 
             print(f'Epoch [{epoch + 1}/{FL_params.local_epoch}], Accuracy: {100 * correct / total:.2f}%')
     else:
-        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        device = torch.device('cuda:2' if torch.cuda.is_available() else 'cpu')
         criterion = nn.CrossEntropyLoss()
         net.to(device)
 
@@ -339,7 +342,7 @@ def test(net, testloader, FL_params):
                 test_loss += loss.item()
                 _, predicted = outputs.max(1)
                 total += targets.size(0)
-                test_acc += accuracy_score(predicted, targets)
+                test_acc += accuracy_score(predicted.cpu(), targets.cpu())
                 correct += predicted.eq(targets).sum().item()
         num_val_steps = len(testloader)
         val_acc = correct / total

@@ -171,13 +171,13 @@ def client_level_unlearning(global_model, old_client_models, client_data_loaders
     old_global_models = copy.deepcopy(global_model)
     old_client_models = copy.deepcopy(old_client_models)
     new_GMs = list()
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
 
     for epoch in range(FL_params.global_epoch):
         if (epoch == 0):
             continue
         # print("Client-level Federated Unlearning Global Epoch  = {}".format(epoch))
-        old_global_model = old_global_models[epoch]
+        old_global_model = old_global_models[epoch].to(device)
         global_model = old_global_model.to(device)
         global_model.train()
         new_GMs.append(global_model)
@@ -201,7 +201,7 @@ def client_level_unlearning(global_model, old_client_models, client_data_loaders
     selected_client, tf_idf_scores = Class_pruner(global_model, FL_params)
     if FL_params.data_name=='cifar10':
         num_experts = FL_params.N_client
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         # device = 'cuda' if torch.cuda.is_available() else 'cpu'
         experts = nn.ModuleList([data_preprocess.model_init('cifar10', device) for i in range(num_experts)])
@@ -301,7 +301,7 @@ def client_level_unlearning(global_model, old_client_models, client_data_loaders
     client_set=set(client_list)
     forget_set=set(FL_params.forget_client_idx)
     remain_client_list = list(client_set-forget_set)
-    print('Remove one', remain_client_list)
+    print('After Removing', remain_client_list)
     old_client_models.append(temp)
     # for ii in range(FL_params.global_epoch):
     #     temp = old_client_models[ii * FL_params.N_client: ii * FL_params.N_client + FL_params.N_client]
@@ -331,12 +331,13 @@ def client_level_unlearning(global_model, old_client_models, client_data_loaders
     # for client in FL_params.selected_K_group:
     for client in remain_client_list:
         # data_loader = new_client_data_loaders[client]
-        local_model = client_models  # old_client_models[client]
+        local_model = client_models.to(device)  # old_client_models[client]
 
         for itr in range(FL_params.local_epoch):
             # local_model = local_model1[itr]
             # sampled_dataloader = np.random.choice(list(data_loader), FL_params.b, replace=True)
             for inputs, targets in new_client_data_loaders[itr]:
+                inputs, targets = inputs.to(device), targets.to(device)
                 optimizer = optim.SGD(local_model.parameters(), lr=FL_params.local_lr)
                 optimizer.zero_grad()
                 outputs = local_model(inputs)
@@ -349,7 +350,7 @@ def client_level_unlearning(global_model, old_client_models, client_data_loaders
         # Aggregating local models to update the global model
         # if ii % FL_params.local_epoch == 0:
         unlearn_global_model = list()
-        fedavg_global_model = fedavg(local_client_models)
+        fedavg_global_model = fedavg(local_client_models).to(device)
         unlearn_global_model.append(fedavg_global_model)
 
     updated_global_models.append(unlearn_global_model)
@@ -412,19 +413,29 @@ def client_level_unlearning(global_model, old_client_models, client_data_loaders
 def calculate_total_variance_stability(global_model, new_global_model, remain_client_list, new_client_data_loaders, test_loader):
     # 实现总方差稳定性的计算
     # 通过比较模型在遗忘前后在测试集上的性能变化来计算总方差稳定性
+    # print(f"Global model device: {next(global_model.parameters()).device}")
+    # print(f"New GM device: {next(new_GM.parameters()).device}")
+
     old_model_performance = evaluate_model(global_model, remain_client_list, new_client_data_loaders, test_loader)
     new_model_performance = evaluate_model(new_global_model, remain_client_list, new_client_data_loaders, test_loader)
     tv_stability = np.abs(old_model_performance - new_model_performance)
     return tv_stability
 
 def evaluate_model(model, remain_client_list, new_client_data_loaders, test_loader):
+    # device=torch.device("cuda:1" if torch.cuda.is_available() else "")
+    device = next(model.parameters()).device
+    model.to(device)
     model.eval()
     performance = 0
     with torch.no_grad():
         for client in remain_client_list:
             for inputs, targets in new_client_data_loaders[client]:
+                inputs.to(device)
+                targets.to(device)
                 outputs = model(inputs)
-                performance += accuracy_score(targets, outputs.argmax(dim=1))
+                performance += accuracy_score(targets.cpu().numpy(), outputs.argmax(dim=1).cpu().numpy())
+
+                # performance += accuracy_score(targets.to(device), outputs.argmax(dim=1).to(device))
     performance /= len(remain_client_list)
     performance /=100
     return performance

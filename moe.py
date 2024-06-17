@@ -76,6 +76,8 @@ class SparseDispatcher(object):
         """
 
         # assigns samples to experts whose gate is nonzero
+        device = inp.device  # 获取输入张量的设备
+        self._batch_index = self._batch_index.to(device)  # 将索引转换到相同的设备
 
         # expand according to batch index so we can just split by _part_sizes
         inp_exp = inp[self._batch_index].squeeze(1)
@@ -95,6 +97,8 @@ class SparseDispatcher(object):
           a `Tensor` with shape `[batch_size, <extra_output_dims>]`.
         """
         # apply exp to expert outputs, so we are not longer in log space
+        device = expert_out[0].device
+        self._batch_index = self._batch_index.to(device)
         stitched = torch.cat(expert_out, 0)
 
         if multiply_by_gates:
@@ -111,6 +115,8 @@ class SparseDispatcher(object):
               and shapes `[expert_batch_size_i]`
         """
         # split nonzero gates for each expert
+        device = self._nonzero_gates.device
+        self._nonzero_gates = self._nonzero_gates.to(device)
         return torch.split(self._nonzero_gates, self._part_sizes, dim=0)
 
 # class MLP(nn.Module):
@@ -243,6 +249,8 @@ class MoE(nn.Module):
             gates: a Tensor with shape [batch_size, num_experts]
             load: a Tensor with shape [num_experts]
         """
+        device = next(self.parameters()).device  # 获取模型所在的设备
+        x = x.to(device)  # 确保输入张量在同一设备上
         batch_size = x.size(0)
         x = x.view(batch_size, -1)
         clean_logits = x @ self.w_gate

@@ -54,7 +54,7 @@ def get_dataloaders(train_data, val_data, block_size, batch_size):
 """Function: load data"""
 def dataloader_init(FL_params):
     
-    kwargs = {'num_workers': 0, 'pin_memory': True} if FL_params.cuda_state else {}
+    kwargs = {'num_workers': 1, 'pin_memory': True} if FL_params.cuda_state else {}
     if FL_params.data_name=='shakespeare':
         text, data, string2integer, integer2string, vocab_size, chars = load_data("data/shakespeare.txt")
         clients_data, train_data, val_data = split_data(data, num_clients=3)
@@ -228,27 +228,27 @@ def data_set(data_name):
 #define class->dataset  for adult and purchase datasets
 #for the purchase, we use TensorDataset function to transform numpy.array to datasets class
 #for the adult, we custom an AdultDataset class that inherits torch.util.data.Dataset class
-"""
-Array2Dataset: A class that can transform np.array(tensor matrix) to a torch.Dataset class.  
-"""
-class Array2Dataset(Dataset):
-    def __init__(self, data, targets, transform=None):
-        self.data = data
-        self.targets = targets
-        self.transform = transform
-    def __getitem__(self, index):
-        x = self.data[index,:]
-        y = self.targets[index]
-        return x, y
-    def __len__(self):
-        return len(self.data)
+# """
+# Array2Dataset: A class that can transform np.array(tensor matrix) to a torch.Dataset class.
+# """
+# class Array2Dataset(Dataset):
+#     def __init__(self, data, targets, transform=None):
+#         self.data = data
+#         self.targets = targets
+#         self.transform = transform
+#     def __getitem__(self, index):
+#         x = self.data[index,:]
+#         y = self.targets[index]
+#         return x, y
+#     def __len__(self):
+#         return len(self.data)
 
 ###################################MODEL##########################################
 def model_init(data_name, device):
     if (data_name == 'mnist'):
         model = Net_mnist()
     elif (data_name == 'cifar10'):
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
         model = Net_cifar10(device)
     elif (data_name == 'purchase'):
         model = Net_purchase()
@@ -267,7 +267,7 @@ def model_init(data_name, device):
         )
 
         model = BabyGPTmodel(config)
-        # model.to(device)
+        model.to(device)
     return model
 
 
@@ -354,7 +354,7 @@ class Net_cifar10(nn.Module):
         # self.flatten = nn.Flatten()
         self.to(device)
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         x = x.to(self.device)
         x = self.pool(F.relu(self.conv1(x)))
         x = self.pool(F.relu(self.conv2(x)))
