@@ -396,14 +396,14 @@ def client_level_unlearning(global_model, old_client_models, client_data_loaders
         while tv_stability > FL_params.tv_stability_threshold and FL_params.rouc < 1.0:
             finetuned_global_model = finetuned_global_models[-1]
             iteration_count += 1
-            FL_params.rouc += 0.05  # 增加rouc比例
+            FL_params.rouc += 0.05
             finetuned_global_model, test_acc, train_epoch, test_loss, train_acc, train_loss = FL_Finetuned(
                 finetuned_global_model, new_client_data_loaders, test_loader, FL_params)
             tv_stability = calculate_total_variance_stability(global_model, finetuned_global_model,remain_client_list,
                                                               new_client_data_loaders, test_loader)
             # 保存每个专家模型的状态
             for i, expert_model in enumerate(finetuned_global_model.experts):
-                prune_model_path = os.path.join(prune_model_save_dir, f"pruned_model_expert_{i}_iter_{iteration_count}.pth")
+                prune_model_path = os.path.join(prune_model_save_dir, f"pruned_model_expert_{i}_iter_{iteration_count}_{FL_params.K}K_{FL_params.M}_forget{FL_params.forget_clients_num}.pth")
                 torch.save(expert_model.state_dict(), prune_model_path)
 
             # 打印当前迭代次数和 TV 稳定性
