@@ -9,6 +9,7 @@ import torch
 import numpy as np
 import time
 import argparse
+import os
 
 # ourself libs
 # from model_initiation import model_init
@@ -65,7 +66,7 @@ class Arguments():
         self.client_fraction = 10  # Fraction of clients selected per round.
 
         self.fats_method = 'client'
-        self.rouc = 0.5#0.2
+        self.rouc = 0.3#0.2
         self.rous = 0.1
         self.k_u = -1
         self.unlearn_client = -1
@@ -73,10 +74,10 @@ class Arguments():
         self.class_flag = False
         self.rest_data_loader = None  # torchvision.datasets.CIFAR10(root='../data', train=True, download=True)
         self.rest_testdata = None
-        self.K = 5
+        self.K = 2
         self.b = 1
         self.N_datapoint = 20  # 80 #16
-        self.M = 3000#100  # 600
+        self.M = 2000#100  # 600
         self.if_sample_unlearning = False
         self.selected_K_group = []
         self.sparsity = 0.05
@@ -164,6 +165,24 @@ def Federated_Unlearning():
 
         t2 = time.time()
         print("Retrain Time using = {} seconds".format(t2 - t1), 3)
+
+    '''
+    Saving ckpt
+    '''
+    # prune_model_save_dir = "ckpt/prune"
+    # prune_model_path=os.path.join(prune_model_save_dir, f"prune_{FL_params.rouc}_{FL_params.K}_{FL_params.M}_forget${FL_params.forget_clients_num}clients.pth")
+    # torch.save(unlearn_GMs.state_dict(), prune_model_path)
+
+    retrain_model_save_dir="ckpt/retrain"
+    retrain_model_path = os.path.join(retrain_model_save_dir,
+                                    f"retrain_{FL_params.rouc}_{FL_params.K}_{FL_params.M}_forget${FL_params.forget_clients_num}clients.pth")
+    torch.save(retrain_GMs[-1].state_dict(), retrain_model_path)
+
+    finetuned_model_save_dir = "ckpt/finetuned"
+    finetuned_model_path = os.path.join(finetuned_model_save_dir,
+                                      f"retrain_{FL_params.rouc}_{FL_params.K}_{FL_params.M}_forget${FL_params.forget_clients_num}clients.pth")
+    torch.save(unlearn_GMs.state_dict(), finetuned_model_path)
+
 
     '''
      Evaluation

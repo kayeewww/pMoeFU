@@ -1,4 +1,5 @@
 import copy
+import os
 import numpy as np
 import torch
 from torch import nn, optim
@@ -386,17 +387,30 @@ def client_level_unlearning(global_model, old_client_models, client_data_loaders
     finetuned_global_models = updated_global_models[-1]
     tv_stability = calculate_total_variance_stability(global_model, finetuned_global_models[-1],remain_client_list,
                                                       new_client_data_loaders, test_loader)
-
+    prune_model_save_dir = "ckpt/prune"
     print('TV stability: ', tv_stability)
+    iteration_count = 0
     if tv_stability > FL_params.tv_stability_threshold:
         print(5 * "#" + "  Federated Fine-tuning Start" + 5 * "#")
+        finetuned_epoch=0
         while tv_stability > FL_params.tv_stability_threshold and FL_params.rouc < 1.0:
+            finetuned_global_model = finetuned_global_models[-1]
+            iteration_count += 1
             FL_params.rouc += 0.05  # 增加rouc比例
             finetuned_global_model, test_acc, train_epoch, test_loss, train_acc, train_loss = FL_Finetuned(
-                finetuned_global_models[-1], new_client_data_loaders, test_loader, FL_params)
-            tv_stability = calculate_total_variance_stability(global_model, finetuned_global_models[-1],remain_client_list,
+                finetuned_global_model, new_client_data_loaders, test_loader, FL_params)
+            tv_stability = calculate_total_variance_stability(global_model, finetuned_global_model,remain_client_list,
                                                               new_client_data_loaders, test_loader)
+            # 保存每个专家模型的状态
+            for i, expert_model in enumerate(finetuned_global_model.experts):
+                prune_model_path = os.path.join(prune_model_save_dir, f"pruned_model_expert_{i}_iter_{iteration_count}.pth")
+                torch.save(expert_model.state_dict(), prune_model_path)
+
+            # 打印当前迭代次数和 TV 稳定性
+            print(f"Iteration {iteration_count}: TV Stability = {tv_stability}, rouc = {FL_params.rouc}")
+
         print(f"Final rouc value: {FL_params.rouc}")
+        print(f'We have {finetuned_epoch} epochs fine-tuning')
         print(f"Final TV stability: {tv_stability}")
     else:
         print('Here basic finetuning:')
@@ -429,12 +443,14 @@ def evaluate_model(model, remain_client_list, new_client_data_loaders, test_load
     performance = 0
     with torch.no_grad():
         for client in remain_client_list:
+            client_performance = 0
+            num_batches = 0
             for inputs, targets in new_client_data_loaders[client]:
                 inputs.to(device)
                 targets.to(device)
                 outputs = model(inputs)
                 performance += accuracy_score(targets.cpu().numpy(), outputs.argmax(dim=1).cpu().numpy())
-
+                num_batches += 1
                 # performance += accuracy_score(targets.to(device), outputs.argmax(dim=1).to(device))
     performance /= len(remain_client_list)
     performance /=100
