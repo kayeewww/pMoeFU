@@ -58,6 +58,7 @@ def FL_Train(init_global_model, client_data_loaders, test_loader, FL_params):
 
 
 def FL_Retrain(init_global_model, client_data_loaders, test_loader, FL_params):
+    device = torch.device("cuda:2") if torch.cuda.is_available() else "cpu"
     if(FL_params.if_retrain == False):
         raise ValueError('FL_params.if_retrain should be set to True, if you want to retrain FL model')
     print('FL_params.forget_client_idx',FL_params.forget_client_idx)
@@ -100,7 +101,7 @@ For the global round of training, the data and optimizer of each global_ModelT i
 NOTE:The global model inputed is the global model for the previous round
     The output client_Models is the model that each user trained separately.
 """
-#training sub function    
+
 def global_train_once(global_model, client_data_loader, test_loader, FL_params):
     #使用每个client的模型、优化器、数据，以client_models为训练初始模型，使用client用户本地的数据和优化器，更新得到upodate——client_models
     #Note：需要注意的一点是，global_train_once只是在全局上对模型的参数进行一次更新
@@ -214,31 +215,19 @@ def FL_Finetuned(init_global_model, client_data_loaders, test_loader, FL_params)
     global_model = init_global_model
     epoch_acc = []
 
-    for epoch in range(FL_params.global_epoch):
-        # global_model_temp=global_model[-1]
-        # print('global_model', global_model)
-        # if(FL_params.fats_method=='sample'):
-        #     client_models = global_train_once(global_model, client_data_loaders, test_loader, FL_params)
-        # elif(FL_params.fats_method=='client'):
+    for epoch in range(FL_params.finetune_epoch):
         client_models = global_train_once(global_model, client_data_loaders, test_loader, FL_params)
-
-        # IMPORTANT：这里有一点要注意，就是global_train_once在训练过程中，是直接在input的client_models上进行训练，因此output的client_models与input的client_models是同一组模型，只不过input没有经过训练，而output经过了训练。
-        # IMPORTANT：因此，为了实现Federated unlearning，我们需要在global train之前就将client——models中的模型进行保存。可以使用deepcopy，或者硬盘io方式。
-        # 聚合，更新全局模型的参数，会应用到下一轮训练当中
         global_model = fedavg(client_models)
         print("Global Federated Learning epoch = {}".format(epoch))
 
-        (val_acc,test_loss) = test(global_model, test_loader,FL_params)
-        (train_acc,train_loss) = test(global_model, client_data_loaders[-1],FL_params)
+        (val_acc, test_loss) = test(global_model, test_loader,FL_params)
+        (train_acc, train_loss) = test(global_model, client_data_loaders[-1],FL_params)
 
         epoch_acc.append((epoch, val_acc))
-        # save_flag = save_net(global_model, val_acc, FL_params.save_re_acc, save_info, epoch)
-        # if save_flag:
-        #     break
 
     epochs, accuracies = zip(*epoch_acc)
 
-    return global_model, val_acc, epoch, test_loss,train_acc,train_loss
+    return global_model, val_acc, epoch, test_loss, train_acc, train_loss
 
 def FL_Retrain(init_global_model, client_data_loaders, test_loader, FL_params):
     if (FL_params.if_retrain == False):

@@ -28,6 +28,8 @@ class Arguments():
         self.N_total_client = 100
         self.N_client = 10  ## Total number of clients N.
         self.data_name = 'cifar10'
+        self.datasets = ['cifar10', 'mnist', 'shakespeare', 'cifar10', 'mnist', 'shakespeare', 'cifar10', 'mnist', 'shakespeare', 'cifar10']
+
         # self.data_name = 'shakespeare'# purchase, cifar10, mnist, adult
 
         self.pretrained = True#False
@@ -39,11 +41,12 @@ class Arguments():
 
         # Federated Unlearning Settings
         self.unlearn_interval = 1  # Used to control how many rounds the model parameters are saved.1 represents the parameter saved once per round  N_itv in our paper.
-        self.forget_client_idx = -1  # If want to forget, change None to the client index
-        self.forget_clients_num=1 #1-10
+        self.forget_client_idx = 1  # If want to forget, change None to the client index
+        self.forget_clients_num = 1 #1-10
 
         self.global_epoch = 20  # 600#20#600  # T
         self.local_epoch = 2  # 10#2#10 # E
+        self.finetune_epoch = 2
 
         # Model Training Settings
         self.local_batch_size = 64
@@ -161,7 +164,7 @@ def Federated_Unlearning():
         t1 = time.time()
 
         unlearn_GMs = unlearn_GMs[-1].to(device)
-        retrain_GMs = FL_Retrain(unlearn_GMs, client_loaders, test_loader, FL_params)#.to(device)
+        retrain_GMs = FL_Retrain(unlearn_GMs, client_loaders, test_loader, FL_params)
 
         t2 = time.time()
         print("Retrain Time using = {} seconds".format(t2 - t1), 3)
