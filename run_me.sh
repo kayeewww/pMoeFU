@@ -15,15 +15,15 @@
 #done
 
 # 定义参数列表
-params=(1 2 3 4 5 6 7 8 9)
+params=(1)
 
 #rouc_list_1=(0.3)
 #K_list_1=(3)
 #M_list_1=(3000)
 
-rouc_list_2=(0.3 0.4 0.5 0.6 0.7 0.8 0.9 1)
-K_list_2=(2 2 2 2 2 2 2 2)
-M_list_2=(2000 1500 1200 1000 857 750 66 600)
+rouc_list_2=(0.3)
+K_list_2=(2)
+M_list_2=(2000)
 
 #params3=(1)
 #rouc_list_3=(1)
@@ -106,7 +106,7 @@ do
   for param in "${params[@]}"
   do
     ARGS="--rouc $rouc --K $K --M $M --forget_clients_num $param"
-    LOG_FILE="./log/sh1/set2_experiment2_rouc${rouc}_K${K}_M${M}_forget${param}clients_$(date +%Y-%m-%d_%H-%M-%S).log"
+    LOG_FILE="./log/sh1/_rouc${rouc}_K${K}_M${M}_forget${param}clients_$(date +%Y-%m-%d_%H-%M-%S).log"
     python Fed_Unlearn_main.py $ARGS >> "$LOG_FILE" 2>&1
   done
 done

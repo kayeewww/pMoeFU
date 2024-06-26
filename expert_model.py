@@ -11,7 +11,7 @@ from data_preprocess import Net_cifar10, BabyGPTmodel, GPTConfig, load_data, Net
 
 
 # 自定义的模型初始化函数
-def em_init(dataset_name, FL_params):
+def em_init(dataset_name):
     device = torch.device("cuda：2" if torch.cuda.is_available() else "cpu")
     # dataset_name = FL_params.datasets[-1]
     if dataset_name == 'cifar10':
@@ -30,7 +30,7 @@ def em_init(dataset_name, FL_params):
         raise ValueError(f"Unsupported dataset: {dataset_name}")
     return model.to(device), input_size, output_size
 
-def emloader_init(dataset_name, FL_params):
+def emloader_init(dataset_name):
     device = torch.device("cuda：2" if torch.cuda.is_available() else "cpu")
     if dataset_name == 'cifar10':
         transform = transforms.Compose([
@@ -38,19 +38,19 @@ def emloader_init(dataset_name, FL_params):
             transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
         ])
         trainset = torchvision.datasets.CIFAR10(root='./data', train=True, download=True, transform=transform)
-        trainloader = DataLoader(trainset, batch_size=FL_params.local_batch_size, shuffle=True, num_workers=2)
+        trainloader = DataLoader(trainset, batch_size=64, shuffle=True, num_workers=2)
     elif dataset_name == 'mnist':
         transform = transforms.Compose([
             transforms.ToTensor(),
             transforms.Normalize((0.1307,), (0.3081,))
         ])
         trainset = torchvision.datasets.MNIST(root='./data', train=True, download=True, transform=transform)
-        trainloader = DataLoader(trainset, batch_size=FL_params.local_batch_size, shuffle=True, num_workers=2)
+        trainloader = DataLoader(trainset, batch_size=64, shuffle=True, num_workers=2)
     elif dataset_name == 'shakespeare':
         # 自定义 Shakespeare 数据集和数据加载器
         # 这里假设你有一个自定义的 Dataset 类 ShakespeareDataset
         trainset = ShakespeareDataset('./data/shakespeare.txt', seq_length=100)
-        trainloader = DataLoader(trainset, batch_size=FL_params.local_batch_size, shuffle=True, num_workers=2)
+        trainloader = DataLoader(trainset, batch_size=64, shuffle=True, num_workers=2)
     else:
         raise ValueError(f"Unsupported dataset: {dataset_name}")
     return trainloader

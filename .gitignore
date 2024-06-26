@@ -3,4 +3,8 @@ data/
 ckpt/
 excel/
 log/
+save/
+mix/
+flmoe/
+runs/
 output.txt

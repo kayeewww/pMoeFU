@@ -14,63 +14,72 @@ from sklearn.metrics import accuracy_score
 
 from fedbabygpt import load_data, split_data, train_model, generate_text, BabyGPTmodel, GPTConfig, get_client_batch
 from expert_model import em_init, emloader_init
+# from mm import MoEModel, NoisyTopKGating
 
 import torch
-def setExpers(global_model, client_data_loaders, FL_params):
-    print('#'*8, 'Different models and dataset experts','#'*8)
-    device=torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
-    # num_experts = FL_params.N_client
-
-    # 创建 experts 的 ModuleList，其中每个专家使用不同的模型和数据集
-    experts = nn.ModuleList()
-    input_sizes = []
-    output_sizes = []
-    # 初始化每个专家的模型
-    for i in range(len(FL_params.datasets)):
-        dataset_name = FL_params.datasets[i]
-        model, input_size, output_size = em_init(dataset_name, device)
-        experts.append(model)
-        # input_sizes.append(input_size[0] * input_size[1] * input_size[2])
-        input_sizes.append(input_size)
-        output_sizes.append(output_size)
-        data_loader = emloader_init(dataset_name, FL_params)
-        client_data_loaders.append(data_loader)
-
-
-    # selected_client, tf_idf_scores = Class_pruner(global_model, FL_params)
-    tf_idf_scores = [5, 2]
-    moe_model = MoE(
-        experts=experts,
-        num_experts=FL_params.N_client,
-        input_sizes=input_sizes,
-        output_size=output_sizes,
-        tf_idf_scores=tf_idf_scores,
-        forget_client_idx=FL_params.forget_client_idx,
-        k=FL_params.forget_clients_num,
-        noisy_gating=True
-    )
-    moe_model = moe_model.to(device)
-
-    # 假设 expert_idx 是当前选择的专家模型索引
-    # for expert in range(FL_params.N_client):
-    dataiter = iter(client_data_loaders[-1])
-    images, labels = next(dataiter)
-
-    # 根据数据集调整输入形状
-    dataset_name = FL_params.datasets[-1]
-    if dataset_name == 'cifar10':
-        images = images.view(-1, 3, 32, 32).to(device)
-        # expert_outputs = [self.experts[i](expert_inputs[i].view(-1, 3, 32, 32)) for i in range(self.num_experts)]
-    elif dataset_name == 'mnist':
-        images = images.view(-1, 1, 28, 28).to(device)
-    elif dataset_name == 'shakespeare':
-        images = images.to(device)
-    expert_idx = -1  # 这里假设使用最后一个专家模型
-    outputs, loss = moe_model(images, expert_idx)
-    print('One expert: ', outputs, loss)
-
-
-    return experts
+# def setExpers(global_model, tf_score, client_data_loaders, FL_params):
+#     largest_input_size = (3, 32, 32)
+#     largest_output_size = (64, 32, 32)
+#     flattened_input_size = torch.prod(torch.tensor(largest_input_size)).item()
+#
+#     print('#'*8, 'Different models and dataset experts','#'*8)
+#     device=torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
+#     cifar10_global_model = copy.deepcopy(global_model[-2])
+#     mnist_global_model = copy.deepcopy(global_model[-1])
+#
+#     cifar10_experts_model=nn.ModuleList()
+#     mnist_experts_model=nn.ModuleList()
+#     #TODO 5 client
+#     for client in range(5):
+#         cifar10_experts_model.append(cifar10_global_model)
+#         mnist_experts_model.append(mnist_global_model)
+#     experts = nn.ModuleList()
+#     for _ in range(5):
+#         experts.append(cifar10_experts_model)
+#         experts.append(mnist_experts_model)
+#     noisy_top_k_gating = NoisyTopKGating(num_experts=10)
+#     moe_model = MoEModel(experts=experts, noisy_top_k_gating=noisy_top_k_gating, num_experts=10)
+#     input_data = torch.randn(64, 3, 32, 32)  # Example input for all experts
+#
+#     # Forward pass for input data
+#     output, loss = moe_model(input_data.view(64, -1))
+#     print(output.shape)
+#     print(loss)
+#     return moe_model
+#     # input_sizes = []
+#     # output_sizes = []
+#     # 初始化每个专家的模型
+#     # for i in range(len(FL_params.datasets)):
+#     #     dataset_name = FL_params.datasets[i]
+#     #     model, input_size, output_size = em_init(dataset_name)
+#     #     experts.append(model)
+#     #     input_sizes.append(input_size)
+#     #     output_sizes.append(output_size)
+#     #     data_loader = emloader_init(dataset_name)
+#     #     client_data_loaders.append(data_loader)
+#
+#
+#     # selected_client, tf_idf_scores = Class_pruner(global_model, FL_params)
+#     # tf_idf_scores = tf_score
+#     # moe_model = MoE(
+#     #     experts=experts,
+#     #     num_experts=FL_params.N_client,
+#     #     # input_size=input_sizes,
+#     #     # output_size=output_sizes,
+#     #     tf_idf_scores=tf_idf_scores,
+#     #     forget_client_idx=FL_params.forget_client_idx,
+#     #     k=FL_params.forget_clients_num,
+#     #     noisy_gating=True
+#     # )
+#     # moe_model = moe_model.to(device)
+#     # dataiter = iter(client_data_loaders[-1])
+#     # images, labels = next(dataiter)
+#     # images = images.to(device)
+#     # outputs, loss = moe_model(images)
+#     # print(f'Expert  output: ', outputs, loss)
+#
+#
+#     # return experts
 # Algorithm: Client-level Unlearning for FATS
 def client_level_unlearning(global_model, old_client_models, client_data_loaders, test_loader, FL_params):
     """
@@ -82,61 +91,63 @@ def client_level_unlearning(global_model, old_client_models, client_data_loaders
     old_global_models = copy.deepcopy(global_model)
     old_client_models = copy.deepcopy(old_client_models)
     new_GMs = list()
-    device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
+    # device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
 
     for epoch in range(FL_params.global_epoch):
         if (epoch == 0):
             continue
         # print("Client-level Federated Unlearning Global Epoch  = {}".format(epoch))
-        old_global_model = old_global_models[epoch].to(device)
-        global_model = old_global_model.to(device)
+        old_global_model = old_global_models[epoch].to(FL_params.device)
+        global_model = old_global_model.to(FL_params.device)
         global_model.train()
         new_GMs.append(global_model)
 
 
     # Time steps
-    client_states = {k: {'model': copy.deepcopy(global_model).to(device)} for k in range(FL_params.N_client)}
+    client_states = {k: {'model': copy.deepcopy(global_model).to(FL_params.device)} for k in range(FL_params.N_client)}
 
     split_clients = np.array_split(list(client_states),
                                    np.arange(FL_params.K, len(client_states), FL_params.K))
 
     # flat_clients = [item for sublist in split_clients for item in sublist]
     print('split_clients', split_clients)
+    print('cp gm: ',global_model)
+    print(new_GMs)
 
     selected_client, tf_idf_scores = Class_pruner(global_model, FL_params)
-    experts = setExpers(global_model, client_data_loaders, FL_params)
+    # moe_model = setExpers(new_GMs,tf_idf_scores, client_data_loaders, FL_params)
     if FL_params.data_name=='cifar10':
         num_experts = FL_params.N_client
         # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         # device = 'cuda' if torch.cuda.is_available() else 'cpu'
-        experts = nn.ModuleList([data_preprocess.model_init('cifar10', device) for i in range(num_experts)])
-        moe_model = MoE(input_size=3 * 32 * 32, output_size=10, experts=experts, num_experts=num_experts, hidden_size=100,
+        experts = nn.ModuleList([data_preprocess.model_init('cifar10', FL_params.device) for i in range(num_experts)])
+        moe_model = MoE(input_size=3*32*32, output_size=10, experts=experts, num_experts=num_experts, hidden_size=100,
                         tf_idf_scores=tf_idf_scores, forget_client_idx=FL_params.forget_client_idx,
                         k=FL_params.forget_clients_num, noisy_gating=True)
         # print(tf_idf_scores)
-        moe_model = moe_model.to(device)
+        moe_model = moe_model.to(FL_params.device)
         dataiter = iter(client_data_loaders[-1])
         images, labels = next(dataiter)
 
         # 将 CIFAR-10 数据集的图像转换为模型输入格式
-        images = images.to(device)
+        images = images.to(FL_params.device)
         # outputs = moe_model(images)
         outputs = moe_model(images.view(-1, 3 * 32 * 32))
     elif FL_params.data_name=='mnist':
         num_experts = FL_params.N_client
-        experts = nn.ModuleList([data_preprocess.model_init('mnist', device) for i in range(num_experts)])
+        experts = nn.ModuleList([data_preprocess.model_init('mnist', FL_params.device) for i in range(num_experts)])
         moe_model = MoE(input_size=1 * 28 * 28, output_size=10, experts=experts, num_experts=10, hidden_size=100,
                         tf_idf_scores=tf_idf_scores, forget_client_idx=FL_params.forget_client_idx,
                         k=FL_params.forget_clients_num, noisy_gating=True)
         # print(tf_idf_scores)
-        moe_model = moe_model.to(device)
+        moe_model = moe_model.to(FL_params.device)
 
         dataiter = iter(client_data_loaders[-1])
         images, labels = next(dataiter)
 
         # 将 MNIST 数据集的图像转换为模型输入格式
-        images = images.to(device)
+        images = images.to(FL_params.device)
         outputs = moe_model(images.view(-1, 1 * 28 * 28))
 
     elif FL_params.data_name == 'shakespeare':
@@ -144,12 +155,12 @@ def client_level_unlearning(global_model, old_client_models, client_data_loaders
 
         num_experts = FL_params.N_client
         block_size = 4
-        experts = nn.ModuleList([data_preprocess.model_init('shakespeare', device) for i in range(num_experts)])
+        experts = nn.ModuleList([data_preprocess.model_init('shakespeare', FL_params.device) for i in range(num_experts)])
         moe_model = MoE(input_size=block_size, output_size=block_size, experts=experts, num_experts=num_experts, hidden_size=100,
                         tf_idf_scores=tf_idf_scores, forget_client_idx=FL_params.forget_client_idx,
                         k=FL_params.forget_clients_num, noisy_gating=True)
         # print(tf_idf_scores)
-        moe_model = moe_model.to(device)
+        moe_model = moe_model.to(FL_params.device)
 
         for images, labels in client_data_loaders:
             outputs = moe_model(images)
@@ -194,13 +205,13 @@ def client_level_unlearning(global_model, old_client_models, client_data_loaders
     # for client in FL_params.selected_K_group:
     for client in remain_client_list:
         # data_loader = new_client_data_loaders[client]
-        local_model = client_models.to(device)  # old_client_models[client]
+        local_model = client_models.to(FL_params.device)  # old_client_models[client]
 
         for itr in range(FL_params.local_epoch):
             # local_model = local_model1[itr]
             # sampled_dataloader = np.random.choice(list(data_loader), FL_params.b, replace=True)
             for inputs, targets in new_client_data_loaders[itr]:
-                inputs, targets = inputs.to(device), targets.to(device)
+                inputs, targets = inputs.to(FL_params.device), targets.to(FL_params.device)
                 optimizer = optim.SGD(local_model.parameters(), lr=FL_params.local_lr)
                 optimizer.zero_grad()
                 outputs = local_model(inputs)
@@ -213,7 +224,7 @@ def client_level_unlearning(global_model, old_client_models, client_data_loaders
         # Aggregating local models to update the global model
         # if ii % FL_params.local_epoch == 0:
         unlearn_global_model = list()
-        fedavg_global_model = fedavg(local_client_models).to(device)
+        fedavg_global_model = fedavg(local_client_models).to(FL_params.device)
         unlearn_global_model.append(fedavg_global_model)
 
     updated_global_models.append(unlearn_global_model)

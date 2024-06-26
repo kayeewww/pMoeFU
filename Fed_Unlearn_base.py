@@ -17,12 +17,12 @@ from FL_base import fedavg, global_train_once, FL_Train, FL_Retrain, test
 from class_pruner import acculumate_feature, calculate_cp, get_threshold_by_sparsity, select_least_important_clients
 
 
-def load_model_pytorch(model, load_model, model_name):
+def load_model_pytorch(model, load_model, model_name, FL_params):
     # print("=> loading checkpoint '{}'".format(load_model))
 
     # checkpoint = torch.load(load_model)
-    device=torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
-    checkpoint = torch.load(load_model, map_location=device)
+    # device=torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
+    checkpoint = torch.load(load_model, map_location=FL_params.device)
 
     if 'state_dict' in checkpoint.keys():
         load_from = checkpoint['state_dict']
@@ -74,20 +74,25 @@ def load_model_pytorch(model, load_model, model_name):
     model.load_state_dict(load_from, False)
 
 def federated_learning_unlearning(init_global_model, client_loaders, test_loader, FL_params):
-    device=torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
+    # device=torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
 
     print(5*"#"+"  Federated Learning Start"+5*"#")
     std_time = time.time()
-    if FL_params.pretrained==True:
-        if FL_params.save_pretrained:
-            print('-------Saving pre-trained model------')
-            init_global_model.to(device)
-            old_GMs, old_CMs = FL_Train(init_global_model, client_loaders, test_loader, FL_params)
-            torch.save(old_GMs[-1].state_dict(), FL_params.pretrained_gms_file)
-            torch.save(old_CMs[-1].state_dict(), FL_params.pretrained_cms_file)
-            exit(0)
-    elif FL_params.pretrained==False:
+    if FL_params.mix_experts:
+
         old_GMs, old_CMs = FL_Train(init_global_model, client_loaders, test_loader, FL_params)
+
+    else:
+        if FL_params.pretrained==True:
+            if FL_params.save_pretrained:
+                print('-------Saving pre-trained model------')
+                init_global_model.to(FL_params.device)
+                old_GMs, old_CMs = FL_Train(init_global_model, client_loaders, test_loader, FL_params)
+                torch.save(old_GMs[-1].state_dict(), FL_params.pretrained_gms_file)
+                torch.save(old_CMs[-1].state_dict(), FL_params.pretrained_cms_file)
+                exit(0)
+        elif FL_params.pretrained==False:
+            old_GMs, old_CMs = FL_Train(init_global_model, client_loaders, test_loader, FL_params)
 
     end_time = time.time()
     time_learn = (std_time - end_time)

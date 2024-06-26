@@ -10,7 +10,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import Dataset,TensorDataset
 from torchvision import datasets, transforms
-# from torchtext.data.utils import get_tokenizer
+# from torchtext.data.utils_dic import get_tokenizer
 # from torchtext.vocab import build_vocab_from_iterator
 # from torchtext.datasets import AG_NEWS
 # from torchdata.datapipes.iter import IterableWrapper
@@ -27,6 +27,8 @@ from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
 
 from fedbabygpt import load_data, split_data, train_model, generate_text, BabyGPTmodel, GPTConfig
+from sample_data import mnist_noniid2, cifar_noniid2
+from Models import CNNCifar,CNNFashion,GateCNN,GateCNNSoftmax,GateCNNFashion
 
 class TextDataset(Dataset):
     def __init__(self, data, block_size):
@@ -50,7 +52,39 @@ def get_dataloaders(train_data, val_data, block_size, batch_size):
     val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
 
     return train_dataset,val_dataset,train_loader, val_loader
+def splitExpertData(FL_params):
+    if FL_params.data_name == 'mnist':
+        trans_mnist = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
+        dataset_train = datasets.MNIST('../data/mnist/', train=True, download=True, transform=trans_mnist)
+        dataset_test = datasets.MNIST('../data/mnist/', train=False, download=True, transform=trans_mnist)
 
+        dict_users = mnist_noniid2(dataset_train, FL_params.N_client, FL_params.p)
+        return dataset_train, dataset_test, dict_users
+
+    elif FL_params.data_name == 'cifar10':
+        trans_cifar = transforms.Compose(
+            [transforms.ToTensor(), transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+        dataset_train = datasets.CIFAR10('../data/cifar', train=True, download=True, transform=trans_cifar)
+        dataset_test = datasets.CIFAR10('../data/cifar', train=False, download=True, transform=trans_cifar)
+
+        dict_users, dict_users_val, dict_users_test = cifar_noniid2(dataset_train, dataset_test,
+                                                                        FL_params.N_client, FL_params.p, FL_params.n_data,
+                                                                    FL_params.n_data_val, FL_params.n_data_test,
+                                                                    FL_params.overlap)
+        return dataset_train,dataset_test, dict_users, dict_users_val, dict_users_test
+
+def splittExpertModel(FL_params):
+    if (FL_params.model == 'cnn') and (FL_params.data_name in ['cifar10', 'cifar100']):
+        net_glob_fedAvg = CNNCifar(args=FL_params).to(FL_params.device)
+        gate_model = GateCNN(args=FL_params).to(FL_params.device)
+        net_locals = CNNCifar(args=FL_params).to(FL_params.device)
+        return net_glob_fedAvg, gate_model, net_locals
+
+    elif (FL_params.model == 'cnn') and (FL_params.data_name in ['mnist', 'fashion-mnist']):
+        net_glob_fedAvg = CNNFashion(args=FL_params).to(FL_params.device)
+        gate_model = GateCNNFashion(args=FL_params).to(FL_params.device)
+        net_locals = CNNFashion(args=FL_params).to(FL_params.device)
+        return net_glob_fedAvg, gate_model, net_locals
 """Function: load data"""
 def dataloader_init(FL_params):
     
@@ -68,6 +102,8 @@ def dataloader_init(FL_params):
         # print('222',len(client_loaders),type(client_loaders[0]))
 
     else:
+        # if(FL_params.mix_experts):
+
         trainset, testset = data_set(FL_params.data_name)
         train_loader = DataLoader(trainset, batch_size=FL_params.local_batch_size, shuffle=True, **kwargs)
         #构建测试数据加载器
@@ -90,11 +126,11 @@ def dataloader_init(FL_params):
 
 
 def data_set(data_name):
-    if not data_name in ['mnist', 'purchase', 'adult', 'cifar10', 'shakespeare']:
+    if not data_name in ['mnist', 'purchase', 'adult', 'cifar10', 'shakespeare','mix_cifar10','mix_mnist']:
         raise TypeError('data_name should be a string, including mnist,purchase,adult,cifar10. ')
     
     #model: 2 conv. layers followed by 2 FC layers
-    if(data_name == 'mnist'):
+    if(data_name == 'mnist'or data_name == 'mix_mnist'):
         # 将彩色图像转换为灰度图像的变换
         transform = transforms.Compose([
             transforms.Grayscale(num_output_channels=1),  # 转换为单通道灰度图像
@@ -110,8 +146,8 @@ def data_set(data_name):
                    transform=transform)
         return trainset, testset
         
-    #model: ResNet-50
-    elif (data_name == 'cifar10'):
+
+    elif (data_name == 'cifar10'or data_name == 'mix_cifar10'):
         mean = [125.31 / 255, 122.95 / 255, 113.87 / 255]
         std = [63.0 / 255, 62.09 / 255, 66.70 / 255]
         # 数据变换
@@ -245,30 +281,40 @@ def data_set(data_name):
 
 ###################################MODEL##########################################
 def model_init(data_name, device):
-    if (data_name == 'mnist'):
-        model = Net_mnist()
-    elif (data_name == 'cifar10'):
-        device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
-        model = Net_cifar10(device)
-    elif (data_name == 'purchase'):
-        model = Net_purchase()
-    elif (data_name == 'adult'):
-        model = Net_adult()
-    elif (data_name == 'simulate'):
-        model = Net()
-    elif (data_name == 'shakespeare'):
-        text, data, string2integer, integer2string, vocab_size, chars = load_data("data/shakespeare.txt")
-        config = GPTConfig(
-            block_size=4,
-            vocab_size=len(chars),
-            n_head=4,
-            n_layer=4,
-            n_embd=16
-        )
+    if (type(data_name) == list):
+        model_list=[]
+        for i in data_name:
+            if ((i == 'mix_cifar10')):
+                model_list.append(Net_cifar10_new())
+            elif ((i == 'mix_mnist')):
+                model_list.append(Net_mnist_new())
+        return model_list
+    else:
+        if (data_name == 'mnist'):
+            model = Net_mnist()
+        elif (data_name == 'cifar10'):
+            device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
+            model = Net_cifar10(device)
+        elif (data_name == 'purchase'):
+            model = Net_purchase()
+        elif (data_name == 'adult'):
+            model = Net_adult()
+        elif (data_name == 'simulate'):
+            model = Net()
+        elif (data_name == 'shakespeare'):
+            text, data, string2integer, integer2string, vocab_size, chars = load_data("data/shakespeare.txt")
+            config = GPTConfig(
+                block_size=4,
+                vocab_size=len(chars),
+                n_head=4,
+                n_layer=4,
+                n_embd=16
+            )
 
-        model = BabyGPTmodel(config)
-        model.to(device)
-    return model
+            model = BabyGPTmodel(config)
+            model.to(device)
+
+            return model
 
 
 class Net(nn.Module):
@@ -292,32 +338,41 @@ class Net(nn.Module):
         x = self.fc3(x)
         return x
 
+class Net_cifar10(nn.Module):
 
+    def __init__(self, device):
+        super(Net_cifar10, self).__init__()
+        self.device = device
+        self.conv1 = nn.Conv2d(3, 6, 5)
+        self.pool = nn.MaxPool2d(2, 2)
+        self.conv2 = nn.Conv2d(6, 16, 5)
+        self.fc1 = nn.Linear(16 * 5 * 5, 120)
+        self.fc2 = nn.Linear(120, 84)
+        self.fc3 = nn.Linear(84, 10)
+        # self.flatten = nn.Flatten()
+        self.to(device)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        print(f"Expert1 input shape: {x.shape}")
+        x = x.to(self.device)
+        x = self.pool(F.relu(self.conv1(x)))
+        x = self.pool(F.relu(self.conv2(x)))
+        # x = self.flatten(x)
+        x = x.view(-1, 16 * 5 * 5)
+
+        x = F.relu(self.fc1(x))
+        x = F.relu(self.fc2(x))
+        x = self.fc3(x)
+        return x
 class Net_mnist(nn.Module):
-    # def __init__(self):
-    #     super(Net_mnist, self).__init__()
-    #     self.conv1 = nn.Conv2d(1, 20, 5, 1)
-    #     self.conv2 = nn.Conv2d(20, 50, 5, 1)
-    #     self.fc1 = nn.Linear(4 * 4 * 50, 500)
-    #     self.fc2 = nn.Linear(500, 10)
-    #
-    # def forward(self, x):
-    #     x = F.relu(self.conv1(x))
-    #     x = F.max_pool2d(x, 2, 2)
-    #     x = F.relu(self.conv2(x))
-    #     x = F.max_pool2d(x, 2, 2)
-    #     x = x.view(-1, 4 * 4 * 50)
-    #     x = F.relu(self.fc1(x))
-    #     x = self.fc2(x)
-    #     return x
     def __init__(self, num_classes=10):
         super(Net_mnist, self).__init__()
         self.conv1 = nn.Conv2d(1, 32, kernel_size=3, stride=1, padding=1)
         self.conv2 = nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1)
         self.fc1 = nn.Linear(64 * 28 * 28, 128)
         self.fc2 = nn.Linear(128, num_classes)
-        self.input_size = (1, 28, 28)
-        self.output_size = num_classes
+        # self.input_size = (1, 28, 28)
+        # self.output_size = num_classes
 
     def forward(self, x):
         x = self.conv1(x)
@@ -329,6 +384,84 @@ class Net_mnist(nn.Module):
         x = torch.relu(x)
         x = self.fc2(x)
         return x
+
+class Net_cifar10_new(nn.Module):
+
+    def __init__(self):
+        super(Net_cifar10_new, self).__init__()
+        # self.device = device
+        self.conv1 = nn.Conv2d(3, 6, 5)
+        self.pool = nn.MaxPool2d(2, 2)
+        self.conv2 = nn.Conv2d(6, 16, 5)
+        self.fc1 = nn.Linear(16 * 5 * 5, 120)
+        self.fc2 = nn.Linear(120, 84)
+        self.fc3 = nn.Linear(84, 64 * 32 * 32)#, 10)
+        # self.flatten = nn.Flatten()
+        # self.to(device)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        # print(f"Expert1 input shape: {x.shape}")
+        # x = x.to(self.device)
+        x = self.pool(F.relu(self.conv1(x)))
+        x = self.pool(F.relu(self.conv2(x)))
+        # x = self.flatten(x)
+        # x = x.view(-1, 16 * 5 * 5)
+        x = x.view(-1, 16 * 5 * 5)
+        # print(f"Expert1 reshaped input shape: {x.shape}")
+
+        x = F.relu(self.fc1(x))
+        x = F.relu(self.fc2(x))
+        x = self.fc3(x)
+        return x.view(-1, 64, 32, 32)
+
+
+class Net_mnist_new(nn.Module):
+    # def __init__(self, num_classes=10):
+    #     super(Net_mnist_new, self).__init__()
+    #     self.conv1 = nn.Conv2d(1, 32, kernel_size=3, stride=1, padding=1)
+    #     self.conv2 = nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1)
+    #     self.fc1 = nn.Linear(64 * 32 * 32, 128)
+    #     # self.fc2 = nn.Linear(128)
+    #     self.fc2 = nn.Linear(128, 64 * 32 * 32)# num_classes)
+    #     # self.input_size = (1, 28, 28)
+    #     # self.output_size = num_classes
+    #
+    # def forward(self, x):
+    #     # print(f"Expert2 input shape: {x.shape}")
+    #     x = x[:, 0, :, :].unsqueeze(1)
+    #     # print(f"Expert2 input One channel: {x.shape}")
+    #
+    #     x = self.conv1(x)
+    #     x = torch.relu(x)
+    #     x = self.conv2(x)
+    #     x = torch.relu(x)
+    #     x = x.view(x.size(0), -1)
+    #     # print(f"Expert2 reshaped input shape: {x.shape}")  # 64*32*32
+    #     x = self.fc1(x)
+    #     x = torch.relu(x)
+    #     x = self.fc2(x)
+    #     # x.view(-1, 64, 32, 32)
+    #     # x = x.view(x.size(0), 1, 10, 10)  # Adjusting the output to have single channel
+    #     x = x.repeat(16, 64, 1, 1)  # Repeating channels to make it 3-channel output
+    #     x = F.interpolate(x, size=(32, 32))  # Resize to (3, 32, 32)
+    #     return x.view(-1, 64, 32, 32)
+    def __init__(self):
+        super(Net_mnist_new, self).__init__()
+        self.conv1 = nn.Conv2d(3, 32, kernel_size=3, stride=1, padding=1)  # Adjusted to 3 input channels
+        self.pool = nn.MaxPool2d(2, 2)
+        self.conv2 = nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1)
+        self.fc1 = nn.Linear(64 * 8 * 8, 120)  # Adjusted input size after pooling
+        self.fc2 = nn.Linear(120, 84)
+        self.fc3 = nn.Linear(84, 64 * 32 * 32)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        x = self.pool(F.relu(self.conv1(x)))
+        x = self.pool(F.relu(self.conv2(x)))
+        x = x.view(-1, 64 * 8 * 8)  # Adjusted input size after pooling
+        x = F.relu(self.fc1(x))
+        x = F.relu(self.fc2(x))
+        x = self.fc3(x)
+        return x.view(-1, 64, 32, 32)
 
 class Net_purchase(nn.Module):
     def __init__(self):
@@ -355,33 +488,6 @@ class Net_adult(nn.Module):
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
         x = F.relu(self.fc3(x))
-        return x
-
-
-class Net_cifar10(nn.Module):
-
-    def __init__(self, device):
-        super(Net_cifar10, self).__init__()
-        self.device = device
-        self.conv1 = nn.Conv2d(3, 6, 5)
-        self.pool = nn.MaxPool2d(2, 2)
-        self.conv2 = nn.Conv2d(6, 16, 5)
-        self.fc1 = nn.Linear(16 * 5 * 5, 120)
-        self.fc2 = nn.Linear(120, 84)
-        self.fc3 = nn.Linear(84, 10)
-        # self.flatten = nn.Flatten()
-        self.to(device)
-
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        x = x.to(self.device)
-        x = self.pool(F.relu(self.conv1(x)))
-        x = self.pool(F.relu(self.conv2(x)))
-        # x = self.flatten(x)
-        x = x.view(-1, 16 * 5 * 5)
-        # x= x.view(-1, 3,32,32)
-        x = F.relu(self.fc1(x))
-        x = F.relu(self.fc2(x))
-        x = self.fc3(x)
         return x
 
 
