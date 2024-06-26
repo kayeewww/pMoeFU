@@ -2,9 +2,12 @@ nni/
 data/
 ckpt/
 excel/
-log/
-save/
-mix/
-flmoe/
-runs/
+simulation/
+used/
+fednanogpt/
+FedPruneEraser/log/
+FedPruneEraser/save/
+FedPruneEraser/mix/
+FedPruneEraser/flmoe/
+FedPruneEraser/runs/
 output.txt
