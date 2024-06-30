@@ -7,6 +7,7 @@ import torch.nn.functional as F
 from data_preprocess import data_set
 from fedbabygpt import load_data, split_data, train_model, generate_text, BabyGPTmodel, GPTConfig, get_dataloaders
 from sklearn.feature_extraction.text import TfidfVectorizer
+import copy
 
 # def compute_client_tfidf(clients_data, block_size):
 #     tf_idf_list = []
@@ -40,9 +41,9 @@ def acculumate_feature(model, loader, stop: int):
             feature = feature.transpose(0, 1)
 
             if name not in feature_iit:
-                feature_iit[name] = feature.to(device)#.cpu()
+                feature_iit[name] = feature.to(device)
             else:
-                feature_iit[name] = torch.cat([feature_iit[name], feature.to(device)], 1)#.cpu()], 1)
+                feature_iit[name] = torch.cat([feature_iit[name], feature.to(device)], 1)
 
     hook = functools.partial(hook_func, feature_iit=features)
 
@@ -56,7 +57,7 @@ def acculumate_feature(model, loader, stop: int):
         if batch_idx >= stop:
             break
         model.eval()
-        inputs, labels = inputs.to(device), targets.to(device)
+        # inputs, labels = inputs.to(device), targets.to(device)
         classes.extend(targets.numpy())
         with torch.no_grad():
             outputs = model(inputs)
@@ -73,49 +74,48 @@ def acculumate_feature(model, loader, stop: int):
 
 # 计算特征的TF-IDF（Term Frequency-Inverse Document Frequency），并将结果存储在tf_idf_map字典中
 #tf_idf_map = calculate_cp(feature_iit, client_list, FL_params.data_name, 0, FL_params.forget_client_idx)
-def calculate_cp(features: dict, classes: list, dataset: str, coe: int, unlearn_client: int,device):
-    # print('lens+++',len(classes)) #64
-    features_class_wise = {}
-    tf_idf_map = {}
-    if dataset == 'cifar10'or dataset == 'mnist':
-        class_num = 10
-    if dataset == 'cifar100':
-        class_num = 100
-    if dataset == 'purchase'or dataset == 'adult':
-        class_num = 2
-    if dataset == 'shakespeare':
-        class_num = 26
-    list_classes_address = []
-    # 把对应的类下的index存起来
-    for z in range(class_num):
-        address_index = [x for x in range(len(classes)) if classes[x] == z]
-        list_classes_address.append([z, address_index])
-    dict_address = dict(list_classes_address) #类别和对应的样本索引进行映射
-    # features.to(device)
-    for fea in features:
-        # print('fea',fea)
-        '''Class-wise Activation'''
-        #创建了一个全零的张量，class_num是类别数量，features[fea].shape[0]是特征的维度大小。
-        class_wise_features = torch.zeros(class_num, features[fea].shape[0], device=device)
-        image_wise_features = features[fea].transpose(0, 1).to(device)
-        # print(
-            # f"Feature: {fea}, class_wise_features device: {class_wise_features.device}, image_wise_features device: {image_wise_features.device}")
+def calculate_cp(features, classes, dataset, coe, unlearn_client, device):
+    # Ensure classes are in long format for indexing
+    classes = classes.long()
 
-        for i, v in dict_address.items():
-            for j in v:
-                class_wise_features[i] += image_wise_features[j]
-            if len(v) == 0:
-                class_wise_features[i] = 0
-            else:
-                class_wise_features[i] = class_wise_features[i] / len(v)
+    # Assuming features is a tensor of shape [num_samples, feature_dim]
+    class_num = classes.max().item() + 1
+    feature_dim = features.shape[1]  # Assuming features are of shape [num_samples, feature_dim]
 
-        features_class_wise[fea] = class_wise_features.transpose(0, 1)
-        #将计算得到的类别特征向量存储在features_class_wise字典中，键为特征名称。
-        # print(features_class_wise[fea].shape)
+    class_wise_features = torch.zeros(class_num, feature_dim, device=device)
 
-        calc_tf_idf(features_class_wise[fea], fea, coe=coe, unlearn_client=unlearn_client, tf_idf_map=tf_idf_map)
+    for fea in range(feature_dim):
+        for cls in range(class_num):
+            class_mask = (classes == cls).float().unsqueeze(1)
+            class_wise_features[cls, fea] = torch.mean(features[:, fea].unsqueeze(1) * class_mask)
 
+    tf_idf_map = calculate_tf_idf(class_wise_features)  # Your TF-IDF calculation logic here
     return tf_idf_map
+def calculate_tf_idf(class_wise_features):
+    """
+    Calculate TF-IDF scores for the given class-wise features.
+
+    Args:
+    class_wise_features (torch.Tensor): Tensor of shape [class_num, feature_dim], containing the mean features for each class.
+
+    Returns:
+    torch.Tensor: Tensor of shape [class_num, feature_dim], containing the TF-IDF scores for each class and feature.
+    """
+    class_num, feature_dim = class_wise_features.shape
+
+    # Calculate term frequency (TF)
+    term_frequency = class_wise_features / (class_wise_features.sum(dim=1, keepdim=True) + 1e-10)
+
+    # Calculate document frequency (DF)
+    document_frequency = (class_wise_features > 0).sum(dim=0, dtype=torch.float)
+
+    # Calculate inverse document frequency (IDF)
+    idf = torch.log((class_num / (document_frequency + 1e-10)) + 1)
+
+    # Calculate TF-IDF
+    tf_idf = term_frequency * idf.unsqueeze(0)
+
+    return tf_idf
 
 # c - filters; n - classes
 # feature = [c, n] ([64, 10])
@@ -172,30 +172,80 @@ def select_least_important_clients(tf_idf_list, num_clients_to_select):
 
     return least_important_clients
 
-def Class_pruner(net, FL_params):
+# def Class_pruner(net, train_loader, FL_params):
+#
+#     models = []
+#     loaders = []
+#     for _ in range(FL_params.N_client):
+#         net.to(FL_params.device)
+#         models.append(net)
+#         loaders.append(train_loader)
+#     tf_idf = []
+#     for m, l in zip(models, loaders):
+#         features, classes = acculumate_feature(m, l, stop=10)
+#         # 计算TF-IDF
+#         features = {k: v.to(FL_params.device) for k, v in features.items()}
+#         # print(f"Features and classes collected. Device of features: {[v.device for v in features.values()]}")
+#         tf_idf_map = calculate_cp(features, classes, dataset=FL_params.data_name, coe=1, unlearn_client=0,
+#                                   device=FL_params.device)
+#         tf_idf.append(tf_idf_map)
+#     least_important_clients = select_least_important_clients(tf_idf, num_clients_to_select=FL_params.forget_clients_num)
+#
+#     print("TFIDF Selected least important clients:", least_important_clients)
+#     return least_important_clients, tf_idf
+def calculate_tfidf_scores(idxs_users, dataset_train, dict_users, net_locals, FL_params):
+    tf_idf_scores = []
+    for idx in idxs_users:
+        client_indices = dict_users[idx]
+        client_loader = [dataset_train[i] for i in client_indices]  # 获取该客户端的所有数据样本
+        net_local = net_locals[idx]
+        net_local.to(FL_params.device)
+        net_local.eval()  # 设置模型为评估模式
 
-    models = []
-    trainset, testset = data_set(FL_params.data_name)
-    loaders = []
+        # Assuming client_loader is a list of tuples (img, target)
+        features = []
+        classes = []
+        with torch.no_grad():  # 在评估模式下禁用梯度计算
+            for img, target in client_loader:
+                img = img.to(FL_params.device)
+                feature = net_local(img.unsqueeze(0))  # Unsqueeze to add batch dimension
+                features.append(feature)
+                classes.append(target)
 
-    train_loader = torch.utils.data.DataLoader(trainset, batch_size=FL_params.local_batch_size, shuffle=False)
-    device=torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
-    for _ in range(FL_params.N_client):
+        features = torch.cat(features, dim=0)
+        classes = torch.tensor(classes).to(FL_params.device)
 
-        net.to(device)
-        models.append(net)
-        loaders.append(train_loader)
+        tf_idf_map = calculate_cp(features, classes, dataset=FL_params.data_name, coe=1, unlearn_client=0,
+                                  device=FL_params.device)
+        # tf_idf_scores.append(tf_idf_map)
+        tf_idf_scores.append(tf_idf_map.mean().item())  # 取平均值并转换为标量
+
+    return tf_idf_scores
+
+
+def Class_pruner(net, client_loaders, FL_params):
+    # models = []
+    # loaders = []
+    # for _ in range(FL_params.N_client):
+    #     net.to(FL_params.device)
+    #     models.append(copy.deepcopy(net))
+    #     loaders.append(client_loaders[_])
+    # print(net)
+    # print(client_loaders)
+    net_locals = net[0]['local']
+    client_loaders_list = list(client_loaders.values())
+    # tf_idf = calculate_tfidf_scores(range(len(net_locals)), client_loaders_list, dict(), net_locals, FL_params)
+
     tf_idf = []
-    for m, l in zip(models, loaders):
+    for m, l in zip(net_locals, client_loaders_list):
+        # print('m_local:', m)
+        m.to(FL_params.device)
         features, classes = acculumate_feature(m, l, stop=10)
-        # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        # 计算TF-IDF
-        features = {k: v.to(device) for k, v in features.items()}  # 确保 features 在 GPU 上
-        # print(f"Features and classes collected. Device of features: {[v.device for v in features.values()]}")
-
-        tf_idf_map = calculate_cp(features, classes, dataset='cifar10', coe=1, unlearn_client=0,device=device)
+        features = {k: v.to(FL_params.device) for k, v in features.items()}
+        tf_idf_map = calculate_cp(features, classes, dataset=FL_params.data_name, coe=1, unlearn_client=0,
+                                  device=FL_params.device)
         tf_idf.append(tf_idf_map)
-    least_important_clients = select_least_important_clients(tf_idf, num_clients_to_select=FL_params.K)
 
-    print("single tfidf Selected least important clients:", least_important_clients)
+    least_important_clients = select_least_important_clients(tf_idf, num_clients_to_select=FL_params.forget_clients_num)
+    print("TFIDF Selected least important clients:", least_important_clients)
     return least_important_clients, tf_idf

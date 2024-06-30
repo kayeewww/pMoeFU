@@ -114,7 +114,7 @@ def client_level_unlearning(global_model, old_client_models, client_data_loaders
     print('cp gm: ',global_model)
     print(new_GMs)
 
-    selected_client, tf_idf_scores = Class_pruner(global_model, FL_params)
+    selected_client, tf_idf_scores = Class_pruner(global_model,client_data_loaders, FL_params)
     # moe_model = setExpers(new_GMs,tf_idf_scores, client_data_loaders, FL_params)
     if FL_params.data_name=='cifar10':
         num_experts = FL_params.N_client

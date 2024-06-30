@@ -1,0 +1,747 @@
+============================================================
+Step1. Federated Learning Settings 
+ We use dataset: cifar10 for our Federated Unlearning experiment.
+
+We set rouc =  0.3 , K =  2  and M =  2000  with  20 epochs fine tuning 
+We are going to forget  1 client
+============================================================
+Step2. Client data loaded, testing data loaded!!!
+       Initial Model loaded!!!
+Files already downloaded and verified
+Files already downloaded and verified
+Train
+client 0 0.60 100 
+[0 0]
+Train
+client 1 0.30 100 
+[0 1]
+Train
+client 2 0.30 100 
+[0 2]
+Train
+client 3 0.30 100 
+[0 3]
+Train
+client 4 0.30 100 
+[0 4]
+Train
+client 5 0.30 100 
+[0 5]
+Train
+client 6 0.30 100 
+[0 6]
+Train
+client 7 0.30 100 
+[0 7]
+Train
+client 8 0.30 100 
+[0 8]
+Train
+client 9 0.30 100 
+[0 9]
+----------
+Test
+client 0 0.60 200 
+[0 0]
+Test
+client 1 0.30 200 
+[0 1]
+Test
+client 2 0.30 200 
+[0 2]
+Test
+client 3 0.30 200 
+[0 3]
+Test
+client 4 0.30 200 
+[0 4]
+Test
+client 5 0.30 200 
+[0 5]
+Test
+client 6 0.30 200 
+[0 6]
+Test
+client 7 0.30 200 
+[0 7]
+Test
+client 8 0.30 200 
+[0 8]
+Test
+client 9 0.30 200 
+[0 9]
+----------
+User 0 DataLoader
+Data shape: torch.Size([64, 3, 32, 32]), Target shape: torch.Size([64])
+User 1 DataLoader
+Data shape: torch.Size([64, 3, 32, 32]), Target shape: torch.Size([64])
+User 2 DataLoader
+Data shape: torch.Size([64, 3, 32, 32]), Target shape: torch.Size([64])
+User 3 DataLoader
+Data shape: torch.Size([64, 3, 32, 32]), Target shape: torch.Size([64])
+User 4 DataLoader
+Data shape: torch.Size([64, 3, 32, 32]), Target shape: torch.Size([64])
+User 5 DataLoader
+Data shape: torch.Size([64, 3, 32, 32]), Target shape: torch.Size([64])
+User 6 DataLoader
+Data shape: torch.Size([64, 3, 32, 32]), Target shape: torch.Size([64])
+User 7 DataLoader
+Data shape: torch.Size([64, 3, 32, 32]), Target shape: torch.Size([64])
+User 8 DataLoader
+Data shape: torch.Size([64, 3, 32, 32]), Target shape: torch.Size([64])
+User 9 DataLoader
+Data shape: torch.Size([64, 3, 32, 32]), Target shape: torch.Size([64])
+opt in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+============================================================
+Step3. Fedearated Learning and Unlearning Training...
+len of selected client loader, 110
+Round   0
+FedAvg client 5
+Round   1
+FedAvg client 9
+Round   2
+FedAvg client 7
+Round   3
+FedAvg client 8
+Round   4
+FedAvg client 0
+Round   5
+FedAvg client 8
+Round   6
+FedAvg client 6
+Round   7
+FedAvg client 6
+Round   8
+FedAvg client 8
+Round   9
+FedAvg client 3
+Round  10
+FedAvg client 9
+Round  11
+FedAvg client 8
+Round  12
+FedAvg client 1
+Round  13
+FedAvg client 6
+Round  14
+FedAvg client 2
+Round  15
+FedAvg client 7
+Round  16
+FedAvg client 4
+Round  17
+FedAvg client 1
+Round  18
+FedAvg client 4
+Round  19
+FedAvg client 3
+idxs_users: [8 2 0 9 3 6 1 5 4 7]
+Finetune 8
+Iter 0 | 7.50
+Iter 45 | 14.50
+Iter 65 | 13.50
+Iter 80 | 15.50
+Local 8
+Iter 0 | 10.00
+Iter 50 | 10.00
+Iter 80 | 17.00
+Iter 100 | 23.50
+Iter 110 | 23.50
+Iter 120 | 21.50
+Iter 130 | 20.50
+Iter 140 | 20.50
+Iter 150 | 20.50
+Iter 160 | 21.00
+Iter 175 | 21.00
+Iter 190 | 20.50
+Finetune 2
+Iter 0 | 8.50
+Local 2
+Iter 0 | 15.00
+Iter 45 | 15.00
+Iter 65 | 18.00
+Iter 85 | 22.00
+Iter 100 | 19.50
+Iter 110 | 20.00
+Iter 125 | 22.00
+Iter 135 | 24.00
+Iter 145 | 24.00
+Iter 155 | 23.50
+Iter 185 | 20.50
+Iter 210 | 21.00
+Finetune 0
+Iter 0 | 9.00
+Iter 15 | 16.50
+Iter 25 | 29.50
+Iter 35 | 30.00
+Iter 40 | 30.00
+Iter 45 | 30.00
+Iter 50 | 30.00
+Iter 55 | 30.00
+Iter 60 | 30.00
+Iter 65 | 30.00
+Iter 70 | 30.00
+Iter 95 | 30.00
+Iter 135 | 30.00
+Iter 165 | 30.00
+Local 0
+Iter 0 | 9.50
+Iter 15 | 9.50
+Iter 25 | 9.50
+Iter 35 | 16.50
+Iter 40 | 25.50
+Iter 45 | 30.50
+Iter 50 | 30.00
+Iter 55 | 30.00
+Iter 60 | 30.00
+Iter 65 | 30.00
+Iter 70 | 30.00
+Iter 75 | 30.00
+Iter 80 | 30.00
+Iter 85 | 30.00
+Iter 95 | 30.00
+Iter 105 | 31.50
+Iter 115 | 33.00
+Iter 125 | 33.50
+Iter 145 | 33.00
+Iter 170 | 32.50
+Iter 200 | 32.00
+Finetune 9
+Iter 0 | 7.50
+Iter 45 | 15.00
+Iter 60 | 15.00
+Iter 70 | 15.00
+Iter 80 | 14.50
+Iter 90 | 14.50
+Iter 105 | 17.00
+Iter 125 | 17.00
+Iter 145 | 19.50
+Iter 170 | 20.00
+Local 9
+Iter 0 | 9.00
+Finetune 3
+Iter 0 | 10.00
+Iter 35 | 14.00
+Iter 50 | 15.00
+Iter 60 | 15.00
+Iter 70 | 15.00
+Iter 80 | 15.00
+Iter 95 | 15.50
+Iter 105 | 15.50
+Iter 115 | 19.00
+Iter 125 | 19.50
+Iter 135 | 20.50
+Iter 150 | 22.00
+Iter 165 | 22.00
+Local 3
+Iter 0 | 7.50
+Iter 50 | 9.00
+Iter 70 | 23.00
+Iter 80 | 19.50
+Iter 90 | 16.50
+Iter 100 | 17.00
+Iter 110 | 20.00
+Iter 115 | 21.50
+Iter 120 | 22.00
+Iter 130 | 22.00
+Iter 140 | 22.00
+Iter 150 | 22.00
+Iter 160 | 21.00
+Iter 170 | 21.50
+Iter 180 | 24.00
+Iter 190 | 24.00
+Finetune 6
+Iter 0 | 5.50
+Local 6
+Iter 0 | 7.50
+Finetune 1
+Iter 0 | 15.00
+Iter 45 | 15.00
+Iter 65 | 15.00
+Iter 75 | 16.00
+Iter 85 | 17.50
+Iter 95 | 19.00
+Iter 105 | 19.50
+Iter 115 | 19.50
+Iter 130 | 18.50
+Iter 145 | 19.50
+Iter 160 | 20.00
+Local 1
+Iter 0 | 7.00
+Iter 35 | 6.50
+Iter 55 | 13.50
+Iter 70 | 18.00
+Iter 80 | 17.00
+Iter 95 | 18.50
+Iter 110 | 18.50
+Iter 125 | 18.50
+Iter 135 | 18.50
+Iter 145 | 19.50
+Iter 155 | 19.50
+Iter 165 | 21.00
+Iter 170 | 21.00
+Iter 180 | 21.00
+Iter 190 | 23.00
+Iter 200 | 23.50
+Iter 235 | 26.50
+Finetune 5
+Iter 0 | 7.50
+Iter 35 | 14.50
+Iter 50 | 16.00
+Iter 60 | 16.50
+Iter 70 | 18.00
+Iter 105 | 19.50
+Local 5
+Iter 0 | 13.00
+Iter 45 | 13.00
+Iter 65 | 14.00
+Iter 75 | 20.00
+Iter 85 | 17.00
+Iter 100 | 16.00
+Iter 110 | 16.50
+Iter 125 | 18.00
+Finetune 4
+Iter 0 | 9.00
+Iter 45 | 14.50
+Iter 65 | 8.50
+Iter 100 | 17.00
+Iter 125 | 17.50
+Iter 150 | 17.50
+Iter 190 | 15.00
+Local 4
+Iter 0 | 6.50
+Finetune 7
+Iter 0 | 11.00
+Iter 40 | 15.50
+Iter 60 | 15.00
+Iter 75 | 14.50
+Iter 90 | 18.50
+Iter 115 | 20.50
+Iter 130 | 20.50
+Iter 145 | 22.00
+Iter 165 | 22.50
+Local 7
+Iter 0 | 7.00
+Iter 45 | 7.00
+Iter 65 | 12.00
+Iter 80 | 13.50
+Iter 90 | 19.00
+Iter 105 | 23.50
+Iter 120 | 22.50
+Iter 135 | 22.00
+Iter 155 | 23.00
+Iter 180 | 23.50
+E2e 8
+Iter 0 | 17.50
+E2e 2
+Iter 0 | 7.50
+E2e 0
+Iter 0 | 31.00
+Iter 5 | 31.50
+E2e 9
+Iter 0 | 23.00
+Iter 5 | 23.00
+E2e 3
+Iter 0 | 24.00
+Iter 5 | 24.00
+E2e 6
+Iter 0 | 15.00
+E2e 1
+Iter 0 | 22.00
+E2e 5
+Iter 0 | 17.00
+E2e 4
+Iter 0 | 17.50
+Iter 5 | 18.00
+E2e 7
+Iter 0 | 24.50
+Iter 5 | 25.50
+testing FedAvg...
+8
+testing Locals...
+testing Finetune...
+testing mixture...
+2
+testing Locals...
+testing Finetune...
+testing mixture...
+0
+testing Locals...
+testing Finetune...
+testing mixture...
+9
+testing Locals...
+testing Finetune...
+testing mixture...
+3
+testing Locals...
+testing Finetune...
+testing mixture...
+6
+testing Locals...
+testing Finetune...
+testing mixture...
+1
+testing Locals...
+testing Finetune...
+testing mixture...
+5
+testing Locals...
+testing Finetune...
+testing mixture...
+4
+testing Locals...
+testing Finetune...
+testing mixture...
+7
+testing Locals...
+testing Finetune...
+testing mixture...
+Files already downloaded and verified
+Files already downloaded and verified
+single tfidf Selected least important clients: [0, 1]
+selected_client, tf_idf_scores [0, 1] [{'conv1': tensor([0.2789, 0.0871, 0.5131, 0.0668, 0.1989, 0.5190]), 'conv2': tensor([1.2425e-01, 3.4752e-02, 2.1448e-01, 2.9613e-02, 6.5468e-02, 2.8382e-01,
+        4.5660e-03, 1.0321e-01, 1.4746e-01, 7.4005e-02, 1.6806e-02, 4.2266e-01,
+        8.6418e-02, 3.8264e-04, 2.7951e-01, 1.6284e-01])}, {'conv1': tensor([0.2805, 0.0888, 0.5141, 0.1537, 0.1890, 0.5224]), 'conv2': tensor([9.9932e-02, 3.2970e-02, 2.1322e-01, 3.0764e-02, 4.3825e-02, 3.9514e-01,
+        4.1844e-03, 9.8485e-02, 1.0326e-01, 7.6223e-02, 2.7553e-02, 3.1892e-01,
+        1.2215e-01, 2.5200e-04, 2.7306e-01, 1.6580e-01])}, {'conv1': tensor([0.2759, 0.1249, 0.5178, 0.1090, 0.1895, 0.6830]), 'conv2': tensor([9.4873e-02, 2.4139e-02, 2.1059e-01, 4.3636e-02, 6.6792e-02, 3.9080e-01,
+        2.2185e-03, 1.0527e-01, 1.4807e-01, 7.5327e-02, 1.6132e-02, 4.1657e-01,
+        8.5350e-02, 2.5121e-04, 3.9695e-01, 1.2623e-01])}, {'conv1': tensor([0.2759, 0.1244, 0.5045, 0.1658, 0.1933, 0.5135]), 'conv2': tensor([7.2060e-02, 3.2887e-02, 2.1160e-01, 3.0622e-02, 7.1980e-02, 2.8561e-01,
+        4.0420e-03, 1.0560e-01, 1.4395e-01, 7.3169e-02, 2.2358e-02, 3.1821e-01,
+        1.6639e-01, 1.3830e-04, 3.9436e-01, 1.2224e-01])}, {'conv1': tensor([0.2789, 0.0914, 0.5135, 0.1075, 0.1894, 0.5209]), 'conv2': tensor([7.4199e-02, 3.0552e-02, 2.1198e-01, 4.3585e-02, 9.7193e-02, 2.9260e-01,
+        3.6220e-03, 1.4648e-01, 1.4960e-01, 7.2841e-02, 1.5291e-02, 4.1749e-01,
+        8.4858e-02, 1.6009e-04, 3.8865e-01, 1.3065e-01])}, {'conv1': tensor([0.2742, 0.0948, 0.5123, 0.1592, 0.1904, 0.5156]), 'conv2': tensor([1.0003e-01, 4.2938e-02, 2.1216e-01, 4.5444e-02, 6.7373e-02, 2.9534e-01,
+        3.8568e-03, 1.0275e-01, 2.0257e-01, 7.6929e-02, 2.9547e-02, 3.1127e-01,
+        1.2064e-01, 1.4715e-04, 3.8744e-01, 1.2634e-01])}, {'conv1': tensor([0.2780, 0.1219, 0.5137, 0.1548, 0.1925, 0.5198]), 'conv2': tensor([9.4647e-02, 2.9909e-02, 2.1456e-01, 2.9600e-02, 4.0191e-02, 2.8923e-01,
+        3.6192e-03, 1.0253e-01, 1.9437e-01, 7.6998e-02, 1.5709e-02, 3.2322e-01,
+        1.2476e-01, 1.6018e-04, 3.9964e-01, 1.2658e-01])}, {'conv1': tensor([0.2722, 0.0919, 0.5089, 0.1167, 0.1928, 0.5125]), 'conv2': tensor([1.0208e-01, 2.3699e-02, 2.1665e-01, 3.0555e-02, 7.0300e-02, 3.8794e-01,
+        3.8988e-03, 1.0217e-01, 1.0802e-01, 7.2762e-02, 1.1429e-02, 3.1365e-01,
+        1.5932e-01, 3.7990e-04, 3.8831e-01, 1.2733e-01])}, {'conv1': tensor([0.2785, 0.0852, 0.5093, 0.1127, 0.1998, 0.5134]), 'conv2': tensor([9.1984e-02, 2.3114e-02, 2.1557e-01, 3.8854e-02, 6.4318e-02, 3.8914e-01,
+        3.7921e-03, 1.0358e-01, 1.9428e-01, 7.3858e-02, 2.8635e-02, 3.2798e-01,
+        8.8146e-02, 2.1486e-04, 3.9794e-01, 1.6685e-01])}, {'conv1': tensor([0.2741, 0.0931, 0.5073, 0.1646, 0.1938, 0.5124]), 'conv2': tensor([9.3276e-02, 3.1268e-02, 2.8368e-01, 3.0138e-02, 9.8856e-02, 3.9058e-01,
+        3.8738e-03, 1.0546e-01, 1.0205e-01, 7.2557e-02, 1.6276e-02, 4.2402e-01,
+        5.3715e-02, 2.8462e-04, 2.7913e-01, 1.2299e-01])}]
+########## Test again for mixture ##########
+[CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+), CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+), CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+), CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+), CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+), CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+), CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+), CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+), CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+), CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+)]
+After Removing [2, 3, 4, 5, 6, 7, 8, 9]
+idxs_users_pop [2, 3, 4, 5, 6, 7, 8, 9]
+Finetune 2
+Iter 0 | 8.50
+Local 2
+Iter 0 | 15.00
+Iter 45 | 15.00
+Iter 65 | 17.50
+Iter 80 | 24.00
+Iter 95 | 22.50
+Iter 110 | 21.00
+Iter 120 | 23.00
+Iter 130 | 22.00
+Iter 140 | 23.50
+Iter 155 | 22.00
+Iter 165 | 22.50
+Iter 180 | 21.00
+Iter 205 | 21.00
+Finetune 3
+Iter 0 | 10.00
+Iter 35 | 13.50
+Iter 50 | 15.00
+Iter 60 | 15.00
+Iter 70 | 15.00
+Iter 80 | 15.00
+Iter 90 | 15.00
+Iter 100 | 15.50
+Iter 110 | 17.00
+Iter 120 | 20.00
+Iter 130 | 20.00
+Iter 145 | 21.00
+Iter 170 | 22.50
+Local 3
+Iter 0 | 7.50
+Iter 50 | 8.00
+Iter 70 | 23.00
+Iter 80 | 16.00
+Iter 90 | 16.00
+Iter 100 | 16.00
+Iter 110 | 17.00
+Iter 115 | 19.00
+Iter 120 | 20.50
+Iter 125 | 22.50
+Iter 135 | 22.00
+Iter 145 | 22.00
+Iter 155 | 22.00
+Iter 165 | 22.00
+Iter 175 | 22.50
+Iter 200 | 24.00
+Finetune 4
+Iter 0 | 9.00
+Iter 40 | 14.50
+Iter 60 | 8.50
+Iter 100 | 15.00
+Iter 120 | 16.50
+Iter 140 | 15.50
+Iter 175 | 15.00
+Local 4
+Iter 0 | 6.50
+Finetune 5
+Iter 0 | 7.50
+Iter 35 | 14.00
+Iter 50 | 14.50
+Iter 60 | 17.00
+Iter 70 | 18.00
+Iter 110 | 18.00
+Local 5
+Iter 0 | 13.00
+Iter 45 | 13.00
+Iter 65 | 14.00
+Iter 80 | 17.00
+Iter 90 | 16.00
+Iter 105 | 16.00
+Finetune 6
+Iter 0 | 5.50
+Iter 50 | 15.00
+Iter 70 | 15.50
+Iter 85 | 16.50
+Iter 105 | 18.00
+Iter 130 | 19.00
+Iter 140 | 20.50
+Iter 155 | 18.50
+Iter 170 | 21.00
+Iter 180 | 22.50
+Iter 200 | 23.00
+Local 6
+Iter 0 | 7.50
+Finetune 7
+Iter 0 | 11.00
+Iter 40 | 15.00
+Iter 60 | 15.00
+Iter 75 | 12.50
+Iter 90 | 18.00
+Iter 115 | 20.50
+Iter 130 | 21.00
+Iter 145 | 22.00
+Iter 160 | 22.50
+Iter 185 | 23.00
+Local 7
+Iter 0 | 7.00
+Iter 45 | 7.00
+Iter 65 | 11.00
+Iter 80 | 16.50
+Iter 90 | 19.00
+Iter 105 | 23.00
+Iter 120 | 22.50
+Iter 135 | 22.00
+Iter 155 | 23.50
+Iter 165 | 24.00
+Finetune 8
+Iter 0 | 7.50
+Iter 50 | 15.00
+Iter 65 | 11.50
+Iter 80 | 18.50
+Local 8
+Iter 0 | 10.00
+Iter 50 | 10.00
+Iter 80 | 18.50
+Iter 100 | 24.50
+Iter 110 | 25.00
+Iter 120 | 24.00
+Iter 130 | 22.00
+Iter 140 | 23.00
+Iter 150 | 23.00
+Iter 165 | 21.50
+Iter 190 | 21.50
+Finetune 9
+Iter 0 | 7.50
+Iter 40 | 15.00
+Iter 60 | 15.00
+Iter 75 | 15.00
+Iter 85 | 14.50
+Iter 95 | 15.50
+Iter 110 | 16.00
+Iter 130 | 17.50
+Iter 145 | 18.50
+Iter 165 | 20.50
+Local 9
+Iter 0 | 9.00
+E2e 2
+Iter 0 | 8.00
+E2e 3
+Iter 0 | 23.50
+Iter 5 | 23.50
+E2e 4
+Iter 0 | 17.50
+Iter 5 | 18.50
+E2e 5
+Iter 0 | 18.00
+E2e 6
+Iter 0 | 25.00
+Iter 5 | 25.50
+E2e 7
+Iter 0 | 29.00
+Iter 5 | 28.50
+E2e 8
+Iter 0 | 18.00
+E2e 9
+Iter 0 | 24.50
+Iter 5 | 24.50
+testing FedAvg...
+2
+testing Locals...
+testing Finetune...
+testing mixture...
+3
+testing Locals...
+testing Finetune...
+testing mixture...
+4
+testing Locals...
+testing Finetune...
+testing mixture...
+5
+testing Locals...
+testing Finetune...
+testing mixture...
+6
+testing Locals...
+testing Finetune...
+testing mixture...
+7
+testing Locals...
+testing Finetune...
+testing mixture...
+8
+testing Locals...
+testing Finetune...
+testing mixture...
+9
+testing Locals...
+testing Finetune...
+testing mixture...
+Test Loss=0.0147, Test accuracy=0.1000
+Test Loss=0.0147, Test accuracy=0.1000
+FL_params.unlearn_client:  [0, 1]
+Test Loss=0.0029, Test accuracy=0.1000
+Test Loss=0.0029, Test accuracy=0.1000
+Test Loss=0.0029, Test accuracy=0.1000
+*****  Result Summary  *****
+[FedPruner] Test set: Average loss = 2.30368073, Average acc = 0.1000
+[FedAvg] Test set: Average loss = 2.30368073, Average acc = 0.1000
+
+
+[FedPruner] Target set: Average loss = 2.30370728, Average acc = 0.1000
+[FedAvg] Target set: Average loss = 2.30372431, Average acc = 0.1000
+============================================================
+Step4. Membership Inference Attack aganist GM...
+
+Epoch  = -1
+Attacking against FL Standard  
+MIA Attacker accuracy = 0.9912
+MIA Attacker precision = 0.9904
+MIA Attacker recall = 1.0000
+Attacking against FL Retrain  
+MIA Attacker accuracy = 0.9912
+MIA Attacker precision = 0.9904
+MIA Attacker recall = 1.0000
+Attacking against FL Client Unlearn  
+MIA Attacker accuracy = 0.9912
+MIA Attacker precision = 0.9904
+MIA Attacker recall = 1.0000

@@ -22,22 +22,22 @@ class DatasetSplit(Dataset):
 
 
 class ClientUpdate(object):
-    def __init__(self, args, train_set=None,  test_set=None, idxs_train=None, idxs_val=None,idxs_test=None):
+    def __init__(self, args, train_set=None,  test_set=None, idxs_train=None, idxs_val=None, idxs_test=None):
         self.args = args
         self.loss_func = nn.NLLLoss()
-        self.train_set = DatasetSplit(train_set,idxs_train)
-        self.val_set = DatasetSplit(train_set,idxs_val)
-        #dataset_length = len(self.train_set)
+        self.train_set = DatasetSplit(train_set, idxs_train)
+        self.val_set = DatasetSplit(train_set, idxs_val)
+        # dataset_length = len(self.train_set)
         #split train into train and val
-        #self.train_set, self.val_set = torch.utils_dic.data.random_split(self.train_set,[round(train_frac*dataset_length),round((1-train_frac)*dataset_length)],generator=torch.Generator().manual_seed(23))
+        # self.train_set, self.val_set = torch.utils_dic.data.random_split(self.train_set,[round(train_frac*dataset_length),round((1-train_frac)*dataset_length)],generator=torch.Generator().manual_seed(23))
         
         self.ldr_train = DataLoader(self.train_set, batch_size=self.args.local_batch_size, shuffle=True)
         self.ldr_val = DataLoader(self.val_set, batch_size = 1, shuffle=True)
         
-        self.test_set = DatasetSplit(test_set,idxs_test)
+        self.test_set = DatasetSplit(test_set, idxs_test)
         self.ldr_test = DataLoader(self.test_set, batch_size = 1, shuffle=True)
         
-    def train(self, net, n_epochs,learning_rate):
+    def train(self, net, n_epochs, learning_rate):
         net.train()
         # train and update
         optimizer = torch.optim.Adam(net.parameters(),lr=learning_rate)
@@ -58,8 +58,9 @@ class ClientUpdate(object):
                 batch_loss.append(loss.item())
             epoch_loss.append(sum(batch_loss)/len(batch_loss))
             
-            #val_acc, val_loss = self.validate(net)
-            #print(val_acc)
+            val_acc, val_loss = self.validate(net, val=True)
+            val_acc=val_acc.item()
+            print(val_acc)
             
         return net.state_dict(), epoch_loss[-1]
 
@@ -95,16 +96,17 @@ class ClientUpdate(object):
             epoch_train_accuracy.append(train_accuracy)
             epoch_loss.append(sum(batch_loss)/len(batch_loss))
             if(iter%5==0):
-                val_acc, val_loss = self.validate(net,val)
+                val_acc, val_loss = self.validate(net, val)
                 net.train()
-                #print(iter, val_loss)
+                # print(f"Iter: {iter} | Val Acc: {val_acc} | Val Loss: {val_loss}")  # 添加调试信息
+
                 if(val_loss < val_loss_best - 0.01):
                     counter = 0
                     model_best = net.state_dict()
                     val_acc_best = val_acc
                     val_loss_best = val_loss
                     train_acc_best = train_accuracy
-                    print("Iter %d | %.2f" %(iter, val_acc_best))
+                    print("Update Train Finetune Iter: %d | Validation best acc: %.2f" %(iter, val_acc_best))
                 else:
                     counter = counter + 1
 
@@ -178,7 +180,7 @@ class ClientUpdate(object):
                         local_best = net_local.state_dict()
                         global_best = net_global.state_dict()
                         
-                        print("Iter %d | %.2f" %(iter, val_acc_best))
+                        print("Train mix Iter %d | Validation best acc: %.2f" %(iter, val_acc_best))
                     else:
                         counter = counter + 1
 
@@ -237,7 +239,7 @@ class ClientUpdate(object):
                         gate_best = gate.state_dict()
                         val_acc_best = val_acc
                         val_loss_best = val_loss
-                        print("Iter %d | %.2f" %(iter, val_acc_best))
+                        print("Train rap Iter %d | Validation best acc: %.2f" %(iter, val_acc_best))
                     else:
                         counter = counter + 1
 
@@ -332,14 +334,14 @@ class ClientUpdate(object):
                 val_loss += self.loss_func(log_probs, target).item()
                 # get the index of the max log-probability
                 y_pred = log_probs.data.max(1, keepdim=True)[1]
-                correct += y_pred.eq(target.data.view_as(y_pred)).long().cpu().sum()
+                correct += y_pred.eq(target.data.view_as(y_pred)).long().sum()
 
             val_loss /= len(dataloader.dataset)
             accuracy = 100.00 * correct / len(dataloader.dataset)
             #print('\nVal set: Average loss: {:.4f} \nAccuracy: {:.2f}%\n'.format(
             #    val_loss, accuracy))
         
-        return accuracy.item(), val_loss
+        return accuracy, val_loss
 
     def validate_mix(self, net_l, net_g, gate, val):
         if(val):

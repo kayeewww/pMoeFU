@@ -26,7 +26,7 @@ from torch.utils.tensorboard import SummaryWriter
 
 def mix_Train(opt_in,dataset_train,dataset_test,dict_users,dict_users_val,dict_users_test,net_glob_fedAvg,writer,FL_params):
     # training
-    val_loss_best = np.inf
+    val_loss_best = np.inf #表示+∞
     counter = 0
     patience = 5
     for n_iter in range(FL_params.global_epoch):  # global epoch
@@ -38,9 +38,10 @@ def mix_Train(opt_in,dataset_train,dataset_test,dict_users,dict_users_val,dict_u
         val_loss = []
         val_acc = []
         # m = max(int(args.frac * args.num_clients), 1)
-        m = max(int(FL_params.frac), 1)
-        idxs_users = np.random.choice(opt_in, m, replace=False)  # choose opt-in clients
-        # idxs_users=opt_in
+        # TODO frac=5
+        # m = max(int(FL_params.frac), 1)
+        # idxs_users = np.random.choice(opt_in, m, replace=False)  # choose opt-in clients
+        idxs_users = opt_in
         for idx in idxs_users:
             print("FedAvg client %d" % (idx))
 
@@ -57,7 +58,7 @@ def mix_Train(opt_in,dataset_train,dataset_test,dict_users,dict_users_val,dict_u
             # Weigh models by client dataset size
             alpha.append(len(dict_users[idx]))
 
-            if (n_iter % 40 == 0):
+            if (n_iter % 4 == 0):
                 val_acc_fed, val_loss_fed = client.validate(net=net_glob_fedAvg, val=True)
                 val_acc.append(val_acc_fed)
                 val_loss.append(val_loss_fed)
@@ -65,12 +66,14 @@ def mix_Train(opt_in,dataset_train,dataset_test,dict_users,dict_users_val,dict_u
         # update global model weights
         train_loss_avg = sum(train_loss) / len(train_loss)
         writer.add_scalar('fedAvg_train_loss', train_loss_avg, n_iter)
-        if (n_iter % 40 == 0):
+
+        if (n_iter % 4 == 0):
             val_loss_avg = sum(val_loss) / len(val_loss)
             val_acc_avg = sum(val_acc) / len(val_acc)
             writer.add_scalar('fedAvg_val_loss', val_loss_avg, n_iter)
             writer.add_scalar('fedAvg_val_acc', val_acc_avg, n_iter)
             if (val_loss_avg < val_loss_best):
+                print('saving')
                 counter = 0
                 val_loss_best = val_loss_avg
                 w_best_fedavg = w_glob_fedAvg
@@ -79,13 +82,13 @@ def mix_Train(opt_in,dataset_train,dataset_test,dict_users,dict_users_val,dict_u
 
             if (counter == patience):
                 break
-
+        print("fedAvg_train_loss, fedAvg_val_loss, fedAvg_val_acc", train_loss_avg, val_loss_avg, val_acc_avg)
         w_glob_fedAvg = FedAvg(w_fedAvg, alpha)
         # copy weight to net_glob
         net_glob_fedAvg.load_state_dict(w_glob_fedAvg)
 
     net_glob_fedAvg.load_state_dict(w_best_fedavg)
-    return net_glob_fedAvg
+    return net_glob_fedAvg, writer
 
 def FL_Train(init_global_model, client_data_loaders, test_loader, FL_params):
     # if(FL_params.if_retrain == True):
@@ -373,7 +376,7 @@ def FL_Finetuned(init_global_model, client_data_loaders, test_loader, FL_params)
     for epoch in range(FL_params.finetune_epoch):
         client_models = global_train_once(global_model, client_data_loaders, test_loader, FL_params)
         global_model = fedavg(client_models)
-        print("Global Federated Learning epoch = {}".format(epoch))
+        print("Finetune Global Federated Learning epoch = {}".format(epoch))
 
         (val_acc, test_loss) = test(global_model, test_loader, FL_params)
         (train_acc, train_loss) = test(global_model, client_data_loaders[-1], FL_params)
@@ -530,7 +533,7 @@ def unlearning_step_once(old_client_models, new_client_models, global_model_befo
     new_global_model_state = global_model_after_forget.state_dict()  # newGM_t
 
     return_model_state = dict()  # newGM_t + ||oldCM - oldGM_t||*(newCM - newGM_t)/||newCM - newGM_t||
-    # print("lai",len(old_client_models),len(new_client_models))
+
     assert len(old_client_models) == len(new_client_models)
 
     for layer in global_model_before_forget.state_dict().keys():

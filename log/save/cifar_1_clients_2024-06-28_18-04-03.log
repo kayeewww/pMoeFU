@@ -1,0 +1,927 @@
+============================================================
+Step1. Federated Learning Settings 
+ We use dataset: cifar10 for our Federated Unlearning experiment.
+
+We are going to forget  1 client
+============================================================
+Step2. Client data loaded, testing data loaded!!!
+       Initial Model loaded!!!
+Files already downloaded and verified
+Files already downloaded and verified
+User_test_loader 10 <class 'dict'> <class 'torch.utils.data.dataloader.DataLoader'>
+init_global_model CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+) <class 'Models.CNNCifar'>
+opt in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+client_loaders len 10
+============================================================
+Step3. Fedearated Learning and Unlearning Training...
+len of selected client loader, 10
+Round   0
+FedAvg client 0
+Round   1
+FedAvg client 1
+Round   2
+FedAvg client 2
+Round   3
+FedAvg client 8
+Round   4
+FedAvg client 9
+Round   5
+FedAvg client 3
+Round   6
+FedAvg client 7
+Round   7
+FedAvg client 2
+Round   8
+FedAvg client 3
+Round   9
+FedAvg client 1
+Round  10
+FedAvg client 0
+Round  11
+FedAvg client 4
+Round  12
+FedAvg client 2
+Round  13
+FedAvg client 8
+Round  14
+FedAvg client 6
+Round  15
+FedAvg client 4
+Round  16
+FedAvg client 4
+Round  17
+FedAvg client 9
+Round  18
+FedAvg client 4
+Round  19
+FedAvg client 4
+net_glob_fedAvg CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+)
+idxs_users: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+Finetune the client 0
+Update Train Finetune Iter: 0 | Validation best acc: 7.00
+Update Train Finetune Iter: 10 | Validation best acc: 6.50
+Update Train Finetune Iter: 15 | Validation best acc: 14.50
+Update Train Finetune Iter: 20 | Validation best acc: 30.00
+Update Train Finetune Iter: 25 | Validation best acc: 30.00
+Update Train Finetune Iter: 30 | Validation best acc: 30.00
+Update Train Finetune Iter: 35 | Validation best acc: 30.00
+Update Train Finetune Iter: 45 | Validation best acc: 30.00
+Update Train Finetune Iter: 55 | Validation best acc: 30.00
+Update Train Finetune Iter: 75 | Validation best acc: 30.00
+Update Train Finetune Iter: 95 | Validation best acc: 30.00
+Update Train Finetune Iter: 125 | Validation best acc: 31.50
+Update Train Finetune Iter: 0 | Validation best acc: 11.00
+Update Train Finetune Iter: 15 | Validation best acc: 11.00
+Update Train Finetune Iter: 25 | Validation best acc: 29.00
+Update Train Finetune Iter: 30 | Validation best acc: 30.50
+Update Train Finetune Iter: 35 | Validation best acc: 30.00
+Update Train Finetune Iter: 40 | Validation best acc: 30.00
+Update Train Finetune Iter: 50 | Validation best acc: 30.50
+Update Train Finetune Iter: 55 | Validation best acc: 31.00
+Update Train Finetune Iter: 65 | Validation best acc: 32.50
+Update Train Finetune Iter: 85 | Validation best acc: 32.00
+Update Train Finetune Iter: 100 | Validation best acc: 32.00
+Update Train Finetune Iter: 125 | Validation best acc: 30.00
+Update Train Finetune Iter: 145 | Validation best acc: 31.00
+Finetune the client 1
+Update Train Finetune Iter: 0 | Validation best acc: 10.00
+Update Train Finetune Iter: 20 | Validation best acc: 10.00
+Update Train Finetune Iter: 30 | Validation best acc: 18.50
+Update Train Finetune Iter: 40 | Validation best acc: 19.00
+Update Train Finetune Iter: 0 | Validation best acc: 6.00
+Update Train Finetune Iter: 25 | Validation best acc: 9.00
+Update Train Finetune Iter: 35 | Validation best acc: 16.50
+Finetune the client 2
+Update Train Finetune Iter: 0 | Validation best acc: 4.00
+Update Train Finetune Iter: 20 | Validation best acc: 10.50
+Update Train Finetune Iter: 30 | Validation best acc: 16.50
+Update Train Finetune Iter: 35 | Validation best acc: 16.00
+Update Train Finetune Iter: 40 | Validation best acc: 15.50
+Update Train Finetune Iter: 45 | Validation best acc: 16.00
+Update Train Finetune Iter: 50 | Validation best acc: 16.00
+Update Train Finetune Iter: 60 | Validation best acc: 18.50
+Update Train Finetune Iter: 65 | Validation best acc: 16.00
+Update Train Finetune Iter: 70 | Validation best acc: 17.00
+Update Train Finetune Iter: 75 | Validation best acc: 20.50
+Update Train Finetune Iter: 80 | Validation best acc: 22.50
+Update Train Finetune Iter: 85 | Validation best acc: 21.50
+Update Train Finetune Iter: 95 | Validation best acc: 21.00
+Update Train Finetune Iter: 105 | Validation best acc: 21.50
+Update Train Finetune Iter: 110 | Validation best acc: 23.00
+Update Train Finetune Iter: 130 | Validation best acc: 23.00
+Update Train Finetune Iter: 140 | Validation best acc: 23.00
+Update Train Finetune Iter: 0 | Validation best acc: 12.00
+Update Train Finetune Iter: 20 | Validation best acc: 12.00
+Update Train Finetune Iter: 35 | Validation best acc: 14.00
+Update Train Finetune Iter: 45 | Validation best acc: 15.50
+Update Train Finetune Iter: 50 | Validation best acc: 17.00
+Update Train Finetune Iter: 55 | Validation best acc: 17.50
+Update Train Finetune Iter: 60 | Validation best acc: 16.00
+Update Train Finetune Iter: 65 | Validation best acc: 19.00
+Update Train Finetune Iter: 70 | Validation best acc: 21.50
+Update Train Finetune Iter: 80 | Validation best acc: 23.00
+Update Train Finetune Iter: 85 | Validation best acc: 23.50
+Update Train Finetune Iter: 100 | Validation best acc: 22.50
+Finetune the client 3
+Update Train Finetune Iter: 0 | Validation best acc: 14.00
+Update Train Finetune Iter: 25 | Validation best acc: 15.00
+Update Train Finetune Iter: 40 | Validation best acc: 15.00
+Update Train Finetune Iter: 85 | Validation best acc: 21.00
+Update Train Finetune Iter: 95 | Validation best acc: 22.00
+Update Train Finetune Iter: 100 | Validation best acc: 21.50
+Update Train Finetune Iter: 105 | Validation best acc: 23.00
+Update Train Finetune Iter: 115 | Validation best acc: 22.50
+Update Train Finetune Iter: 125 | Validation best acc: 22.00
+Update Train Finetune Iter: 0 | Validation best acc: 7.50
+Update Train Finetune Iter: 20 | Validation best acc: 7.50
+Update Train Finetune Iter: 30 | Validation best acc: 12.50
+Update Train Finetune Iter: 35 | Validation best acc: 18.50
+Update Train Finetune Iter: 40 | Validation best acc: 21.50
+Update Train Finetune Iter: 50 | Validation best acc: 20.00
+Update Train Finetune Iter: 60 | Validation best acc: 23.50
+Update Train Finetune Iter: 70 | Validation best acc: 23.00
+Update Train Finetune Iter: 100 | Validation best acc: 20.00
+Finetune the client 4
+Update Train Finetune Iter: 0 | Validation best acc: 9.00
+Update Train Finetune Iter: 25 | Validation best acc: 8.50
+Update Train Finetune Iter: 40 | Validation best acc: 16.50
+Update Train Finetune Iter: 50 | Validation best acc: 15.50
+Update Train Finetune Iter: 65 | Validation best acc: 17.50
+Update Train Finetune Iter: 75 | Validation best acc: 17.50
+Update Train Finetune Iter: 85 | Validation best acc: 20.50
+Update Train Finetune Iter: 95 | Validation best acc: 19.50
+Update Train Finetune Iter: 105 | Validation best acc: 20.00
+Update Train Finetune Iter: 115 | Validation best acc: 20.50
+Update Train Finetune Iter: 120 | Validation best acc: 22.00
+Update Train Finetune Iter: 135 | Validation best acc: 22.00
+Update Train Finetune Iter: 145 | Validation best acc: 25.00
+Update Train Finetune Iter: 165 | Validation best acc: 26.50
+Update Train Finetune Iter: 0 | Validation best acc: 10.00
+Update Train Finetune Iter: 25 | Validation best acc: 10.00
+Update Train Finetune Iter: 40 | Validation best acc: 16.00
+Update Train Finetune Iter: 50 | Validation best acc: 16.50
+Update Train Finetune Iter: 60 | Validation best acc: 19.50
+Update Train Finetune Iter: 70 | Validation best acc: 22.00
+Update Train Finetune Iter: 75 | Validation best acc: 23.00
+Update Train Finetune Iter: 80 | Validation best acc: 21.50
+Update Train Finetune Iter: 85 | Validation best acc: 22.50
+Update Train Finetune Iter: 95 | Validation best acc: 22.50
+Update Train Finetune Iter: 100 | Validation best acc: 26.00
+Update Train Finetune Iter: 110 | Validation best acc: 26.50
+Finetune the client 5
+Update Train Finetune Iter: 0 | Validation best acc: 7.00
+Update Train Finetune Iter: 20 | Validation best acc: 12.50
+Update Train Finetune Iter: 0 | Validation best acc: 15.00
+Update Train Finetune Iter: 25 | Validation best acc: 15.00
+Finetune the client 6
+Update Train Finetune Iter: 0 | Validation best acc: 9.50
+Update Train Finetune Iter: 30 | Validation best acc: 19.00
+Update Train Finetune Iter: 40 | Validation best acc: 26.00
+Update Train Finetune Iter: 45 | Validation best acc: 25.00
+Update Train Finetune Iter: 50 | Validation best acc: 21.50
+Update Train Finetune Iter: 55 | Validation best acc: 21.00
+Update Train Finetune Iter: 60 | Validation best acc: 21.50
+Update Train Finetune Iter: 70 | Validation best acc: 25.00
+Update Train Finetune Iter: 75 | Validation best acc: 26.00
+Update Train Finetune Iter: 80 | Validation best acc: 24.50
+Update Train Finetune Iter: 85 | Validation best acc: 23.50
+Update Train Finetune Iter: 100 | Validation best acc: 25.00
+Update Train Finetune Iter: 0 | Validation best acc: 13.00
+Update Train Finetune Iter: 25 | Validation best acc: 14.00
+Update Train Finetune Iter: 35 | Validation best acc: 23.00
+Update Train Finetune Iter: 40 | Validation best acc: 23.50
+Update Train Finetune Iter: 45 | Validation best acc: 23.00
+Update Train Finetune Iter: 50 | Validation best acc: 20.50
+Update Train Finetune Iter: 55 | Validation best acc: 18.50
+Update Train Finetune Iter: 65 | Validation best acc: 17.00
+Update Train Finetune Iter: 75 | Validation best acc: 19.50
+Update Train Finetune Iter: 90 | Validation best acc: 22.00
+Update Train Finetune Iter: 115 | Validation best acc: 23.50
+Finetune the client 7
+Update Train Finetune Iter: 0 | Validation best acc: 11.00
+Update Train Finetune Iter: 35 | Validation best acc: 15.00
+Update Train Finetune Iter: 50 | Validation best acc: 20.00
+Update Train Finetune Iter: 60 | Validation best acc: 21.50
+Update Train Finetune Iter: 75 | Validation best acc: 21.50
+Update Train Finetune Iter: 85 | Validation best acc: 22.50
+Update Train Finetune Iter: 95 | Validation best acc: 22.50
+Update Train Finetune Iter: 105 | Validation best acc: 22.00
+Update Train Finetune Iter: 110 | Validation best acc: 24.00
+Update Train Finetune Iter: 125 | Validation best acc: 25.50
+Update Train Finetune Iter: 145 | Validation best acc: 25.00
+Update Train Finetune Iter: 150 | Validation best acc: 27.50
+Update Train Finetune Iter: 0 | Validation best acc: 7.50
+Update Train Finetune Iter: 25 | Validation best acc: 7.50
+Update Train Finetune Iter: 40 | Validation best acc: 17.00
+Update Train Finetune Iter: 50 | Validation best acc: 18.50
+Update Train Finetune Iter: 60 | Validation best acc: 19.00
+Update Train Finetune Iter: 70 | Validation best acc: 21.00
+Update Train Finetune Iter: 80 | Validation best acc: 22.00
+Update Train Finetune Iter: 85 | Validation best acc: 23.50
+Update Train Finetune Iter: 95 | Validation best acc: 24.50
+Update Train Finetune Iter: 105 | Validation best acc: 24.50
+Update Train Finetune Iter: 110 | Validation best acc: 24.00
+Update Train Finetune Iter: 115 | Validation best acc: 24.50
+Update Train Finetune Iter: 135 | Validation best acc: 24.50
+Update Train Finetune Iter: 140 | Validation best acc: 25.50
+Finetune the client 8
+Update Train Finetune Iter: 0 | Validation best acc: 8.00
+Update Train Finetune Iter: 25 | Validation best acc: 15.50
+Update Train Finetune Iter: 70 | Validation best acc: 18.50
+Update Train Finetune Iter: 0 | Validation best acc: 9.50
+Update Train Finetune Iter: 35 | Validation best acc: 12.00
+Finetune the client 9
+Update Train Finetune Iter: 0 | Validation best acc: 9.50
+Update Train Finetune Iter: 20 | Validation best acc: 12.50
+Update Train Finetune Iter: 30 | Validation best acc: 19.00
+Update Train Finetune Iter: 35 | Validation best acc: 18.00
+Update Train Finetune Iter: 40 | Validation best acc: 19.50
+Update Train Finetune Iter: 75 | Validation best acc: 22.00
+Update Train Finetune Iter: 0 | Validation best acc: 8.50
+Update Train Finetune Iter: 20 | Validation best acc: 8.50
+Update Train Finetune Iter: 30 | Validation best acc: 8.50
+Update Train Finetune Iter: 35 | Validation best acc: 9.50
+Update Train Finetune Iter: 40 | Validation best acc: 12.00
+Update Train Finetune Iter: 45 | Validation best acc: 15.50
+Update Train Finetune Iter: 55 | Validation best acc: 23.00
+Update Train Finetune Iter: 80 | Validation best acc: 25.00
+ Local Training time consuming = 117.42440509796143 secods
+#####  Federated Learning End  #####
+Mix training for client 0
+Train mix Iter 0 | Validation best acc: 32.50
+Train mix Iter 25 | Validation best acc: 32.00
+Train mix Iter 35 | Validation best acc: 32.50
+Train mix Iter 45 | Validation best acc: 32.50
+Train mix Iter 55 | Validation best acc: 32.50
+Train mix Iter 65 | Validation best acc: 32.50
+Train mix Iter 75 | Validation best acc: 32.50
+Train mix Iter 100 | Validation best acc: 32.50
+Mix training for client 1
+Train mix Iter 0 | Validation best acc: 19.00
+Mix training for client 2
+Train mix Iter 0 | Validation best acc: 23.50
+Train mix Iter 20 | Validation best acc: 24.50
+Train mix Iter 35 | Validation best acc: 24.50
+Train mix Iter 45 | Validation best acc: 24.50
+Train mix Iter 55 | Validation best acc: 24.50
+Train mix Iter 65 | Validation best acc: 24.00
+Train mix Iter 75 | Validation best acc: 24.00
+Train mix Iter 105 | Validation best acc: 24.00
+Mix training for client 3
+Train mix Iter 0 | Validation best acc: 20.50
+Train mix Iter 45 | Validation best acc: 20.00
+Train mix Iter 65 | Validation best acc: 20.00
+Train mix Iter 100 | Validation best acc: 20.00
+Mix training for client 4
+Train mix Iter 0 | Validation best acc: 28.50
+Train mix Iter 40 | Validation best acc: 28.00
+Train mix Iter 55 | Validation best acc: 27.50
+Train mix Iter 70 | Validation best acc: 27.50
+Train mix Iter 95 | Validation best acc: 27.50
+Mix training for client 5
+Train mix Iter 0 | Validation best acc: 19.00
+Mix training for client 6
+Train mix Iter 0 | Validation best acc: 24.50
+Mix training for client 7
+Train mix Iter 0 | Validation best acc: 25.00
+Train mix Iter 40 | Validation best acc: 25.00
+Train mix Iter 55 | Validation best acc: 25.00
+Train mix Iter 70 | Validation best acc: 24.50
+Train mix Iter 110 | Validation best acc: 24.50
+Mix training for client 8
+Train mix Iter 0 | Validation best acc: 18.50
+Mix training for client 9
+Train mix Iter 0 | Validation best acc: 26.00
+ Mix Learning time consuming = 65.70027613639832 secods
+#####  Federated Learning End#####
+Testing FedAvg...
+Testing Locals for client 0...
+Testing Finetune for client 0...
+Testing mixture for client 0...
+Testing Locals for client 1...
+Testing Finetune for client 1...
+Testing mixture for client 1...
+Testing Locals for client 2...
+Testing Finetune for client 2...
+Testing mixture for client 2...
+Testing Locals for client 3...
+Testing Finetune for client 3...
+Testing mixture for client 3...
+Testing Locals for client 4...
+Testing Finetune for client 4...
+Testing mixture for client 4...
+Testing Locals for client 5...
+Testing Finetune for client 5...
+Testing mixture for client 5...
+Testing Locals for client 6...
+Testing Finetune for client 6...
+Testing mixture for client 6...
+Testing Locals for client 7...
+Testing Finetune for client 7...
+Testing mixture for client 7...
+Testing Locals for client 8...
+Testing Finetune for client 8...
+Testing mixture for client 8...
+Testing Locals for client 9...
+Testing Finetune for client 9...
+Testing mixture for client 9...
+[{'local': CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+), 'global': CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+), 'gate': GateCNN(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=1, bias=True)
+  (activation): Sigmoid()
+)}, {'local': CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+), 'global': CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+), 'gate': GateCNN(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=1, bias=True)
+  (activation): Sigmoid()
+)}, {'local': CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+), 'global': CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+), 'gate': GateCNN(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=1, bias=True)
+  (activation): Sigmoid()
+)}, {'local': CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+), 'global': CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+), 'gate': GateCNN(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=1, bias=True)
+  (activation): Sigmoid()
+)}, {'local': CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+), 'global': CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+), 'gate': GateCNN(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=1, bias=True)
+  (activation): Sigmoid()
+)}, {'local': CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+), 'global': CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+), 'gate': GateCNN(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=1, bias=True)
+  (activation): Sigmoid()
+)}, {'local': CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+), 'global': CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+), 'gate': GateCNN(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=1, bias=True)
+  (activation): Sigmoid()
+)}, {'local': CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+), 'global': CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+), 'gate': GateCNN(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=1, bias=True)
+  (activation): Sigmoid()
+)}, {'local': CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+), 'global': CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+), 'gate': GateCNN(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=1, bias=True)
+  (activation): Sigmoid()
+)}, {'local': CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+), 'global': CNNCifar(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+  (activation): LogSoftmax(dim=1)
+), 'gate': GateCNN(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (conv2_drop): Dropout2d(p=0.5, inplace=False)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=1, bias=True)
+  (activation): Sigmoid()
+)}]
+[<torch.utils.data.dataloader.DataLoader object at 0x304238f10>, <torch.utils.data.dataloader.DataLoader object at 0x304238820>, <torch.utils.data.dataloader.DataLoader object at 0x3042386a0>, <torch.utils.data.dataloader.DataLoader object at 0x304238550>, <torch.utils.data.dataloader.DataLoader object at 0x304238310>, <torch.utils.data.dataloader.DataLoader object at 0x304238640>, <torch.utils.data.dataloader.DataLoader object at 0x30425c040>, <torch.utils.data.dataloader.DataLoader object at 0x30425c190>, <torch.utils.data.dataloader.DataLoader object at 0x30425c2e0>, <torch.utils.data.dataloader.DataLoader object at 0x30425c430>]
+TFIDF Selected least important clients: [5]
+########## Step4: PFU-MoE ##########
+10 10 10
+Update Train Finetune Iter: 0 | Validation best acc: 33.00
+Update Train Finetune Iter: 5 | Validation best acc: 33.00
+Update Train Finetune Iter: 0 | Validation best acc: 18.00
+Update Train Finetune Iter: 0 | Validation best acc: 24.00
+Update Train Finetune Iter: 0 | Validation best acc: 19.50
+Update Train Finetune Iter: 0 | Validation best acc: 27.50
+Update Train Finetune Iter: 0 | Validation best acc: 19.00
+Update Train Finetune Iter: 0 | Validation best acc: 25.50
+Update Train Finetune Iter: 0 | Validation best acc: 24.50
+Update Train Finetune Iter: 0 | Validation best acc: 17.50
+Update Train Finetune Iter: 0 | Validation best acc: 25.00
+#####  Calibration Start#####
+ Calibration time consuming = 0.009312152862548828 secods
+#####  Calibration End#####
+Update Train Finetune Iter: 0 | Validation best acc: 11.00
+Update Train Finetune Iter: 25 | Validation best acc: 11.00
+Update Train Finetune Iter: 40 | Validation best acc: 16.50
+Update Train Finetune Iter: 45 | Validation best acc: 26.50
+Update Train Finetune Iter: 50 | Validation best acc: 31.50
+Update Train Finetune Iter: 55 | Validation best acc: 30.50
+Update Train Finetune Iter: 60 | Validation best acc: 30.00
+Update Train Finetune Iter: 65 | Validation best acc: 30.00
+Update Train Finetune Iter: 70 | Validation best acc: 30.00
+Update Train Finetune Iter: 75 | Validation best acc: 30.00
+Update Train Finetune Iter: 85 | Validation best acc: 30.00
+Update Train Finetune Iter: 100 | Validation best acc: 30.50
+Update Train Finetune Iter: 110 | Validation best acc: 32.00
+Update Train Finetune Iter: 160 | Validation best acc: 32.00
+Update Train Finetune Iter: 190 | Validation best acc: 31.50
+Update Train Finetune Iter: 0 | Validation best acc: 11.00
+Update Train Finetune Iter: 20 | Validation best acc: 11.00
+Update Train Finetune Iter: 35 | Validation best acc: 12.00
+Update Train Finetune Iter: 45 | Validation best acc: 28.50
+Update Train Finetune Iter: 50 | Validation best acc: 31.50
+Update Train Finetune Iter: 55 | Validation best acc: 30.50
+Update Train Finetune Iter: 60 | Validation best acc: 30.00
+Update Train Finetune Iter: 65 | Validation best acc: 30.00
+Update Train Finetune Iter: 70 | Validation best acc: 30.00
+Update Train Finetune Iter: 80 | Validation best acc: 30.00
+Update Train Finetune Iter: 95 | Validation best acc: 30.50
+Update Train Finetune Iter: 120 | Validation best acc: 32.50
+Update Train Finetune Iter: 150 | Validation best acc: 32.50
+Update Train Finetune Iter: 160 | Validation best acc: 32.50
+Update Train Finetune Iter: 210 | Validation best acc: 32.50
+Train mix Iter 0 | Validation best acc: 30.50
+Train mix Iter 5 | Validation best acc: 30.50
+Update Train Finetune Iter: 0 | Validation best acc: 6.00
+Update Train Finetune Iter: 40 | Validation best acc: 7.50
+Update Train Finetune Iter: 55 | Validation best acc: 10.00
+Update Train Finetune Iter: 70 | Validation best acc: 21.50
+Update Train Finetune Iter: 0 | Validation best acc: 6.00
+Update Train Finetune Iter: 40 | Validation best acc: 7.00
+Update Train Finetune Iter: 55 | Validation best acc: 8.50
+Update Train Finetune Iter: 70 | Validation best acc: 21.50
+Train mix Iter 0 | Validation best acc: 18.00
+Update Train Finetune Iter: 0 | Validation best acc: 12.00
+Update Train Finetune Iter: 40 | Validation best acc: 12.00
+Update Train Finetune Iter: 60 | Validation best acc: 12.00
+Update Train Finetune Iter: 75 | Validation best acc: 16.00
+Update Train Finetune Iter: 85 | Validation best acc: 15.00
+Update Train Finetune Iter: 95 | Validation best acc: 16.50
+Update Train Finetune Iter: 105 | Validation best acc: 17.50
+Update Train Finetune Iter: 115 | Validation best acc: 18.50
+Update Train Finetune Iter: 125 | Validation best acc: 18.50
+Update Train Finetune Iter: 135 | Validation best acc: 21.50
+Update Train Finetune Iter: 145 | Validation best acc: 22.50
+Update Train Finetune Iter: 170 | Validation best acc: 24.00
+Update Train Finetune Iter: 185 | Validation best acc: 24.00
+Update Train Finetune Iter: 205 | Validation best acc: 24.00
+Update Train Finetune Iter: 0 | Validation best acc: 12.00
+Update Train Finetune Iter: 40 | Validation best acc: 12.00
+Update Train Finetune Iter: 60 | Validation best acc: 12.00
+Update Train Finetune Iter: 75 | Validation best acc: 15.00
+Update Train Finetune Iter: 85 | Validation best acc: 16.00
+Update Train Finetune Iter: 95 | Validation best acc: 17.00
+Update Train Finetune Iter: 105 | Validation best acc: 16.50
+Update Train Finetune Iter: 115 | Validation best acc: 20.00
+Update Train Finetune Iter: 125 | Validation best acc: 20.50
+Update Train Finetune Iter: 135 | Validation best acc: 20.50
+Update Train Finetune Iter: 150 | Validation best acc: 23.00
+Update Train Finetune Iter: 170 | Validation best acc: 22.50
+Update Train Finetune Iter: 200 | Validation best acc: 23.00
+Train mix Iter 0 | Validation best acc: 26.00
+Train mix Iter 5 | Validation best acc: 26.50
+Update Train Finetune Iter: 0 | Validation best acc: 7.50
+Update Train Finetune Iter: 40 | Validation best acc: 7.50
+Update Train Finetune Iter: 55 | Validation best acc: 10.50
+Update Train Finetune Iter: 65 | Validation best acc: 18.50
+Update Train Finetune Iter: 75 | Validation best acc: 23.00
+Update Train Finetune Iter: 85 | Validation best acc: 19.50
+Update Train Finetune Iter: 100 | Validation best acc: 21.50
+Update Train Finetune Iter: 120 | Validation best acc: 22.00
+Update Train Finetune Iter: 0 | Validation best acc: 7.50
+Update Train Finetune Iter: 40 | Validation best acc: 7.50
+Update Train Finetune Iter: 55 | Validation best acc: 11.00
+Update Train Finetune Iter: 65 | Validation best acc: 19.00
+Update Train Finetune Iter: 75 | Validation best acc: 21.00
+Update Train Finetune Iter: 85 | Validation best acc: 20.50
+Update Train Finetune Iter: 95 | Validation best acc: 21.50
+Update Train Finetune Iter: 110 | Validation best acc: 22.50
+Update Train Finetune Iter: 155 | Validation best acc: 22.50
+Update Train Finetune Iter: 185 | Validation best acc: 22.00
+Train mix Iter 0 | Validation best acc: 23.00
+Train mix Iter 5 | Validation best acc: 21.50
+Update Train Finetune Iter: 0 | Validation best acc: 10.00
+Update Train Finetune Iter: 50 | Validation best acc: 10.00
+Update Train Finetune Iter: 70 | Validation best acc: 12.50
+Update Train Finetune Iter: 80 | Validation best acc: 17.00
+Update Train Finetune Iter: 90 | Validation best acc: 17.50
+Update Train Finetune Iter: 100 | Validation best acc: 17.00
+Update Train Finetune Iter: 115 | Validation best acc: 20.50
+Update Train Finetune Iter: 125 | Validation best acc: 21.00
+Update Train Finetune Iter: 140 | Validation best acc: 21.50
+Update Train Finetune Iter: 155 | Validation best acc: 19.50
+Update Train Finetune Iter: 170 | Validation best acc: 21.50
+Update Train Finetune Iter: 195 | Validation best acc: 24.00
+Update Train Finetune Iter: 215 | Validation best acc: 25.50
+Update Train Finetune Iter: 250 | Validation best acc: 22.50
+Update Train Finetune Iter: 0 | Validation best acc: 10.00
+Update Train Finetune Iter: 50 | Validation best acc: 10.00
+Update Train Finetune Iter: 70 | Validation best acc: 13.00
+Update Train Finetune Iter: 80 | Validation best acc: 17.50
+Update Train Finetune Iter: 90 | Validation best acc: 18.00
+Update Train Finetune Iter: 100 | Validation best acc: 19.50
+Update Train Finetune Iter: 115 | Validation best acc: 20.50
+Update Train Finetune Iter: 130 | Validation best acc: 22.50
+Update Train Finetune Iter: 145 | Validation best acc: 22.00
+Update Train Finetune Iter: 155 | Validation best acc: 22.50
+Update Train Finetune Iter: 170 | Validation best acc: 23.50
+Update Train Finetune Iter: 185 | Validation best acc: 23.00
+Update Train Finetune Iter: 200 | Validation best acc: 25.50
+Update Train Finetune Iter: 220 | Validation best acc: 24.00
+Train mix Iter 0 | Validation best acc: 27.00
+Train mix Iter 5 | Validation best acc: 27.00
+Update Train Finetune Iter: 0 | Validation best acc: 15.00
+Update Train Finetune Iter: 45 | Validation best acc: 15.00
+Update Train Finetune Iter: 0 | Validation best acc: 15.00
+Update Train Finetune Iter: 45 | Validation best acc: 15.00
+Train mix Iter 0 | Validation best acc: 17.50
+Update Train Finetune Iter: 0 | Validation best acc: 13.00
+Update Train Finetune Iter: 40 | Validation best acc: 13.00
+Update Train Finetune Iter: 55 | Validation best acc: 22.00
+Update Train Finetune Iter: 65 | Validation best acc: 23.50
+Update Train Finetune Iter: 75 | Validation best acc: 24.50
+Update Train Finetune Iter: 85 | Validation best acc: 24.00
+Update Train Finetune Iter: 95 | Validation best acc: 23.00
+Update Train Finetune Iter: 110 | Validation best acc: 20.50
+Update Train Finetune Iter: 130 | Validation best acc: 18.00
+Update Train Finetune Iter: 140 | Validation best acc: 19.00
+Update Train Finetune Iter: 160 | Validation best acc: 21.00
+Update Train Finetune Iter: 0 | Validation best acc: 13.00
+Update Train Finetune Iter: 40 | Validation best acc: 13.00
+Update Train Finetune Iter: 55 | Validation best acc: 21.50
+Update Train Finetune Iter: 65 | Validation best acc: 25.00
+Update Train Finetune Iter: 75 | Validation best acc: 24.50
+Update Train Finetune Iter: 85 | Validation best acc: 24.50
+Update Train Finetune Iter: 95 | Validation best acc: 23.50
+Update Train Finetune Iter: 105 | Validation best acc: 21.50
+Update Train Finetune Iter: 125 | Validation best acc: 21.00
+Update Train Finetune Iter: 140 | Validation best acc: 19.50
+Update Train Finetune Iter: 155 | Validation best acc: 19.50
+Update Train Finetune Iter: 175 | Validation best acc: 20.50
+Train mix Iter 0 | Validation best acc: 23.50
+Train mix Iter 5 | Validation best acc: 23.00
+Update Train Finetune Iter: 0 | Validation best acc: 7.50
+Update Train Finetune Iter: 50 | Validation best acc: 7.50
+Update Train Finetune Iter: 70 | Validation best acc: 14.50
+Update Train Finetune Iter: 85 | Validation best acc: 19.50
+Update Train Finetune Iter: 100 | Validation best acc: 18.00
+Update Train Finetune Iter: 115 | Validation best acc: 20.00
+Update Train Finetune Iter: 130 | Validation best acc: 19.50
+Update Train Finetune Iter: 145 | Validation best acc: 22.50
+Update Train Finetune Iter: 155 | Validation best acc: 23.50
+Update Train Finetune Iter: 165 | Validation best acc: 23.50
+Update Train Finetune Iter: 180 | Validation best acc: 24.50
+Update Train Finetune Iter: 190 | Validation best acc: 25.00
+Update Train Finetune Iter: 205 | Validation best acc: 24.50
+Update Train Finetune Iter: 220 | Validation best acc: 25.00
+Update Train Finetune Iter: 235 | Validation best acc: 25.50
+Update Train Finetune Iter: 0 | Validation best acc: 7.50
+Update Train Finetune Iter: 50 | Validation best acc: 7.50
+Update Train Finetune Iter: 70 | Validation best acc: 14.00
+Update Train Finetune Iter: 85 | Validation best acc: 20.00
+Update Train Finetune Iter: 100 | Validation best acc: 17.00
+Update Train Finetune Iter: 115 | Validation best acc: 18.50
+Update Train Finetune Iter: 135 | Validation best acc: 20.50
+Update Train Finetune Iter: 150 | Validation best acc: 23.00
+Update Train Finetune Iter: 160 | Validation best acc: 23.00
+Update Train Finetune Iter: 175 | Validation best acc: 23.50
+Update Train Finetune Iter: 185 | Validation best acc: 24.00
+Update Train Finetune Iter: 195 | Validation best acc: 24.50
+Update Train Finetune Iter: 205 | Validation best acc: 24.00
+Update Train Finetune Iter: 235 | Validation best acc: 24.00
+Train mix Iter 0 | Validation best acc: 23.50
+Train mix Iter 5 | Validation best acc: 24.00
+Update Train Finetune Iter: 0 | Validation best acc: 9.50
+Update Train Finetune Iter: 0 | Validation best acc: 9.50
+Train mix Iter 0 | Validation best acc: 9.50
+Update Train Finetune Iter: 0 | Validation best acc: 8.50
+Update Train Finetune Iter: 40 | Validation best acc: 8.50
+Update Train Finetune Iter: 55 | Validation best acc: 8.50
+Update Train Finetune Iter: 65 | Validation best acc: 10.00
+Update Train Finetune Iter: 75 | Validation best acc: 13.00
+Update Train Finetune Iter: 85 | Validation best acc: 18.50
+Update Train Finetune Iter: 95 | Validation best acc: 22.50
+Update Train Finetune Iter: 110 | Validation best acc: 24.50
+Update Train Finetune Iter: 0 | Validation best acc: 8.50
+Update Train Finetune Iter: 40 | Validation best acc: 8.50
+Update Train Finetune Iter: 55 | Validation best acc: 8.50
+Update Train Finetune Iter: 65 | Validation best acc: 9.50
+Update Train Finetune Iter: 75 | Validation best acc: 12.50
+Update Train Finetune Iter: 85 | Validation best acc: 17.50
+Update Train Finetune Iter: 95 | Validation best acc: 21.50
+Update Train Finetune Iter: 110 | Validation best acc: 23.50
+Train mix Iter 0 | Validation best acc: 27.00
+Train mix Iter 5 | Validation best acc: 25.50
+ Updating  time consuming = 190.26915407180786 secods
+###############  Updating  End###############
+Testing FedAvg...
+Testing Locals for client 0...
+Testing Finetune for client 0...
+Testing mixture for client 0...
+Testing Locals for client 1...
+Testing Finetune for client 1...
+Testing mixture for client 1...
+Testing Locals for client 2...
+Testing Finetune for client 2...
+Testing mixture for client 2...
+Testing Locals for client 3...
+Testing Finetune for client 3...
+Testing mixture for client 3...
+Testing Locals for client 4...
+Testing Finetune for client 4...
+Testing mixture for client 4...
+Testing Locals for client 5...
+Testing Finetune for client 5...
+Testing mixture for client 5...
+Testing Locals for client 6...
+Testing Finetune for client 6...
+Testing mixture for client 6...
+Testing Locals for client 7...
+Testing Finetune for client 7...
+Testing mixture for client 7...
+Testing Locals for client 8...
+Testing Finetune for client 8...
+Testing mixture for client 8...
+Testing Locals for client 9...
+Testing Finetune for client 9...
+Testing mixture for client 9...
+============================================================
+Step5. Membership Inference Attack aganist GM...
+[<torch.utils.data.dataloader.DataLoader object at 0x304238f10>, <torch.utils.data.dataloader.DataLoader object at 0x304238820>, <torch.utils.data.dataloader.DataLoader object at 0x3042386a0>, <torch.utils.data.dataloader.DataLoader object at 0x304238550>, <torch.utils.data.dataloader.DataLoader object at 0x304238310>, <torch.utils.data.dataloader.DataLoader object at 0x304238640>, <torch.utils.data.dataloader.DataLoader object at 0x30425c040>, <torch.utils.data.dataloader.DataLoader object at 0x30425c190>, <torch.utils.data.dataloader.DataLoader object at 0x30425c2e0>, <torch.utils.data.dataloader.DataLoader object at 0x30425c430>]
+{0: <torch.utils.data.dataloader.DataLoader object at 0x30425d2e0>, 1: <torch.utils.data.dataloader.DataLoader object at 0x30425d430>, 2: <torch.utils.data.dataloader.DataLoader object at 0x30425d580>, 3: <torch.utils.data.dataloader.DataLoader object at 0x30425d6d0>, 4: <torch.utils.data.dataloader.DataLoader object at 0x30425d820>, 5: <torch.utils.data.dataloader.DataLoader object at 0x30425d970>, 6: <torch.utils.data.dataloader.DataLoader object at 0x30425dac0>, 7: <torch.utils.data.dataloader.DataLoader object at 0x30425dc10>, 8: <torch.utils.data.dataloader.DataLoader object at 0x30425dd60>, 9: <torch.utils.data.dataloader.DataLoader object at 0x30425deb0>}
+Step5. Membership Inference Attack against GM...
+10 <class 'dict'> {0: <torch.utils.data.dataloader.DataLoader object at 0x30425d2e0>, 1: <torch.utils.data.dataloader.DataLoader object at 0x30425d430>, 2: <torch.utils.data.dataloader.DataLoader object at 0x30425d580>, 3: <torch.utils.data.dataloader.DataLoader object at 0x30425d6d0>, 4: <torch.utils.data.dataloader.DataLoader object at 0x30425d820>, 5: <torch.utils.data.dataloader.DataLoader object at 0x30425d970>, 6: <torch.utils.data.dataloader.DataLoader object at 0x30425dac0>, 7: <torch.utils.data.dataloader.DataLoader object at 0x30425dc10>, 8: <torch.utils.data.dataloader.DataLoader object at 0x30425dd60>, 9: <torch.utils.data.dataloader.DataLoader object at 0x30425deb0>}/opt/miniconda3/envs/fedEdge/lib/python3.9/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+
+shadow loaders: [<torch.utils.data.dataloader.DataLoader object at 0x304238f10>, <torch.utils.data.dataloader.DataLoader object at 0x304238820>, <torch.utils.data.dataloader.DataLoader object at 0x3042386a0>, <torch.utils.data.dataloader.DataLoader object at 0x304238550>, <torch.utils.data.dataloader.DataLoader object at 0x304238310>, <torch.utils.data.dataloader.DataLoader object at 0x304238640>, <torch.utils.data.dataloader.DataLoader object at 0x30425c040>, <torch.utils.data.dataloader.DataLoader object at 0x30425c190>, <torch.utils.data.dataloader.DataLoader object at 0x30425c2e0>, <torch.utils.data.dataloader.DataLoader object at 0x30425c430>]
+FL_params.forget_client_idx: [5]
+Total shadow clients: 10
+Processing client 5
+pred_4_mem shape: (100, 10)
+pred_4_nonmem shape: (2000, 10)
+
+Epoch  = 0
+Attacking against FL Standard  
+MIA Attacker accuracy = 0.9700
+MIA Attacker precision = 1.0000
+MIA Attacker recall = 0.9400
+Attacking against FL Client Unlearn  
+MIA Attacker accuracy = 0.5000
+MIA Attacker precision = 0.0000
+MIA Attacker recall = 0.0000
+ACC_old: 1.0, PRE_old: 0.94
+ACC_unlearn: 0.0, PRE_unlearn: 0.0

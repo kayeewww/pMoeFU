@@ -184,7 +184,8 @@ if __name__ == '__main__':
                 
 
         net_glob_fedAvg.load_state_dict(w_best_fedavg)
-        
+        #TODO MixTrain结束
+
         val_acc_locals, val_acc_mix, val_acc_fedavg, val_acc_e2e, val_acc_3, val_acc_rep, val_acc_repft, val_acc_ft, val_acc_e2e_neighbour, val_acc_gateonly = [], [], [], [], [], [], [], [], [], []
         train_acc_ft, train_acc_locals = [], []
         acc_test_l, acc_test_m = [], []

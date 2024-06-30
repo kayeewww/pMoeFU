@@ -24,7 +24,7 @@ import pandas as pd
 from sklearn.preprocessing import LabelEncoder,OneHotEncoder,MinMaxScaler
 from sklearn.compose import ColumnTransformer
 from sklearn import preprocessing
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, GridSearchCV
 
 from fedbabygpt import load_data, split_data, train_model, generate_text, BabyGPTmodel, GPTConfig
 from sample_data import mnist_noniid2, cifar_noniid2
@@ -52,8 +52,29 @@ def get_dataloaders(train_data, val_data, block_size, batch_size):
     val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
 
     return train_dataset,val_dataset,train_loader, val_loader
+
+# Hyperparameter tuning example
+def hyperparameter_tuning(model, train_loader):
+    param_grid = {
+        'lr': [0.001, 0.01, 0.1],
+        'batch_size': [32, 64, 128]
+    }
+    optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+    criterion = torch.nn.CrossEntropyLoss()
+
+    grid_search = GridSearchCV(estimator=model, param_grid=param_grid, cv=3)
+    grid_search.fit(train_loader.dataset, train_loader.targets)
+
+    print("Best parameters found: ", grid_search.best_params_)
+
 def splitExpertData(FL_params):
     if FL_params.data_name == 'mnist':
+        # trans_mnist = transforms.Compose([
+        #     transforms.RandomResizedCrop(28),
+        #     transforms.RandomHorizontalFlip(),
+        #     transforms.ToTensor(),
+        #     transforms.Normalize((0.5,), (0.5,))
+        # ])
         trans_mnist = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
         dataset_train = datasets.MNIST('../data/mnist/', train=True, download=True, transform=trans_mnist)
         dataset_test = datasets.MNIST('../data/mnist/', train=False, download=True, transform=trans_mnist)
@@ -62,6 +83,12 @@ def splitExpertData(FL_params):
         return dataset_train, dataset_test, dict_users
 
     elif FL_params.data_name == 'cifar10':
+        # trans_cifar = transforms.Compose([
+        #     transforms.RandomResizedCrop(32),
+        #     transforms.RandomHorizontalFlip(),
+        #     transforms.ToTensor(),
+        #     transforms.Normalize((0.5,), (0.5,))
+        # ])
         trans_cifar = transforms.Compose(
             [transforms.ToTensor(), transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
         dataset_train = datasets.CIFAR10('../data/cifar', train=True, download=True, transform=trans_cifar)
@@ -71,20 +98,31 @@ def splitExpertData(FL_params):
                                                                         FL_params.N_client, FL_params.p, FL_params.n_data,
                                                                     FL_params.n_data_val, FL_params.n_data_test,
                                                                     FL_params.overlap)
-        return dataset_train,dataset_test, dict_users, dict_users_val, dict_users_test
+        return dataset_train, dataset_test, dict_users, dict_users_val, dict_users_test
 
 def splittExpertModel(FL_params):
+    client_models = []
     if (FL_params.model == 'cnn') and (FL_params.data_name in ['cifar10', 'cifar100']):
         net_glob_fedAvg = CNNCifar(args=FL_params).to(FL_params.device)
         gate_model = GateCNN(args=FL_params).to(FL_params.device)
         net_locals = CNNCifar(args=FL_params).to(FL_params.device)
-        return net_glob_fedAvg, gate_model, net_locals
+        client_models.append({
+            'local': net_locals,
+            'global': net_glob_fedAvg,
+            'gate': gate_model
+        })
+        # return net_glob_fedAvg, gate_model, net_locals, client_models
 
     elif (FL_params.model == 'cnn') and (FL_params.data_name in ['mnist', 'fashion-mnist']):
         net_glob_fedAvg = CNNFashion(args=FL_params).to(FL_params.device)
         gate_model = GateCNNFashion(args=FL_params).to(FL_params.device)
         net_locals = CNNFashion(args=FL_params).to(FL_params.device)
-        return net_glob_fedAvg, gate_model, net_locals
+        client_models.append({
+            'local': net_locals,
+            'global': net_glob_fedAvg,
+            'gate': gate_model
+        })
+    return net_glob_fedAvg, gate_model, net_locals, client_models
 """Function: load data"""
 def dataloader_init(FL_params):
     

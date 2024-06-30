@@ -78,7 +78,7 @@ class CNNCifar(nn.Module):
         self.fc1 = nn.Linear(16 * 5 * 5, 120)
         self.dropout = nn.Dropout()
         self.fc2 = nn.Linear(120, 84)
-        self.fc3 = nn.Linear(84, args.N_client)
+        self.fc3 = nn.Linear(84, 10)
         self.activation = nn.LogSoftmax(dim=1)
 
     def forward(self, x):
@@ -91,7 +91,7 @@ class CNNCifar(nn.Module):
         x = self.fc3(out1)
         out2 = self.activation(x)
         return out2
-    
+
 class GateCNN(nn.Module):
     def __init__(self, args):
         super(GateCNN, self).__init__()
@@ -102,8 +102,16 @@ class GateCNN(nn.Module):
         self.fc1 = nn.Linear(16 * 5 * 5, 120)
         self.dropout = nn.Dropout()
         self.fc2 = nn.Linear(120, 84)
-        self.fc3 = nn.Linear(84, 1)
-        self.activation = nn.Sigmoid()
+        self.fc3 = nn.Linear(84, 10)
+        self.activation = nn.LogSoftmax(dim=1)
+        self.tfidf_scores = None
+
+    def update_with_tfidf(self, tfidf_scores):
+        """
+        更新 gate 模型的 tf-idf 分数
+        """
+        self.tfidf_scores = tfidf_scores
+        # print("Updated GateCNN with tf-idf scores:", self.tfidf_scores)
 
     def forward(self, x):
         x = self.pool(F.relu(self.conv1(x)))
@@ -111,10 +119,10 @@ class GateCNN(nn.Module):
         x = x.view(-1, 16 * 5 * 5)
         x = F.relu(self.fc1(x))
         x = self.dropout(x)
-        x = F.relu(self.fc2(x))
-        x = self.fc3(x)
-        x = self.activation(x)
-        return x
+        out1 = F.relu(self.fc2(x))
+        x = self.fc3(out1)
+        out2 = self.activation(x)
+        return out2
     
 class GateCNNSoftmax(nn.Module):
     def __init__(self, args):
