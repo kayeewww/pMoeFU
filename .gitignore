@@ -1,13 +1,8 @@
-nni/
-data/
-ckpt/
-excel/
-simulation/
-used/
-fednanogpt/
+uuused/
 FedPruneEraser/log/
+FedPruneEraser/ckpt/
+FedPruneEraser/data/
 FedPruneEraser/save/
-FedPruneEraser/mix/
-FedPruneEraser/flmoe/
+FedPruneEraser/used/
 FedPruneEraser/runs/
 output.txt
