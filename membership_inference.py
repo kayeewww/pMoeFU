@@ -1,304 +1,578 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Sep  4 15:25:11 2020
+# # -*- coding: utf-8 -*-
+# """
+# Created on Fri Sep  4 15:25:11 2020
+#
+# @author: user
+# """
+#
+# import torch
+# import torch.functional as F
+# import torch.nn as nn
+# from torch.nn.functional import softmax
+# import numpy as np
+# from sklearn.metrics import accuracy_score, precision_score, recall_score
+# import xgboost as xgb
+# from xgboost import XGBClassifier
+# from sklearn.model_selection import train_test_split
+# from sklearn.metrics import recall_score, f1_score, accuracy_score, precision_score
+#
+#
+# """
+# def MIA_attack(target_model, shadow_model, shadow_client_loaders, shadow_test_loader, FL_params, client_loaders):
+#     '''
+#
+#
+#     Parameters
+#     ----------
+#     shadow_model : DNN model
+#         shadow model.
+#     shadow_client_loaders : list of Dataloader class for shadow models
+#         The training set of the shadow model
+#     shadow_test_loader : Dataloader class for shadow models
+#         Test sets for shadow models
+#     FL_params : The training parameters of federated learning
+#         Mainly used to read the forgotten user IDX
+#     client_loaders : list of Datalodaer class for standard FL models
+#         The training data set loader for the normal federated learning model
+#
+#     Returns
+#     -------
+#     None.
+#
+#     '''
+#     n_class_dict = dict()
+#     n_class_dict['adult'] = 2
+#     n_class_dict['purchase'] = 2
+#     n_class_dict['mnist'] = 10
+#     n_class_dict['cifar10'] = 10
+#
+#     N_class = n_class_dict[FL_params.data_name]
+#
+#     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+#     shadow_model.to(device)
+#
+#     shadow_model.eval()
+#     ####
+#     pred_4_mem = torch.zeros([1,N_class])
+#     pred_4_mem = pred_4_mem.to(device)
+#     with torch.no_grad():
+#         for ii in range(len(shadow_client_loaders)):
+#             if((ii == FL_params.forget_client_idx) and FL_params.mia_oldGM):
+#                 continue
+#             data_loader = shadow_client_loaders[ii]
+#
+#             for batch_idx, (data, target) in enumerate(data_loader):
+#                     data = data.to(device)
+#                     out = shadow_model(data)
+#                     pred_4_mem = torch.cat([pred_4_mem, out])
+#     pred_4_mem = pred_4_mem[1:,:]
+#     pred_4_mem = softmax(pred_4_mem,dim = 1)
+#     pred_4_mem = pred_4_mem.cpu()
+#     pred_4_mem = pred_4_mem.detach().numpy()
+#
+#     ####
+#     pred_4_nonmem = torch.zeros([1,N_class])
+#     pred_4_nonmem = pred_4_nonmem.to(device)
+#     with torch.no_grad():
+#         for batch, (data, target) in enumerate(shadow_test_loader):
+#             data = data.to(device)
+#             out = shadow_model(data)
+#             pred_4_nonmem = torch.cat([pred_4_nonmem, out])
+#     pred_4_nonmem = pred_4_nonmem[1:,:]
+#     pred_4_nonmem = softmax(pred_4_nonmem,dim = 1)
+#     pred_4_nonmem = pred_4_nonmem.cpu()
+#     pred_4_nonmem = pred_4_nonmem.detach().numpy()
+#
+#     #The predicted output of data from forgotten users on a given model
+#     target_model.to(device)
+#
+#     target_model.eval()
+#
+#     unlearn_X = torch.zeros([1,N_class])
+#     unlearn_X = unlearn_X.to(device)
+#     with torch.no_grad():
+#         for batch_idx, (data, target) in enumerate(client_loaders[FL_params.forget_client_idx]):
+#                     data = data.to(device)
+#                     out = target_model(data)
+#                     unlearn_X = torch.cat([unlearn_X, out])
+#     unlearn_X = unlearn_X[1:,:]
+#     unlearn_X = softmax(unlearn_X,dim = 1)
+#     unlearn_X = unlearn_X.cpu().detach().numpy()
+#
+#     if(FL_params.mia_oldGM):
+#         unlearn_y = np.ones(unlearn_X.shape[0])
+#         unlearn_y = unlearn_y.astype(np.int16)
+#     else:
+#         unlearn_y = np.ones(unlearn_X.shape[0])
+#         unlearn_y = unlearn_y.astype(np.int16)
+#
+#     #Build the MIA attack model
+#     att_y = np.hstack((np.ones(pred_4_mem.shape[0]), np.zeros(pred_4_nonmem.shape[0])))
+#     att_y = att_y.astype(np.int16)
+#
+#     att_X = np.vstack((pred_4_mem, pred_4_nonmem))
+#     X_train,X_test, y_train, y_test = train_test_split(att_X, att_y, test_size = 0.2)
+#
+#     attacker = XGBClassifier(n_estimators = 100,
+#                               n_jobs = -1,
+#                               # max_depth = 10,
+#                               objective = 'binary:logistic',
+#                               booster="gblinear",
+#                               # learning_rate=None,
+#                               # tree_method = 'gpu_hist',
+#                               scale_pos_weight = pred_4_nonmem.shape[0]/pred_4_mem.shape[0]
+#                               )
+#
+#
+#     attacker.fit(X_train, y_train)
+#
+#     # attacker = LogisticRegression(n_jobs = -1,class_weight='balanced')
+#     # attacker.fit(X_train, y_train)
+#
+#     print('\n')
+#     print("MIA Attacker training accuracy")
+#     print(accuracy_score(y_train, attacker.predict(X_train)))
+#     print("MIA Attacker testing accuracy")
+#     print(accuracy_score(y_test, attacker.predict(X_test)))
+#     # 使用mia攻击模型攻击 forget_client_idx 被遗忘用户
+#     pred_y = attacker.predict(unlearn_X)
+#     print("MIA Attacker unlearning accuracy")
+#     if(FL_params.mia_oldGM == True):
+#         # rst = precision_score(unlearn_y, pred_y, pos_label=1)
+#         rst = accuracy_score(unlearn_y, pred_y)
+#         print(rst)
+#         return rst
+#     else:
+#         # rst = precision_score(unlearn_y, pred_y, pos_label=0)
+#         rst = accuracy_score(unlearn_y, pred_y)
+#         print(rst)
+#         return rst
+# """
+#
+# def attack(opt_in, target_model, attack_model, client_loaders, test_loader, FL_params):
+#     n_class_dict = dict()
+#     n_class_dict['adult'] = 2
+#     n_class_dict['purchase'] = 2
+#     n_class_dict['mnist'] = 10
+#     n_class_dict['cifar10'] = 10
+#     n_class_dict['fashion-mnist'] = 10
+#
+#     N_class = 10 # n_class_dict[FL_params.data_name]
+#     target_model.to(FL_params.device)
+#     target_model.eval()
+#
+#     # The predictive output of forgotten user data after passing through the target model.
+#     unlearn_X = torch.zeros([1, N_class]).to(FL_params.device)
+#     with torch.no_grad():
+#         if FL_params.fats_method == 'client':
+#             for k in opt_in:
+#                 for batch_idx, (data, target) in enumerate(client_loaders[k]):
+#                     data = data.to(FL_params.device)
+#                     out = target_model(data)
+#                     unlearn_X = torch.cat([unlearn_X, out])
+#         elif FL_params.fats_method == 'sample':
+#             for batch_idx, (data, target) in enumerate(client_loaders[FL_params.unlearn_client]):
+#                 data = data.to(FL_params.device)
+#                 out = target_model(data)
+#                 unlearn_X = torch.cat([unlearn_X, out])
+#
+#     unlearn_X = unlearn_X[1:, :]
+#     unlearn_X = torch.softmax(unlearn_X, dim=1)
+#     unlearn_X = unlearn_X.to(FL_params.device).detach().numpy()
+#     unlearn_X.sort(axis=1)
+#     unlearn_y = np.ones(unlearn_X.shape[0]).astype(np.int16)
+#     N_unlearn_sample = len(unlearn_y)
+#
+#     # Test data, predictive output obtained after passing the target model
+#     test_X = torch.zeros([1, N_class]).to(FL_params.device)
+#     with torch.no_grad():
+#         for client_id, loader in test_loader.items():
+#             for batch_idx, (data, target) in enumerate(loader):
+#                 data = data.to(FL_params.device)
+#                 out = target_model(data)
+#                 test_X = torch.cat([test_X, out])
+#                 if test_X.shape[0] > N_unlearn_sample:
+#                     break
+#
+#     test_X = test_X[1:N_unlearn_sample + 1, :]
+#     test_X = torch.softmax(test_X, dim=1)
+#     test_X = test_X.to(FL_params.device).detach().numpy()
+#     test_X.sort(axis=1)
+#     test_y = np.zeros(test_X.shape[0], dtype=np.int16)
+#
+#     # The data of the forgotten user passed through the output of the target model, and the data of the test set passed through the output of the target model were spliced together
+#     XX = np.vstack((unlearn_X, test_X))
+#     YY = np.hstack((unlearn_y, test_y))
+#
+#     pred_YY = attack_model.predict(XX)
+#     acc = accuracy_score(YY, pred_YY)
+#     pre = precision_score(YY, pred_YY, pos_label=1)
+#     rec = recall_score(YY, pred_YY, pos_label=1)
+#     f1 = f1_score(YY, pred_YY, pos_label=1)
+#     print("MIA Attacker accuracy = {:.4f}".format(acc))
+#     print("MIA Attacker precision = {:.4f}".format(pre))
+#     print("MIA Attacker recall = {:.4f}".format(rec))
+#     print("MIA Attacker F1-Score = {:.4f}".format(f1))
+#
+#     return (acc, pre, rec, f1)
+#
+# # 调用例子
+# # pre, rec, f1 = attack(opt_in, target_model, attack_model, client_loaders, test_loader, FL_params)
+#
+#
+#
+# def train_attack_model(shadow_old_GM, shadow_client_loaders, shadow_test_loader, FL_params):
+#     shadow_model = shadow_old_GM
+#     n_class_dict = dict()
+#     n_class_dict['adult'] = 2
+#     n_class_dict['purchase'] = 2
+#     n_class_dict['mnist'] = 10
+#     n_class_dict['cifar10'] = 10
+#     n_class_dict['fashion-mnist'] = 10
+#
+#     N_class = 10#n_class_dict[FL_params.data_name]
+#
+#     shadow_model.to(FL_params.device)
+#
+#     shadow_model.eval()
+#     ####
+#     pred_4_mem = torch.zeros([1, N_class])
+#     pred_4_mem = pred_4_mem.to(FL_params.device)
+#     # print('shadow loaders:', shadow_client_loaders)
+#     # print(f"FL_params.save_client_idx: {FL_params.save_client_idx}",type(FL_params.save_client_idx))
+#     print(f"Total shadow clients: {len(shadow_client_loaders)}")
+#
+#     with torch.no_grad():
+#         for ii in range(len(shadow_client_loaders)):
+#             # print('forget idx:', FL_params.forget_client_idx)
+#             if ii not in FL_params.forget_client_idx:
+#                 continue
+#
+#             print(f"Processing client {ii}")
+#             data_loader = shadow_client_loaders[ii]
+#
+#             for batch_idx, (data, target) in enumerate(data_loader):
+#                 data = data.to(FL_params.device)
+#                 out = shadow_model(data)
+#                 pred_4_mem = torch.cat([pred_4_mem, out])
+#     pred_4_mem = pred_4_mem[1:, :]
+#     pred_4_mem = softmax(pred_4_mem, dim=1)
+#     pred_4_mem = pred_4_mem.to(FL_params.device)
+#     pred_4_mem = pred_4_mem.numpy() # pred_4_mem.detach().numpy()
+#
+#     ####
+#     pred_4_nonmem = torch.zeros([1, N_class])
+#     pred_4_nonmem = pred_4_nonmem.to(FL_params.device)
+#     with torch.no_grad():
+#         for client_id, test_loader in shadow_test_loader.items():
+#             for batch, (data, target) in enumerate(test_loader):
+#         # for data, target in enumerate(shadow_test_loader):
+#                 data = data.to(FL_params.device)
+#                 out = shadow_model(data)
+#                 pred_4_nonmem = torch.cat([pred_4_nonmem, out])
+#     pred_4_nonmem = pred_4_nonmem[1:, :]
+#     pred_4_nonmem = softmax(pred_4_nonmem, dim=1)
+#     pred_4_nonmem = pred_4_nonmem.to(FL_params.device)
+#     pred_4_nonmem = pred_4_nonmem.detach().numpy()
+#
+#     # 构建MIA 攻击模型
+#     att_y = np.hstack((np.ones(pred_4_mem.shape[0]), np.zeros(pred_4_nonmem.shape[0])))
+#     att_y = att_y.astype(np.int16)
+#
+#     att_X = np.vstack((pred_4_mem, pred_4_nonmem))
+#     att_X.sort(axis=1)
+#
+#     X_train, X_test, y_train, y_test = train_test_split(att_X, att_y, test_size=0.1)
+#     print(f"pred_4_mem shape: {pred_4_mem.shape}")
+#     print(f"pred_4_nonmem shape: {pred_4_nonmem.shape}")
+#
+#     if pred_4_mem.shape[0] == 0 or pred_4_nonmem.shape[0] == 0:
+#         raise ValueError("One of the predictions is empty, check the input data and model predictions.")
+#
+#     scale_pos_weight = pred_4_nonmem.shape[0] / pred_4_mem.shape[0]
+#
+#     attacker = XGBClassifier(n_estimators=300,
+#                              n_jobs=-1,
+#                              max_depth=30,
+#                              objective='binary:logistic',
+#                              booster="gbtree",
+#                              # learning_rate=None,
+#                              # tree_method = 'gpu_hist',
+#                              scale_pos_weight=scale_pos_weight
+#                              )
+#
+#     attacker.fit(X_train, y_train)
+#     # print('\n')
+#     # print("MIA Attacker training accuracy")
+#     # print(accuracy_score(y_train, attacker.predict(X_train)))
+#     # print("MIA Attacker testing accuracy")
+#     # print(accuracy_score(y_test, attacker.predict(X_test)))
+#
+#     return attacker
 
-@author: user
-"""
-
-import torch
-import torch.functional as F
-import torch.nn as nn
-from torch.nn.functional import softmax
-import numpy as np
-from sklearn.metrics import accuracy_score, precision_score, recall_score
-import xgboost as xgb
+from sklearn.metrics import recall_score, f1_score, accuracy_score, precision_score
 from xgboost import XGBClassifier
 from sklearn.model_selection import train_test_split
+import torch
+import torch.nn.functional as F
+import numpy as np
 
-"""
-def MIA_attack(target_model, shadow_model, shadow_client_loaders, shadow_test_loader, FL_params, client_loaders):
-    '''
-    
+# def attack(target_model, attack_model, client_loaders, test_loader,class_type, FL_params):
+#     n_class_dict = dict()
+#     n_class_dict['first'] = FL_params.all_classes['first']
+#     n_class_dict['second'] = FL_params.all_classes['second']
+#
+#     N_class = n_class_dict[class_type]
+#     target_model.to(FL_params.device)
+#     target_model.eval()
+#     cloader = [client_loaders[i] for i in range(len(client_loaders))]
+#
+#     unlearn_X = torch.zeros([1, N_class]).to(FL_params.device)
+#     with torch.no_grad():
+#         if isinstance(cloader, dict):
+#             for user_id, loader in cloader.items():
+#                 for data, target in loader:
+#                     # print(data)
+#                     data = data.to(FL_params.device)
+#                     out = target_model(data)
+#                     unlearn_X = torch.cat([unlearn_X, out])
+#         elif isinstance(cloader, list):
+#             for loader in cloader:
+#                 for data, target in loader:
+#                     # print(data)
+#                     data = data.to(FL_params.device)
+#                     out = target_model(data)
+#                     unlearn_X = torch.cat([unlearn_X, out])
+#
+#     unlearn_X = unlearn_X[1:, :]
+#     unlearn_X = torch.softmax(unlearn_X, dim=1)
+#     unlearn_X = unlearn_X.cpu().detach().numpy()
+#
+#     unlearn_X.sort(axis=1)
+#     unlearn_y = np.ones(unlearn_X.shape[0])
+#     unlearn_y = unlearn_y.astype(np.int16)
+#
+#     N_unlearn_sample = len(unlearn_y)
+#
+#     test_X = torch.zeros([1, N_class]).to(FL_params.device)
+#     with torch.no_grad():
+#         if isinstance(test_loader, dict):
+#             for user_id, loader in test_loader.items():
+#                 for data, target in loader:
+#                     data = data.to(FL_params.device)
+#                     out = target_model(data)
+#                     test_X = torch.cat([test_X, out])
+#         elif isinstance(test_loader, list):
+#             for data_loader in test_loader:
+#                 for data, target in data_loader:
+#                     data = data.to(FL_params.device)
+#                     out = target_model(data)
+#                     test_X = torch.cat([test_X, out])
+#         else:
+#             for loader in test_loader:
+#                 for data, target in loader:
+#                     data = data.to(FL_params.device)
+#                     out = target_model(data)
+#                     test_X = torch.cat([test_X, out])
+#
+#     test_X = test_X[1:N_unlearn_sample + 1, :]
+#     test_X = torch.softmax(test_X, dim=1)
+#     test_X = test_X.cpu().detach().numpy()
+#
+#     test_X.sort(axis=1)
+#     test_y = np.zeros(test_X.shape[0])
+#     test_y = test_y.astype(np.int16)
+#
+#     XX = np.vstack((unlearn_X, test_X))
+#     YY = np.hstack((unlearn_y, test_y))
+#
+#     pred_YY = attack_model.predict(XX)
+#
+#     acc = accuracy_score(YY, pred_YY)
+#     pre = precision_score(YY, pred_YY, pos_label=1, average='binary')
+#     rec = recall_score(YY, pred_YY, pos_label=1, average='binary')
+#     f1 = f1_score(YY, pred_YY, pos_label=1, average='binary')
+#     print("MIA Attacker accuracy = {:.4f}".format(acc))
+#     print("MIA Attacker precision = {:.4f}".format(pre))
+#     print("MIA Attacker recall = {:.4f}".format(rec))
+#     print("MIA Attacker F1-Score = {:.4f}".format(f1))
+#
+#     return (acc, pre, rec, f1)
 
-    Parameters
-    ----------
-    shadow_model : DNN model
-        shadow model.
-    shadow_client_loaders : list of Dataloader class for shadow models
-        The training set of the shadow model
-    shadow_test_loader : Dataloader class for shadow models
-        Test sets for shadow models
-    FL_params : The training parameters of federated learning
-        Mainly used to read the forgotten user IDX
-    client_loaders : list of Datalodaer class for standard FL models
-        The training data set loader for the normal federated learning model
-
-    Returns
-    -------
-    None.
-
-    '''
+def attack(target_model, attack_model, client_loaders, test_loader, class_type, FL_params):
     n_class_dict = dict()
-    n_class_dict['adult'] = 2
-    n_class_dict['purchase'] = 2
-    n_class_dict['mnist'] = 10
-    n_class_dict['cifar10'] = 10
-    
-    N_class = n_class_dict[FL_params.data_name]
-    
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    shadow_model.to(device)
-        
-    shadow_model.eval()
-    ####
-    pred_4_mem = torch.zeros([1,N_class])
-    pred_4_mem = pred_4_mem.to(device)
-    with torch.no_grad():
-        for ii in range(len(shadow_client_loaders)):
-            if((ii == FL_params.forget_client_idx) and FL_params.mia_oldGM):
-                continue
-            data_loader = shadow_client_loaders[ii]
-            
-            for batch_idx, (data, target) in enumerate(data_loader):
-                    data = data.to(device)
-                    out = shadow_model(data)
-                    pred_4_mem = torch.cat([pred_4_mem, out])
-    pred_4_mem = pred_4_mem[1:,:]
-    pred_4_mem = softmax(pred_4_mem,dim = 1)
-    pred_4_mem = pred_4_mem.cpu()
-    pred_4_mem = pred_4_mem.detach().numpy()
-    
-    ####
-    pred_4_nonmem = torch.zeros([1,N_class])
-    pred_4_nonmem = pred_4_nonmem.to(device)
-    with torch.no_grad():
-        for batch, (data, target) in enumerate(shadow_test_loader):
-            data = data.to(device)
-            out = shadow_model(data)
-            pred_4_nonmem = torch.cat([pred_4_nonmem, out])
-    pred_4_nonmem = pred_4_nonmem[1:,:]
-    pred_4_nonmem = softmax(pred_4_nonmem,dim = 1)
-    pred_4_nonmem = pred_4_nonmem.cpu()
-    pred_4_nonmem = pred_4_nonmem.detach().numpy()
-    
-    #The predicted output of data from forgotten users on a given model
-    target_model.to(device)
-        
-    target_model.eval()
-    
-    unlearn_X = torch.zeros([1,N_class])
-    unlearn_X = unlearn_X.to(device)
-    with torch.no_grad():
-        for batch_idx, (data, target) in enumerate(client_loaders[FL_params.forget_client_idx]):
-                    data = data.to(device)
-                    out = target_model(data)
-                    unlearn_X = torch.cat([unlearn_X, out])
-    unlearn_X = unlearn_X[1:,:]
-    unlearn_X = softmax(unlearn_X,dim = 1)
-    unlearn_X = unlearn_X.cpu().detach().numpy()
-    
-    if(FL_params.mia_oldGM):
-        unlearn_y = np.ones(unlearn_X.shape[0])
-        unlearn_y = unlearn_y.astype(np.int16)
-    else:
-        unlearn_y = np.ones(unlearn_X.shape[0])
-        unlearn_y = unlearn_y.astype(np.int16)
-    
-    #Build the MIA attack model
-    att_y = np.hstack((np.ones(pred_4_mem.shape[0]), np.zeros(pred_4_nonmem.shape[0])))
-    att_y = att_y.astype(np.int16)
-    
-    att_X = np.vstack((pred_4_mem, pred_4_nonmem))
-    X_train,X_test, y_train, y_test = train_test_split(att_X, att_y, test_size = 0.2)
-    
-    attacker = XGBClassifier(n_estimators = 100,
-                              n_jobs = -1,
-                              # max_depth = 10,
-                              objective = 'binary:logistic',
-                              booster="gblinear",
-                              # learning_rate=None,
-                              # tree_method = 'gpu_hist',
-                              scale_pos_weight = pred_4_nonmem.shape[0]/pred_4_mem.shape[0]
-                              )
-    
-    
-    attacker.fit(X_train, y_train)
-    
-    # attacker = LogisticRegression(n_jobs = -1,class_weight='balanced')
-    # attacker.fit(X_train, y_train)
-    
-    print('\n')
-    print("MIA Attacker training accuracy")
-    print(accuracy_score(y_train, attacker.predict(X_train)))
-    print("MIA Attacker testing accuracy")
-    print(accuracy_score(y_test, attacker.predict(X_test)))
-    # 使用mia攻击模型攻击 forget_client_idx 被遗忘用户
-    pred_y = attacker.predict(unlearn_X)
-    print("MIA Attacker unlearning accuracy")
-    if(FL_params.mia_oldGM == True):
-        # rst = precision_score(unlearn_y, pred_y, pos_label=1)
-        rst = accuracy_score(unlearn_y, pred_y)
-        print(rst)
-        return rst
-    else:
-        # rst = precision_score(unlearn_y, pred_y, pos_label=0)
-        rst = accuracy_score(unlearn_y, pred_y)
-        print(rst)
-        return rst
-"""
+    n_class_dict['first'] = FL_params.all_classes['first']
+    n_class_dict['second'] = FL_params.all_classes['second']
 
-
-def attack(target_model, attack_model, client_loaders, test_loader, FL_params):
-    n_class_dict = dict()
-    n_class_dict['adult'] = 2
-    n_class_dict['purchase'] = 2
-    n_class_dict['mnist'] = 10
-    n_class_dict['cifar10'] = 10
-
-    N_class = n_class_dict[FL_params.data_name]
-    # device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
-
+    N_class = n_class_dict[class_type]
     target_model.to(FL_params.device)
-
     target_model.eval()
+    cloader = [client_loaders[i] for i in range(len(client_loaders))]
 
-    # The predictive output of forgotten user data after passing through the target model.
-    unlearn_X = torch.zeros([1, N_class])
-    unlearn_X = unlearn_X.to(FL_params.device)
+    unlearn_X = None  # 初始化为 None
     with torch.no_grad():
-        # TODO
-        if (FL_params.fats_method == 'client'):
-            for k in FL_params.save_client_idx:
-                # target_loader = client_loaders[k]
-                for batch_idx, (data, target) in enumerate(client_loaders[k]):
+        if isinstance(cloader, dict):
+            for user_id, loader in cloader.items():
+                for data, target in loader:
                     data = data.to(FL_params.device)
                     out = target_model(data)
-                    unlearn_X = torch.cat([unlearn_X, out])
-        elif (FL_params.fats_method == 'sample'):
-            for batch_idx, (data, target) in enumerate(client_loaders[FL_params.unlearn_client]):
-                data = data.to(FL_params.device)
-                out = target_model(data)
-                unlearn_X = torch.cat([unlearn_X, out])
+                    if unlearn_X is None:
+                        unlearn_X = out
+                    else:
+                        unlearn_X = torch.cat([unlearn_X, out])
+        elif isinstance(cloader, list):
+            for loader in cloader:
+                for data, target in loader:
+                    data = data.to(FL_params.device)
+                    out = target_model(data)
+                    if unlearn_X is None:
+                        unlearn_X = out
+                    else:
+                        unlearn_X = torch.cat([unlearn_X, out])
 
-    unlearn_X = unlearn_X[1:, :]
-    unlearn_X = softmax(unlearn_X, dim=1)
-    # unlearn_X = unlearn_X.cpu().detach().numpy()
-    unlearn_X = unlearn_X.to(FL_params.device).detach().numpy()
+    # 如果没有任何数据，则跳过后续操作
+    if unlearn_X is None:
+        raise ValueError("No data found in client loaders")
 
+    # 处理 unlearn_X
+    unlearn_X = torch.softmax(unlearn_X, dim=1)
+    unlearn_X = unlearn_X.cpu().detach().numpy()
     unlearn_X.sort(axis=1)
-    unlearn_y = np.ones(unlearn_X.shape[0])
-    unlearn_y = unlearn_y.astype(np.int16)
-
+    unlearn_y = np.ones(unlearn_X.shape[0], dtype=np.int16)
     N_unlearn_sample = len(unlearn_y)
 
-    # Test data, predictive output obtained after passing the target model
-    test_X = torch.zeros([1, N_class])
-    test_X = test_X.to(FL_params.device)
+    # 初始化 test_X
+    test_X = None
     with torch.no_grad():
-        for client_id, loader in test_loader.items():
-            for batch_idx, (data, target) in enumerate(loader):
-                data = data.to(FL_params.device)
-                out = target_model(data)
-                test_X = torch.cat([test_X, out])
+        if isinstance(test_loader, dict):
+            for user_id, loader in test_loader.items():
+                for data, target in loader:
+                    data = data.to(FL_params.device)
+                    out = target_model(data)
+                    if test_X is None:
+                        test_X = out
+                    else:
+                        test_X = torch.cat([test_X, out])
+        elif isinstance(test_loader, list):
+            for data_loader in test_loader:
+                for data, target in data_loader:
+                    data = data.to(FL_params.device)
+                    out = target_model(data)
+                    if test_X is None:
+                        test_X = out
+                    else:
+                        test_X = torch.cat([test_X, out])
+        else:
+            for loader in test_loader:
+                for data, target in loader:
+                    data = data.to(FL_params.device)
+                    out = target_model(data)
+                    if test_X is None:
+                        test_X = out
+                    else:
+                        test_X = torch.cat([test_X, out])
 
-                if test_X.shape[0] > N_unlearn_sample:
-                    break
-    # with torch.no_grad():
-    #     for _, (data, target) in enumerate(test_loader):
-    #         data = data.to(device)
-    #         out = target_model(data)
-    #         test_X = torch.cat([test_X, out])
-    #
-    #         if (test_X.shape[0] > N_unlearn_sample):
-    #             break
-    test_X = test_X[1:N_unlearn_sample + 1, :]
-    test_X = softmax(test_X, dim=1)
-    # test_X = test_X.cpu().detach().numpy()
-    test_X = test_X.to(FL_params.device).detach().numpy()
+    if test_X is None:
+        raise ValueError("No data found in test loader")
 
+    # 处理 test_X
+    test_X = test_X[:N_unlearn_sample, :]  # 只取与unlearn_X相同数量的样本
+    test_X = torch.softmax(test_X, dim=1)
+    test_X = test_X.cpu().detach().numpy()
     test_X.sort(axis=1)
     test_y = np.zeros(test_X.shape[0], dtype=np.int16)
-    # test_y = test_y.astype(np.int16)
 
-    # The data of the forgotten user passed through the output of the target model, and the data of the test set passed through the output of the target model were spliced together
-    # The balanced data set that forms the 50% train 50% test.
+    # 将 unlearn 和 test 的数据拼接在一起
     XX = np.vstack((unlearn_X, test_X))
     YY = np.hstack((unlearn_y, test_y))
 
+    # 使用攻击模型进行预测
     pred_YY = attack_model.predict(XX)
+
+    # 计算性能指标
     acc = accuracy_score(YY, pred_YY)
-    pre = precision_score(YY, pred_YY, pos_label=1)
-    rec = recall_score(YY, pred_YY, pos_label=1)
-    print("MIA Attacker accuracy = {:.4f}".format(acc))
-    print("MIA Attacker precision = {:.4f}".format(pre))
-    print("MIA Attacker recall = {:.4f}".format(rec))
+    pre = precision_score(YY, pred_YY, pos_label=1, average='binary', zero_division=0)
+    rec = recall_score(YY, pred_YY, pos_label=1, average='binary')
+    f1 = f1_score(YY, pred_YY, pos_label=1, average='binary')
 
-    return (pre, rec)
+    print(f"MIA Attacker accuracy = {acc:.4f}")
+    print(f"MIA Attacker precision = {pre:.4f}")
+    print(f"MIA Attacker recall = {rec:.4f}")
+    print(f"MIA Attacker F1-Score = {f1:.4f}")
 
+    return acc, pre, rec, f1
 
-def train_attack_model(shadow_old_GM, shadow_client_loaders, shadow_test_loader, FL_params):
+def train_attack_model(shadow_old_GM, shadow_client_loaders, shadow_test_loader, class_num, FL_params):
     shadow_model = shadow_old_GM
     n_class_dict = dict()
-    n_class_dict['adult'] = 2
-    n_class_dict['purchase'] = 2
-    n_class_dict['mnist'] = 10
-    n_class_dict['cifar10'] = 10
+    n_class_dict['first'] = FL_params.all_classes['first']
+    n_class_dict['second'] = FL_params.all_classes['second']
+    # n_class_dict['mnist'] = 10
+    # n_class_dict['cifar10'] = 10
+    # n_class_dict['fashion-mnist'] = 10
 
-    N_class = n_class_dict[FL_params.data_name]
+    cloader = [shadow_client_loaders[i] for i in range(len(shadow_client_loaders)) if
+               i not in FL_params.temp_forget_idx]
+    # class_len_dict = {
+    #     'first': len(class_dict['first']),
+    #     'second': len(class_dict['second']) if class_dict['second'] else 0
+    # }
+    #
+    # FL_params.all_classes = class_len_dict
 
+    N_class = n_class_dict[class_num]
     shadow_model.to(FL_params.device)
-
     shadow_model.eval()
-    ####
-    pred_4_mem = torch.zeros([1, N_class])
-    pred_4_mem = pred_4_mem.to(FL_params.device)
-    # print('shadow loaders:', shadow_client_loaders)
-    print(f"FL_params.save_client_idx: {FL_params.save_client_idx}",type(FL_params.save_client_idx))
-    print(f"Total shadow clients: {len(shadow_client_loaders)}")
 
+    pred_4_mem = torch.zeros([1, N_class]).to(FL_params.device)
     with torch.no_grad():
-        for ii in range(len(shadow_client_loaders)):
-            # print('forget idx:', FL_params.forget_client_idx)
-            if ii in FL_params.save_client_idx:
-                continue
+        if isinstance(cloader, dict):
+            for user_id, loader in cloader.items():
+                for data, target in loader:
+                    data = data.to(FL_params.device)
+                    out = shadow_model(data)
+                    pred_4_mem = torch.cat([pred_4_mem, out])
+        elif isinstance(cloader, list):
+            for data_loader in cloader:
+                for data, target in data_loader:
+                    data = data.to(FL_params.device)
+                    out = shadow_model(data)
+                    pred_4_mem = torch.cat([pred_4_mem, out])
+        else:
+            for data_loader in cloader:
+                for data, target in data_loader:
+                    data = data.to(FL_params.device)
+                    out = shadow_model(data)
+                    pred_4_mem = torch.cat([pred_4_mem, out])
 
-            print(f"Processing client {ii}")
-            data_loader = shadow_client_loaders[ii]
-
-            for batch_idx, (data, target) in enumerate(data_loader):
-                data = data.to(FL_params.device)
-                out = shadow_model(data)
-                pred_4_mem = torch.cat([pred_4_mem, out])
     pred_4_mem = pred_4_mem[1:, :]
-    pred_4_mem = softmax(pred_4_mem, dim=1)
-    pred_4_mem = pred_4_mem.to(FL_params.device)
-    pred_4_mem = pred_4_mem.numpy() # pred_4_mem.detach().numpy()
+    pred_4_mem = torch.softmax(pred_4_mem, dim=1)
+    pred_4_mem = pred_4_mem.cpu().detach().numpy()
 
-    ####
-    pred_4_nonmem = torch.zeros([1, N_class])
-    pred_4_nonmem = pred_4_nonmem.to(FL_params.device)
+    pred_4_nonmem = torch.zeros([1, N_class]).to(FL_params.device)
     with torch.no_grad():
-        for client_id, test_loader in shadow_test_loader.items():
-            for batch, (data, target) in enumerate(test_loader):
-        # for data, target in enumerate(shadow_test_loader):
-                data = data.to(FL_params.device)
-                out = shadow_model(data)
-                pred_4_nonmem = torch.cat([pred_4_nonmem, out])
+        if isinstance(shadow_test_loader, dict):
+            for user_id, loader in shadow_test_loader.items():
+                for data, target in loader:
+                    data = data.to(FL_params.device)
+                    out = shadow_model(data)
+                    pred_4_nonmem = torch.cat([pred_4_nonmem, out])
+        else:
+            for test_loader in shadow_test_loader:
+                for data, target in test_loader:
+                    data = data.to(FL_params.device)
+                    out = shadow_model(data)
+                    pred_4_nonmem = torch.cat([pred_4_nonmem, out])
+
     pred_4_nonmem = pred_4_nonmem[1:, :]
-    pred_4_nonmem = softmax(pred_4_nonmem, dim=1)
-    pred_4_nonmem = pred_4_nonmem.to(FL_params.device)
-    pred_4_nonmem = pred_4_nonmem.detach().numpy()
+    pred_4_nonmem = torch.softmax(pred_4_nonmem, dim=1)
+    pred_4_nonmem = pred_4_nonmem.cpu().detach().numpy()
 
-    # 构建MIA 攻击模型
-    att_y = np.hstack((np.ones(pred_4_mem.shape[0]), np.zeros(pred_4_nonmem.shape[0])))
-    att_y = att_y.astype(np.int16)
-
+    att_y = np.hstack((np.ones(pred_4_mem.shape[0]), np.zeros(pred_4_nonmem.shape[0]))).astype(np.int16)
     att_X = np.vstack((pred_4_mem, pred_4_nonmem))
     att_X.sort(axis=1)
 
     X_train, X_test, y_train, y_test = train_test_split(att_X, att_y, test_size=0.1)
-    print(f"pred_4_mem shape: {pred_4_mem.shape}")
-    print(f"pred_4_nonmem shape: {pred_4_nonmem.shape}")
 
     if pred_4_mem.shape[0] == 0 or pred_4_nonmem.shape[0] == 0:
         raise ValueError("One of the predictions is empty, check the input data and model predictions.")
@@ -310,16 +584,16 @@ def train_attack_model(shadow_old_GM, shadow_client_loaders, shadow_test_loader,
                              max_depth=30,
                              objective='binary:logistic',
                              booster="gbtree",
-                             # learning_rate=None,
-                             # tree_method = 'gpu_hist',
-                             scale_pos_weight=scale_pos_weight
-                             )
+                             scale_pos_weight=scale_pos_weight)
 
     attacker.fit(X_train, y_train)
-    # print('\n')
-    # print("MIA Attacker training accuracy")
-    # print(accuracy_score(y_train, attacker.predict(X_train)))
-    # print("MIA Attacker testing accuracy")
-    # print(accuracy_score(y_test, attacker.predict(X_test)))
+
+    y_pred_train = attacker.predict(X_train)
+    y_pred_test = attacker.predict(X_test)
+
+    train_acc = accuracy_score(y_train, y_pred_train)
+    test_acc = accuracy_score(y_test, y_pred_test)
+    train_f1 = f1_score(y_train, y_pred_train, pos_label=1)
+    test_f1 = f1_score(y_test, y_pred_test, pos_label=1)
 
     return attacker

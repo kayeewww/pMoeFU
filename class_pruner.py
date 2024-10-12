@@ -3,9 +3,10 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from torch.utils.data import DataLoader
 
 from data_preprocess import data_set
-from fedbabygpt import load_data, split_data, train_model, generate_text, BabyGPTmodel, GPTConfig, get_dataloaders
+from Models import CNNFashion
 from sklearn.feature_extraction.text import TfidfVectorizer
 import copy
 
@@ -22,11 +23,8 @@ import copy
 
 # %%
 def acculumate_feature(model, loader, stop: int):
-    # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     device = next(model.parameters()).device
     model.to(device)
-    # if torch.cuda.is_available():
-    #     model = model.cuda()
     features = {}
     classes = []
     all_features = []
@@ -35,7 +33,6 @@ def acculumate_feature(model, loader, stop: int):
     def hook_func(m, x, y, name, feature_iit):
         f = F.relu(y)
         if f.size()[3] != 0:
-            # feature.to(device)
             feature = F.avg_pool2d(f, f.size()[3])
             feature = feature.view(f.size()[0], -1)
             feature = feature.transpose(0, 1)
@@ -52,13 +49,17 @@ def acculumate_feature(model, loader, stop: int):
         if isinstance(m, nn.Conv2d):
             handler = m.register_forward_hook(functools.partial(hook, name=name))
             handler_list.append(handler)
-
+    # print(loader)
     for batch_idx, (inputs, targets) in enumerate(loader):
-        if batch_idx >= stop:
+        # inputs = torch.tensor(inputs, dtype=torch.float32).to(device)
+        # targets = torch.tensor(targets, dtype=torch.long).to(device)
+        inputs = inputs.clone().detach().to(device).float()
+        targets = targets.clone().detach().to(device).long()
+
+        if batch_idx == stop:
             break
         model.eval()
-        # inputs, labels = inputs.to(device), targets.to(device)
-        classes.extend(targets.numpy())
+        classes.extend(targets.cpu().numpy())
         with torch.no_grad():
             outputs = model(inputs)
             if isinstance(outputs, tuple):
@@ -68,18 +69,23 @@ def acculumate_feature(model, loader, stop: int):
 
     all_features = torch.cat(all_features, dim=0)
     all_classes = torch.cat(all_classes, dim=0)
-    [k.remove() for k in handler_list]
+    # print(f"Accumulated features shape: {all_features.shape}, classes shape: {all_classes.shape}")
 
-    return features, classes
+    [k.remove() for k in handler_list]
+    # return torch.cat(features), torch.cat(classes)
+    # return features, classes
+    return all_features, all_classes
 
 # 计算特征的TF-IDF（Term Frequency-Inverse Document Frequency），并将结果存储在tf_idf_map字典中
-#tf_idf_map = calculate_cp(feature_iit, client_list, FL_params.data_name, 0, FL_params.forget_client_idx)
+# tf_idf_map = calculate_cp(feature_iit, client_list, FL_params.data_name, 0, FL_params.forget_client_idx)
 def calculate_cp(features, classes, dataset, coe, unlearn_client, device):
     # Ensure classes are in long format for indexing
-    classes = classes.long()
+    # print(classes)
+    # classes = classes[0].long()
 
     # Assuming features is a tensor of shape [num_samples, feature_dim]
-    class_num = classes.max().item() + 1
+    class_num = max(classes) + 1
+
     feature_dim = features.shape[1]  # Assuming features are of shape [num_samples, feature_dim]
 
     class_wise_features = torch.zeros(class_num, feature_dim, device=device)
@@ -157,95 +163,40 @@ def get_threshold_by_sparsity(mapper: dict, sparsity: float):
     threshold = torch.topk(tf_idf_array, int(tf_idf_array.shape[0] * (1 - sparsity)))[0].min()
     return threshold
 
-def select_least_important_clients(tf_idf_list, num_clients_to_select):
+def select_least_important_clients(tf_idf_list, num_class_to_select):
     client_importance = {}
+    sorted_clients = sorted(tf_idf_list)#, reverse=True)
+    most_important_clients = sorted_clients[:num_class_to_select]
+    # # 确保每个客户端在 most_important_clients 中都是唯一的
+    unique_most_important_clients = list(dict.fromkeys(most_important_clients))
 
-    for client_id, tf_idf_map in enumerate(tf_idf_list):
-        client_importance[client_id] = 0
-        for feature_importance in tf_idf_map.values():
-            client_importance[client_id] += feature_importance.sum().item()
+    # 创建一个字典来存储 tf_idf_list 中每个元素及其索引
+    tf_idf_dict = {value: index for index, value in enumerate(tf_idf_list)}
 
-    # 按照重要性排序，选择重要性最低的客户端
-    # print('client_importance', client_importance)
-    sorted_clients = sorted(client_importance, key=client_importance.get)
-    least_important_clients = sorted_clients[:num_clients_to_select]
+    # 找到 most_important_clients 在 tf_idf_list 中的原始索引
+    original_indices = [tf_idf_dict[client] for client in unique_most_important_clients]
 
-    return least_important_clients
+    return original_indices
 
-# def Class_pruner(net, train_loader, FL_params):
-#
-#     models = []
-#     loaders = []
-#     for _ in range(FL_params.N_client):
-#         net.to(FL_params.device)
-#         models.append(net)
-#         loaders.append(train_loader)
-#     tf_idf = []
-#     for m, l in zip(models, loaders):
-#         features, classes = acculumate_feature(m, l, stop=10)
-#         # 计算TF-IDF
-#         features = {k: v.to(FL_params.device) for k, v in features.items()}
-#         # print(f"Features and classes collected. Device of features: {[v.device for v in features.values()]}")
-#         tf_idf_map = calculate_cp(features, classes, dataset=FL_params.data_name, coe=1, unlearn_client=0,
-#                                   device=FL_params.device)
-#         tf_idf.append(tf_idf_map)
-#     least_important_clients = select_least_important_clients(tf_idf, num_clients_to_select=FL_params.forget_clients_num)
-#
-#     print("TFIDF Selected least important clients:", least_important_clients)
-#     return least_important_clients, tf_idf
-def calculate_tfidf_scores(idxs_users, dataset_train, dict_users, net_locals, FL_params):
+def calculate_tfidf_scores(idxs_users, client_dataloader, dict_users, net_locals, FL_params):
     tf_idf_scores = []
+    print('Len of dict users: ', len(dict_users))
+    print('idxu_users in calculating tfidf', idxs_users)
+    # tf_idf = []
+    print(client_dataloader)
+    # print(net_locals)
+
     for idx in idxs_users:
-        client_indices = dict_users[idx]
-        client_loader = [dataset_train[i] for i in client_indices]  # 获取该客户端的所有数据样本
-        net_local = net_locals[idx]
-        net_local.to(FL_params.device)
-        net_local.eval()  # 设置模型为评估模式
+        client_tfidf_scores = []
+        for loader in client_dataloader:
+            features, classes = acculumate_feature(net_locals[idx], loader, stop=10)
+            # features = {k: v.to(FL_params.device) for k, v in features.items()}
+            # [num_samples, feature_dim]
+            tf_idf_map = calculate_cp(features, classes, dataset=FL_params.data_1, coe=1, unlearn_client=0,
+                                      device=FL_params.device)
+            client_tfidf_scores.append(tf_idf_map.mean().item())# 取平均值并转换为标量
 
-        # Assuming client_loader is a list of tuples (img, target)
-        features = []
-        classes = []
-        with torch.no_grad():  # 在评估模式下禁用梯度计算
-            for img, target in client_loader:
-                img = img.to(FL_params.device)
-                feature = net_local(img.unsqueeze(0))  # Unsqueeze to add batch dimension
-                features.append(feature)
-                classes.append(target)
-
-        features = torch.cat(features, dim=0)
-        classes = torch.tensor(classes).to(FL_params.device)
-
-        tf_idf_map = calculate_cp(features, classes, dataset=FL_params.data_name, coe=1, unlearn_client=0,
-                                  device=FL_params.device)
-        # tf_idf_scores.append(tf_idf_map)
-        tf_idf_scores.append(tf_idf_map.mean().item())  # 取平均值并转换为标量
-
+            avg_tfidf = sum(client_tfidf_scores) / len(client_tfidf_scores)  # 计算每个客户端的平均 TF-IDF 得分
+        tf_idf_scores.append(avg_tfidf)
     return tf_idf_scores
 
-
-def Class_pruner(net, client_loaders, FL_params):
-    # models = []
-    # loaders = []
-    # for _ in range(FL_params.N_client):
-    #     net.to(FL_params.device)
-    #     models.append(copy.deepcopy(net))
-    #     loaders.append(client_loaders[_])
-    # print(net)
-    # print(client_loaders)
-    net_locals = net[0]['local']
-    client_loaders_list = list(client_loaders.values())
-    # tf_idf = calculate_tfidf_scores(range(len(net_locals)), client_loaders_list, dict(), net_locals, FL_params)
-
-    tf_idf = []
-    for m, l in zip(net_locals, client_loaders_list):
-        # print('m_local:', m)
-        m.to(FL_params.device)
-        features, classes = acculumate_feature(m, l, stop=10)
-        features = {k: v.to(FL_params.device) for k, v in features.items()}
-        tf_idf_map = calculate_cp(features, classes, dataset=FL_params.data_name, coe=1, unlearn_client=0,
-                                  device=FL_params.device)
-        tf_idf.append(tf_idf_map)
-
-    least_important_clients = select_least_important_clients(tf_idf, num_clients_to_select=FL_params.forget_clients_num)
-    print("TFIDF Selected least important clients:", least_important_clients)
-    return least_important_clients, tf_idf
